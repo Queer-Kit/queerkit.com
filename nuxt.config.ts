@@ -15,8 +15,13 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "magic-regexp/nuxt",
     "nuxt-echarts",
-    "@nuxtjs/device"
+    "@nuxtjs/device",
+    "@nuxtjs/html-validator",
+    "nuxt-security"
   ],
+  htmlValidator: {
+    usePrettier: true
+  },
   components: [
     {
       path: "~/components",
