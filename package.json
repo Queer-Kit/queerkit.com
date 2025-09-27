@@ -44,7 +44,7 @@
     "echarts": "^6.0.0",
     "magic-regexp": "^0.10.0",
     "motion-v": "^1.7.1",
-    "nuxt": "^4.1.0",
+    "nuxt": "^4.1.2",
     "nuxt-auth-utils": "^0.5.24",
     "nuxt-echarts": "1.0.0",
     "nuxt-og-image": "^5.1.9",
