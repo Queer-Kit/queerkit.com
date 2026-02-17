@@ -310,10 +310,6 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
               </UPopover>
             </div>
           </template>
-          <template v-else>
-            <UButton :label="t('auth_sign-up')" to="/auth/sign-up" variant="outline" />
-            <UButton :label="t('auth_sign-in')" to="/auth/sign-in" variant="solid" />
-          </template>
         </ClientOnly>
       </div>
     </template>
@@ -375,12 +371,6 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
               <div class="flex flex-col gap-md">
                 <template v-if="session">
                   <UNavigationMenu :items="accountMenuItems" orientation="vertical" />
-                </template>
-                <template v-else>
-                  <UButton :label="t('auth_sign-up')" block to="/auth/sign-up" variant="outline"
-                    @click="slideoverState.right = false" />
-                  <UButton :label="t('auth_sign-in')" block to="/auth/sign-in" variant="solid"
-                    @click="slideoverState.right = false" />
                 </template>
               </div>
             </template>
