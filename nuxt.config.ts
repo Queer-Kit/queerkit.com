@@ -69,15 +69,15 @@ export default defineNuxtConfig({
             meta: [
                 {
                     name: "description",
-                    content: "Resources and community for the LGBTQ+ tech community.",
+                    content: "Your guide to all things queer.",
                 },
                 {
                     name: "author",
-                    content: "QueerKit",
+                    content: "Queer Kit",
                 },
                 {
                     name: "creator",
-                    content: "QueerKit",
+                    content: "Queer Kit",
                 },
             ],
             link: [
@@ -249,11 +249,11 @@ export default defineNuxtConfig({
             //  name: "한국어",
             //  file: "ko.json"
             //},
-            //{
-            //  code: "pt",
-            //  name: "Português",
-            //  file: "pt.json"
-            //}
+            {
+                code: "pt",
+                name: "Português (Brasil)",
+                file: "pt.json",
+            },
             //{
             //  code: "ro",
             //  name: "Română",
