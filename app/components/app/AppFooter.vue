@@ -9,46 +9,46 @@ const availableLocales = computed(() => {
   return i18nLocales.value.map(l => (uiLocales as any)[l.code]).filter(Boolean);
 });
 
-const columns: FooterColumn[] = [
+const columns = computed<FooterColumn[]>(() => [
   {
-    label: "Resources",
+    label: t("footer_resources_title"),
     children: [
       {
-        label: "Branding",
+        label: t("footer_branding_label"),
         to: "/branding",
       },
       {
-        label: "Visitor Count",
+        label: t("footer_visitor_count_label"),
         to: "/visitors",
       },
     ],
   },
   {
-    label: "Documents",
+    label: t("footer_documents_title"),
     children: [
       {
-        label: "Privacy Policy",
+        label: t("footer_privacy_policy_label"),
         to: "/documents/policies/privacy-policy",
       },
       {
-        label: "Cookie Policy",
+        label: t("footer_cookie_policy_label"),
         to: "/documents/policies/cookie-policy",
       },
       {
-        label: "Terms of Service",
+        label: t("footer_terms_of_service_label"),
         to: "/documents/policies/term-of-service",
       },
       {
-        label: "Code of Conduct",
+        label: t("footer_code_of_conduct_label"),
         to: "/documents/policies/code-of-conduct",
       },
       {
-        label: "Other Documents",
+        label: t("footer_other_documents_label"),
         to: "/documents/other",
       },
     ],
   },
-];
+]);
 onMounted(() => {
   console.log("AppFooter mounted on client");
 });
@@ -57,7 +57,9 @@ onMounted(() => {
 <template>
   <RCFooter :contain="false" class="bg-black z-50">
     <template #left>
-      <RCNewsletterSignup class="max-w-64" />
+      <RCNewsletterSignup class="max-w-64" :field-label="t('newsletter_field_label')"
+        :description="t('newsletter_description')" :placeholder="t('newsletter_placeholder')"
+        :button-label="t('newsletter_button_label')" />
       <div class="flex flex-col items-center gap-xs lg:items-start">
         <RCLogo class="h-6 w-auto" variant="type" />
         <p class="text-sm text-white">{{ t("app_tagline") }}</p>
@@ -78,9 +80,8 @@ onMounted(() => {
           </template>
         </ClientOnly>
         <ClientOnly>
-          <ULocaleSelect :model-value="locale"
-            :locales="availableLocales"
-            class="w-48 rounded-none" color="secondary" @update:model-value="setLocale($event as any)" />
+          <ULocaleSelect :model-value="locale" :locales="availableLocales" class="w-48 rounded-none" color="secondary"
+            @update:model-value="setLocale($event as any)" />
           <template #fallback>
             <div class="h-9 w-48 rounded-md border bg-transparent"></div>
           </template>
