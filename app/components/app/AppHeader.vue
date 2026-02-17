@@ -248,8 +248,12 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
             viewportWrapper:
               'top-[var(--header-bottom-boundary)] flex fixed w-screen mt-[var(--ui-header-height)] z-[100]',
             viewport: 'rounded-none',
-            label: 'text-white font-medium',
-            link: 'hover:text-primary-200 active:text-500',
+            link: [
+              'text-white transition-colors duration-200',
+              'hover:text-primary-400',
+              'data-[state=open]:text-primary-400',
+              'aria-[current]:text-primary-400'
+            ]
           }" variant="link" />
       </div>
     </template>
@@ -259,11 +263,13 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
         <ClientOnly>
           <template v-if="session">
             <div class="flex flex-row items-center gap-md">
-              <UButton color="neutral" label="Dashboard" to="/dashboard" variant="link" />
+              <UButton class="text-white hover:text-primary-400 transition-colors duration-200" color="neutral"
+                label="Dashboard" to="/dashboard" variant="link" />
               <UTooltip text="Notifications">
-                <UButton color="neutral" square variant="ghost" @click="slideoverState.notifications = true">
+                <UButton class="text-white hover:bg-primary-500" color="neutral" square variant="ghost"
+                  @click="slideoverState.notifications = true">
                   <UChip color="error" inset>
-                    <UIcon class="size-5 shrink-0" name="i-lucide-bell" />
+                    <UIcon class="size-5 shrink-0" name="lucide:bell" />
                   </UChip>
                 </UButton>
               </UTooltip>
@@ -271,39 +277,49 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
                 <template #default>
                   <UTooltip>
                     <template #default>
-                      <UButton variant="ghost">
+                      <UButton class="text-white hover:text-primary-400 transition-colors duration-200" variant="ghost">
                         <UUser v-if="session" :avatar="{
                           src: session?.user.image ?? '',
                           alt: session?.user.name ?? '',
                         }" :chip="availabilityChip" :description="session?.user.status ?? ''"
-                          :name="session?.user.name" :ui="{ description: 'text-left' }" size="md" />
+                          :name="session?.user.name" :ui="{
+                            name: 'text-white group-hover:text-primary-400 transition-colors duration-200',
+                            description: 'text-left',
+                          }" class="group" size="md" />
                       </UButton>
                     </template>
                   </UTooltip>
                 </template>
                 <template #content>
                   <div class="flex flex-col">
-                    <div class="flex flex-col gap-xs bg-elevated p-sm">
+                    <div class="flex flex-col gap-1 bg-primary-500 p-sm">
                       <UUser v-if="session" :avatar="{
                         src: session?.user.image ?? '',
                         alt: session?.user.name ?? '',
                       }" :description="session?.user.status ?? 'Set a custom status...'"
-                        :ui="{ name: 'text-left', description: 'text-left' }" size="md">
+                        :ui="{ name: 'text-left text-white', description: 'text-left text-neutral-400' }" size="md">
                         <template #name>
                           <span>{{ session?.user.name }}
                             <span class="text-dimmed">#{{ session?.user.tag }}</span></span>
                         </template>
                       </UUser>
-                      <UButton :label="t('account_profile')" color="neutral" leading-icon="lucide:user"
-                        variant="ghost" />
+                      <UButton :label="t('dashboard')"
+                        class="text-white hover:text-black transition-colors duration-200" color="neutral"
+                        leading-icon="lucide:layout-dashboard" to="/dashboard" variant="ghost" />
+                      <UButton :label="t('account_profile')"
+                        class="text-white hover:text-black transition-colors duration-200" color="neutral"
+                        leading-icon="lucide:user" variant="ghost" />
                     </div>
-                    <div class="flex flex-col gap-xs bg-muted p-sm">
-                      <UButton :label="t('account_support')" color="neutral" leading-icon="lucide:headset"
-                        variant="ghost" />
-                      <UButton :label="t('account_settings')" color="neutral" leading-icon="lucide:cog"
-                        to="/dashboard/settings" variant="ghost" />
-                      <UButton :label="t('auth_sign-out')" color="neutral" leading-icon="lucide:log-out" variant="ghost"
-                        @click="onSignOut" />
+                    <div class="flex flex-col gap-1 bg-primary-600 p-sm">
+                      <UButton :label="t('account_support')"
+                        class="text-white hover:text-black transition-colors duration-200" color="neutral"
+                        leading-icon="lucide:headset" variant="ghost" />
+                      <UButton :label="t('account_settings')"
+                        class="text-white hover:text-black transition-colors duration-200" color="neutral"
+                        leading-icon="lucide:cog" to="/dashboard/settings" variant="ghost" />
+                      <UButton :label="t('auth_sign-out')"
+                        class="text-white hover:text-black transition-colors duration-200" color="neutral"
+                        leading-icon="lucide:log-out" variant="ghost" @click="onSignOut" />
                     </div>
                   </div>
                 </template>

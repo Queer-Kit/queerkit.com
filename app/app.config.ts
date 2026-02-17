@@ -75,7 +75,7 @@ export default defineAppConfig({
   },
   ui: {
     colors: {
-      primary: "primary",
+      primary: "amber",
       secondary: "secondary",
       info: "info",
       success: "success",
@@ -84,7 +84,7 @@ export default defineAppConfig({
       commentary: "commentary",
       ideation: "ideation",
       source: "source",
-      neutral: "neutrals",
+      neutral: "zinc",
     },
     icons: {
       close: "lucide:x",

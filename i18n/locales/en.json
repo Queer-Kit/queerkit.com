@@ -133,7 +133,7 @@
   "footer_other_documents_label": "Other Documents",
   "newsletter_field_label": "Subscribe to our Newsletter",
   "newsletter_description": "Stay updated on new posts and updates. Unsubscribe at any time.",
-  "newsletter_placeholder": "email@domain.com",
+  "newsletter_placeholder": "email{'@'}domain.com",
   "newsletter_button_label": "Subscribe",
   "home_hero_badge": "Empowering the Collective",
   "home_hero_title": "All Things Queer",
