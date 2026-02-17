@@ -34,8 +34,7 @@ useHead({
                         {{ t("careers_culture_description") }}
                     </p>
                     <p class="text-neutral-400 text-lg leading-relaxed">
-                        We believe that the best work happens when people feel safe, supported, and inspired. At
-                        QueerKit, we empower our team to take ownership, experiment, and grow.
+                        {{ t("careers_culture_p2") }}
                     </p>
                 </div>
             </div>
@@ -94,19 +93,15 @@ useHead({
                     <div class="h-48 bg-neutral-800 flex items-center justify-center mb-4 rounded-lg">
                         <UIcon name="lucide:map-pin" class="w-12 h-12 text-primary-500" />
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Remote First</h3>
-                    <p class="text-neutral-400">We are a distributed team with flexible working hours. Work from
-                        anywhere that
-                        inspires you.</p>
+                    <h3 class="text-xl font-bold mb-2">{{ t("careers_offices_remote_title") }}</h3>
+                    <p class="text-neutral-400">{{ t("careers_offices_remote_description") }}</p>
                 </UCard>
                 <UCard class="border-neutral-800">
                     <div class="h-48 bg-neutral-800 flex items-center justify-center mb-4 rounded-lg">
                         <UIcon name="lucide:globe" class="w-12 h-12 text-primary-500" />
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Queer Spaces</h3>
-                    <p class="text-neutral-400">Our community thrives in safe spaces online and offline. Join our
-                        Discord or
-                        local meetups to connect with the team.</p>
+                    <h3 class="text-xl font-bold mb-2">{{ t("careers_offices_spaces_title") }}</h3>
+                    <p class="text-neutral-400">{{ t("careers_offices_spaces_description") }}</p>
                 </UCard>
             </div>
         </UContainer>

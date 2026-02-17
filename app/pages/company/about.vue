@@ -29,9 +29,7 @@ useHead({
             {{ t("about_mission_description") }}
           </p>
           <p class="text-lg text-neutral-400 leading-relaxed mt-4">
-            Founded by a collective of advocates and community builders, QueerKit is dedicated to preserving the history
-            and empowering the future of the LGBTQ+ community. We believe in the power of shared knowledge to bring
-            people together.
+            {{ t("about_mission_p2") }}
           </p>
         </div>
         <div
@@ -50,34 +48,28 @@ useHead({
             <template #header>
               <div class="flex items-center gap-3">
                 <UIcon name="lucide:heart" class="w-6 h-6 text-primary-500" />
-                <h3 class="font-bold text-lg">Community First</h3>
+                <h3 class="font-bold text-lg">{{ t("about_values_community_title") }}</h3>
               </div>
             </template>
-            <p class="text-neutral-400">Everything we do starts and ends with the community experience. We listen, we
-              learn, and we
-              build for our collective.</p>
+            <p class="text-neutral-400">{{ t("about_values_community_description") }}</p>
           </UCard>
           <UCard class="bg-neutral-950/50 border-neutral-800">
             <template #header>
               <div class="flex items-center gap-3">
                 <UIcon name="lucide:zap" class="w-6 h-6 text-primary-500" />
-                <h3 class="font-bold text-lg">Innovation</h3>
+                <h3 class="font-bold text-lg">{{ t("about_values_innovation_title") }}</h3>
               </div>
             </template>
-            <p class="text-neutral-400">We explore new ways to organize and present information to create accessible and
-              memorable
-              resources.</p>
+            <p class="text-neutral-400">{{ t("about_values_innovation_description") }}</p>
           </UCard>
           <UCard class="bg-neutral-950/50 border-neutral-800">
             <template #header>
               <div class="flex items-center gap-3">
                 <UIcon name="lucide:users" class="w-6 h-6 text-primary-500" />
-                <h3 class="font-bold text-lg">Collaboration</h3>
+                <h3 class="font-bold text-lg">{{ t("about_values_collaboration_title") }}</h3>
               </div>
             </template>
-            <p class="text-neutral-400">Great resources are built by great teams. We foster an environment of trust,
-              respect, and
-              open communication.</p>
+            <p class="text-neutral-400">{{ t("about_values_collaboration_description") }}</p>
           </UCard>
         </div>
       </UContainer>
@@ -91,8 +83,8 @@ useHead({
           <div class="w-32 h-32 rounded-full bg-neutral-800 mb-4 overflow-hidden">
             <UIcon name="lucide:users" class="w-full h-full p-6 text-neutral-600" />
           </div>
-          <h3 class="font-bold text-xl">The Collective</h3>
-          <p class="text-primary-500">Volunteers & Contributors</p>
+          <h3 class="font-bold text-xl">{{ t("about_team_collective_title") }}</h3>
+          <p class="text-primary-500">{{ t("about_team_collective_subtitle") }}</p>
         </div>
       </div>
     </UContainer>
@@ -102,7 +94,7 @@ useHead({
       <UContainer class="bg-primary-900/10 rounded-xl p-12 border border-primary-500/20">
         <h2 class="text-3xl font-bold mb-4">{{ t("about_join_us_title") }}</h2>
         <p class="text-lg text-neutral-400 mb-8">{{ t("about_join_us_description") }}</p>
-        <UButton size="lg" to="/company/careers" icon="lucide:briefcase">How to Help</UButton>
+        <UButton size="lg" to="/company/careers" icon="lucide:briefcase">{{ t("about_cta_button") }}</UButton>
       </UContainer>
     </section>
 

@@ -14,24 +14,24 @@ useSeoMeta({
 
 const featuredResources = [
   {
-    title: "The Wiki",
-    description: "Our community-driven encyclopedia covering everything from terminology to queer history.",
+    title: t("home_resources_wiki_title"),
+    description: t("home_resources_wiki_description"),
     image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2670&auto=format&fit=crop",
-    tags: ["Knowledge", "Wiki"],
+    tags: [t("home_resources_wiki_tag_knowledge"), t("home_resources_wiki_tag_wiki")],
     to: "/wiki",
   },
   {
-    title: "Community Guide",
-    description: "Finding safe spaces, local organizations, and ways to connect with the global queer family.",
+    title: t("home_resources_community_title"),
+    description: t("home_resources_community_description"),
     image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2671&auto=format&fit=crop",
-    tags: ["Community", "Support"],
+    tags: [t("home_resources_community_tag_community"), t("home_resources_community_tag_support")],
     to: "/wiki/community",
   },
   {
-    title: "Identity Labs",
-    description: "Deep dives into gender, sexuality, and the nuances of self-expression and discovery.",
+    title: t("home_resources_identity_title"),
+    description: t("home_resources_identity_description"),
     image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2568&auto=format&fit=crop",
-    tags: ["Identity", "Education"],
+    tags: [t("home_resources_identity_tag_identity"), t("home_resources_identity_tag_education")],
     to: "/wiki/identity/gender",
   },
 ];
@@ -56,26 +56,24 @@ const featuredResources = [
           <div
             class="inline-flex items-center gap-2 px-3 py-1 border border-primary-500/30 bg-primary-500/10 backdrop-blur-sm text-primary-400 text-sm uppercase tracking-widest mb-4 animate-fade-in-up">
             <span class="w-1.5 h-1.5 bg-primary-500 rounded-full animate-pulse" />
-            Empowering the Collective
+            {{ t("home_hero_badge") }}
           </div>
 
           <h1
-            class="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-none bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-500 animate-fade-in-up delay-100">
-            All Things<br />Queer
-          </h1>
+            class="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-none bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-500 animate-fade-in-up delay-100"
+            v-html="t('home_hero_title')" />
 
           <p
             class="text-xl md:text-2xl text-neutral-400 max-w-2xl mx-auto font-light leading-relaxed animate-fade-in-up delay-200">
-            We are QueerKit. A community-driven guide building the most comprehensive resource for LGBTQ+ knowledge and
-            connection.
+            {{ t("home_hero_description") }}
           </p>
 
           <div class="flex flex-col sm:flex-row justify-center gap-6 pt-8 animate-fade-in-up delay-300">
             <UButton size="xl" color="primary" variant="solid" to="/wiki" class="font-bold px-8">
-              Open the Wiki
+              {{ t("home_hero_cta_wiki") }}
             </UButton>
             <UButton size="xl" variant="ghost" to="/about" class="group px-8">
-              About QueerKit
+              {{ t("home_hero_cta_about") }}
               <template #trailing>
                 <UIcon name="lucide:arrow-right" class="group-hover:translate-x-1 transition-transform" />
               </template>
@@ -87,7 +85,7 @@ const featuredResources = [
       <!-- Scroll Indicator -->
       <div
         class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-500 animate-bounce">
-        <span class="text-xs uppercase tracking-widest">Scroll</span>
+        <span class="text-xs uppercase tracking-widest">{{ t("home_hero_scroll") }}</span>
         <UIcon name="lucide:chevron-down" class="w-6 h-6" />
       </div>
     </section>
@@ -97,10 +95,10 @@ const featuredResources = [
       <UContainer>
         <div class="flex justify-between items-end mb-16">
           <div>
-            <h2 class="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-2">Essential Resources</h2>
+            <h2 class="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-2">{{ t("home_resources_title") }}</h2>
             <div class="h-1 w-24 bg-primary-500" />
           </div>
-          <UButton variant="link" to="/wiki" class="hidden md:flex">Browse Everything</UButton>
+          <UButton variant="link" to="/wiki" class="hidden md:flex">{{ t("home_resources_cta") }}</UButton>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -132,7 +130,7 @@ const featuredResources = [
                 </p>
                 <div
                   class="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                  Explore
+                  {{ t("placeholder") }}
                   <UIcon name="lucide:arrow-right" class="w-4 h-4" />
                 </div>
               </div>
@@ -147,21 +145,19 @@ const featuredResources = [
       <UContainer>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 class="text-3xl md:text-5xl font-bold uppercase leading-tight mb-6">
-              Building a world of <span class="text-primary-500">inclusive knowledge</span>
-            </h2>
+            <h2 class="text-3xl md:text-5xl font-bold uppercase leading-tight mb-6" v-html="t('home_vision_title')" />
             <p class="text-lg text-neutral-400 mb-8 leading-relaxed">
-              QueerKit is an independent, community-focused initiative. We don't just aggregate data; we curate a safe,
-              accurate, and living knowledge base that respects the diversity of the queer experience.
+              {{ t("home_vision_description") }}
             </p>
             <div class="grid grid-cols-2 gap-8">
               <div>
                 <div class="text-4xl font-bold text-white mb-2">400+</div>
-                <div class="text-sm text-neutral-500 uppercase tracking-widest">Wiki Articles</div>
+                <div class="text-sm text-neutral-500 uppercase tracking-widest">{{ t("home_vision_stat_articles") }}</div>
               </div>
               <div>
                 <div class="text-4xl font-bold text-white mb-2">12+</div>
-                <div class="text-sm text-neutral-500 uppercase tracking-widest">Active Contributors</div>
+                <div class="text-sm text-neutral-500 uppercase tracking-widest">{{ t("home_vision_stat_contributors") }}
+                </div>
               </div>
             </div>
           </div>
@@ -179,32 +175,32 @@ const featuredResources = [
     <section class="py-32">
       <UContainer>
         <div class="text-center max-w-3xl mx-auto mb-16">
-          <h2 class="text-3xl md:text-4xl font-bold uppercase mb-4">Community Transmissions</h2>
-          <p class="text-neutral-400">Stay updated with the latest news and additions to QueerKit.</p>
+          <h2 class="text-3xl md:text-4xl font-bold uppercase mb-4">{{ t("home_news_title") }}</h2>
+          <p class="text-neutral-400">{{ t("home_news_description") }}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-neutral-800 border border-neutral-800">
           <div class="bg-neutral-950 p-8 hover:bg-neutral-900 transition-colors cursor-pointer group">
             <div class="text-primary-500 text-sm font-mono mb-4">OCT 24, 2025</div>
-            <h3 class="text-xl font-bold mb-4 group-hover:text-primary-400 transition-colors">Now Live: History Deep
-              Dive
+            <h3 class="text-xl font-bold mb-4 group-hover:text-primary-400 transition-colors">{{
+              t("home_news_item_history_title") }}
             </h3>
-            <p class="text-neutral-500 text-sm">Our new section on early 20th-century queer activism is now available.
+            <p class="text-neutral-500 text-sm">{{ t("home_news_item_history_description") }}
             </p>
           </div>
           <div class="bg-neutral-950 p-8 hover:bg-neutral-900 transition-colors cursor-pointer group">
             <div class="text-primary-500 text-sm font-mono mb-4">SEP 12, 2025</div>
-            <h3 class="text-xl font-bold mb-4 group-hover:text-primary-400 transition-colors">Community Moderator
-              Program
+            <h3 class="text-xl font-bold mb-4 group-hover:text-primary-400 transition-colors">{{
+              t("home_news_item_mod_title") }}
             </h3>
-            <p class="text-neutral-500 text-sm">We're looking for passionate individuals to help maintain our safe
-              spaces.
+            <p class="text-neutral-500 text-sm">{{ t("home_news_item_mod_description") }}
             </p>
           </div>
           <div class="bg-neutral-950 p-8 hover:bg-neutral-900 transition-colors cursor-pointer group">
             <div class="text-primary-500 text-sm font-mono mb-4">AUG 01, 2025</div>
-            <h3 class="text-xl font-bold mb-4 group-hover:text-primary-400 transition-colors">Terminology Refresh</h3>
-            <p class="text-neutral-500 text-sm">Updating our glossary with more modern and inclusive definitions.</p>
+            <h3 class="text-xl font-bold mb-4 group-hover:text-primary-400 transition-colors">{{
+              t("home_news_item_term_title") }}</h3>
+            <p class="text-neutral-500 text-sm">{{ t("home_news_item_term_description") }}</p>
           </div>
         </div>
       </UContainer>
@@ -214,12 +210,12 @@ const featuredResources = [
     <section class="py-24 relative overflow-hidden">
       <div class="absolute inset-0 bg-primary-600/5" />
       <UContainer class="relative z-10 text-center">
-        <h2 class="text-3xl font-bold uppercase mb-8">Join the Community</h2>
+        <h2 class="text-3xl font-bold uppercase mb-8">{{ t("home_join_title") }}</h2>
         <div class="max-w-md mx-auto flex gap-2">
-          <UInput placeholder="Enter your email" class="flex-1" size="xl" />
-          <UButton size="xl" color="primary" icon="lucide:send">Subscribe</UButton>
+          <UInput :placeholder="t('home_join_placeholder')" class="flex-1" size="xl" />
+          <UButton size="xl" color="primary" icon="lucide:send">{{ t("home_join_button") }}</UButton>
         </div>
-        <p class="text-neutral-500 text-sm mt-4">We respect your privacy. Only major community updates.</p>
+        <p class="text-neutral-500 text-sm mt-4">{{ t("home_join_privacy") }}</p>
       </UContainer>
     </section>
   </div>

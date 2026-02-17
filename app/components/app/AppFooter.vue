@@ -1,15 +1,13 @@
 <script lang="ts" setup>
-import * as locales from "@nuxt/ui/locale";
+import * as uiLocales from "@nuxt/ui/locale";
 import type { FooterColumn } from "@nuxt/ui";
 
 const appConfig = useAppConfig();
-const { locale, setLocale } = useI18n();
+const { t, locale, setLocale, locales: i18nLocales } = useI18n();
 
-function onLocaleUpdate(newLocale: string | undefined) {
-  if (typeof newLocale === "string") {
-    setLocale(newLocale as "en");
-  }
-}
+const availableLocales = computed(() => {
+  return i18nLocales.value.map(l => (uiLocales as any)[l.code]).filter(Boolean);
+});
 
 const columns: FooterColumn[] = [
   {
@@ -62,7 +60,7 @@ onMounted(() => {
       <RCNewsletterSignup class="max-w-64" />
       <div class="flex flex-col items-center gap-xs lg:items-start">
         <RCLogo class="h-6 w-auto" variant="type" />
-        <p class="text-sm text-white">Your guide to all things queer.</p>
+        <p class="text-sm text-white">{{ t("app_tagline") }}</p>
         <span class="text-sm text-white">
           © {{ new Date().getFullYear() }} {{ appConfig.title }}
         </span>
@@ -80,9 +78,9 @@ onMounted(() => {
           </template>
         </ClientOnly>
         <ClientOnly>
-          <ULocaleSelect v-model="locale"
-            :locales="[locales.ar, locales.en, locales.es, locales.fr, locales.ja, locales.ko, locales.pt, locales.ro, locales.zh_cn]"
-            class="w-48 rounded-none" color="secondary" @update:model-value="onLocaleUpdate($event)" />
+          <ULocaleSelect :model-value="locale"
+            :locales="availableLocales"
+            class="w-48 rounded-none" color="secondary" @update:model-value="setLocale($event as any)" />
           <template #fallback>
             <div class="h-9 w-48 rounded-md border bg-transparent"></div>
           </template>
