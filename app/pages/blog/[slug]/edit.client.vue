@@ -63,6 +63,9 @@ const handlePublish = async (updatedPage: Page): Promise<void> => {
     })
 
     toast.add({ color: "success", title: t("toast_publish_success") })
+
+    // Redirect to the live post
+    await router.push(`/blog/${updatedPage.slug}`)
   } catch (e) {
     toast.add({ color: "error", title: t("toast_publish_error") })
   } finally {
