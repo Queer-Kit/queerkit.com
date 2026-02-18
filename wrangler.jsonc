@@ -24,7 +24,7 @@
     {
       "binding": "DB",
       "database_name": "queerkit-dot-com",
-      "database_id": "b91e0a97-0a93-41c8-9c91-cdd15ef2bbdc"
+      "database_id": "aabe6a61-1f48-4321-9534-204623eefe5a"
     }
   ],
   "r2_buckets": [
@@ -36,11 +36,11 @@
   "kv_namespaces": [
     {
       "binding": "KV",
-      "id": "61c554af1c6349178e71caa758cf1fb7"
+      "id": "7008339684fb4f4d87230e3de39e1aa5"
     },
     {
       "binding": "CACHE",
-      "id": "7b7a717c21114eadbe0a103ae2bfcb7b"
+      "id": "1964db0bc6d04a2cb68fa3af7bfbc6ff"
     }
   ]
 }
