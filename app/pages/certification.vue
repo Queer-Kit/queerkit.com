@@ -8,11 +8,8 @@ useSeoMeta({
 // Form state
 const formData = reactive({
   name: "",
-  pronouns: "",
-  genderIdentity: "",
-  sexualOrientation: "",
-  romanticOrientation: "",
-  relationshipOrientation: "",
+  pronouns: null as any,
+  identity: null as any,
   image: null as string | null,
 });
 
@@ -37,83 +34,81 @@ function onFileChange(event: Event) {
 }
 
 // Generate and download the card
+// Generate and download both sides of the card
 async function downloadCard() {
+  const nameSlug = formData.name.toLowerCase().replace(/\s+/g, "-") || "card";
+
+  // Front Side
+  const frontCanvas = await generateFrontCanvas();
+  downloadFile(frontCanvas.toDataURL("image/png"), `queerkit-front-${nameSlug}.png`);
+
+  // Back Side
+  const backCanvas = await generateBackCanvas();
+  downloadFile(backCanvas.toDataURL("image/png"), `queerkit-back-${nameSlug}.png`);
+}
+
+function downloadFile(href: string, filename: string) {
+  const link = document.createElement("a");
+  link.download = filename;
+  link.href = href;
+  link.click();
+}
+
+async function generateFrontCanvas() {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (!ctx) throw new Error("Could not get context");
 
-  // Set standard ID card dimensions (e.g., 1011x638 for high quality)
   canvas.width = 1011;
-  canvas.height = 638;
+  canvas.height = 674; // 3:2 Ratio
 
   // 1. Draw Background
   const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  gradient.addColorStop(0, "#ec4899"); // Pink-500
-  gradient.addColorStop(0.5, "#a855f7"); // Purple-500
-  gradient.addColorStop(1, "#3b82f6"); // Blue-500
+  gradient.addColorStop(0, "#ec4899");
+  gradient.addColorStop(0.5, "#a855f7");
+  gradient.addColorStop(1, "#3b82f6");
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Add a dark inner card area
   ctx.fillStyle = "rgba(0, 0, 0, 0.9)";
   const margin = 20;
   ctx.beginPath();
   ctx.roundRect(margin, margin, canvas.width - (margin * 2), canvas.height - (margin * 2), 20);
   ctx.fill();
 
-  // 2. Draw Header
-  ctx.fillStyle = "#fb7185"; // primary-400
+  // 2. Header
+  ctx.fillStyle = "#fb7185";
   ctx.font = "bold 20px sans-serif";
   ctx.fillText("OFFICIAL LGBT+ CERTIFICATION", 60, 70);
-  
   ctx.fillStyle = "#ffffff";
   ctx.font = "bold 48px sans-serif";
   ctx.fillText("QueerKit™", 60, 120);
-
   ctx.font = "40px sans-serif";
   ctx.fillText("🏳️‍🌈", canvas.width - 100, 80);
 
-  // 3. Draw User Image
+  // 3. Image
   if (formData.image) {
     const img = new Image();
     img.src = formData.image;
     await new Promise((resolve) => (img.onload = resolve));
-    
-    // Draw image with rounded corners
-    const imgX = 60, imgY = 160, imgSize = 200;
+    const imgX = 60, imgY = 160, imgW = 210, imgH = 280;
     ctx.save();
     ctx.beginPath();
-    ctx.roundRect(imgX, imgY, imgSize, imgSize, 20);
+    ctx.roundRect(imgX, imgY, imgW, imgH, 20);
     ctx.clip();
     
     // Maintain aspect ratio (center crop)
-    const ratio = Math.max(imgSize / img.width, imgSize / img.height);
+    const ratio = Math.max(imgW / img.width, imgH / img.height);
     const newWidth = img.width * ratio;
     const newHeight = img.height * ratio;
-    ctx.drawImage(img, imgX + (imgSize - newWidth) / 2, imgY + (imgSize - newHeight) / 2, newWidth, newHeight);
+    ctx.drawImage(img, imgX + (imgW - newWidth) / 2, imgY + (imgH - newHeight) / 2, newWidth, newHeight);
     ctx.restore();
-    
-    // Image border
-    ctx.strokeStyle = "rgba(251, 113, 133, 0.3)";
-    ctx.lineWidth = 2;
-    ctx.strokeRect(imgX, imgY, imgSize, imgSize);
-  } else {
-    // Placeholder if no image
-    ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
-    ctx.beginPath();
-    ctx.roundRect(60, 160, 200, 200, 20);
-    ctx.fill();
-    ctx.fillStyle = "#fb7185";
-    ctx.font = "bold 100px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("?", 160, 300);
-    ctx.textAlign = "left";
   }
 
-  // 4. Draw Text Properties
+  // 4. Fields
   const textX = 300;
-  let currentY = 190;
-  const drawField = (label: string, value: any, size: number = 24) => {
+  let currentY = 160; // Align with top of image (imgY)
+  const drawFieldFront = (label: string, value: any, size: number = 24) => {
     const displayValue = getTagLabel(value);
     ctx.fillStyle = "#fb7185";
     ctx.font = "bold 14px sans-serif";
@@ -125,66 +120,103 @@ async function downloadCard() {
     currentY += 50;
   };
 
-  drawField("Name", formData.name, 32);
-  
-  const originalY = currentY;
-  drawField("Pronouns", formData.pronouns);
-  currentY = originalY;
-  const newTextX = textX + 300;
-  // Draw Gender next to Pronouns
-  ctx.fillStyle = "#fb7185";
-  ctx.font = "bold 14px sans-serif";
-  ctx.fillText("GENDER", newTextX, currentY);
-  currentY += 30;
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 24px sans-serif";
-  ctx.fillText(getTagLabel(formData.genderIdentity) || "—", newTextX, currentY);
-  currentY += 50;
+  drawFieldFront("Name", formData.name, 32);
 
-  drawField("Sexual Orientation", formData.sexualOrientation);
-  
-  if (formData.romanticOrientation) {
-    drawField("Romantic Orientation", formData.romanticOrientation);
-  }
-  
-  if (formData.relationshipOrientation) {
-    drawField("Relationship Style", formData.relationshipOrientation);
+  const startY = currentY;
+  if (formData.pronouns) {
+    drawFieldFront("Pronouns", formData.pronouns, 24);
   }
 
-  // 5. Draw Footer
+  if (formData.identity) {
+    // Reset Y to start of previous field call to put them side-by-side
+    currentY = startY;
+    const label = (typeof formData.identity === "object" && formData.identity.category) || "Identity";
+    
+    // Draw identity to the right
+    const identityX = 550; // Offset from textX (300)
+    const displayValue = getTagLabel(formData.identity);
+    
+    ctx.fillStyle = "#fb7185";
+    ctx.font = "bold 14px sans-serif";
+    ctx.fillText(label.toUpperCase(), identityX, currentY);
+    
+    currentY += 30;
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 24px sans-serif";
+    ctx.fillText(displayValue || "—", identityX, currentY);
+    
+    currentY += 50; // Resume vertical flow
+  }
+
+  // 5. Footer
   ctx.strokeStyle = "rgba(251, 113, 133, 0.2)";
-  ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(60, 520);
-  ctx.lineTo(canvas.width - 60, 520);
-  ctx.stroke();
+  ctx.moveTo(60, 520); ctx.lineTo(canvas.width - 60, 520); ctx.stroke();
 
-  currentY = 560;
+  currentY = 550;
   ctx.fillStyle = "#fb7185";
   ctx.font = "bold 12px sans-serif";
   ctx.fillText("CERT. NO.", 60, currentY);
-  ctx.fillText("ISSUED", 300, currentY);
-  ctx.fillText("EXPIRES", 540, currentY);
-
-  currentY += 25;
+  currentY += 20;
   ctx.fillStyle = "#ffffff";
   ctx.font = "bold 16px monospace";
-  ctx.fillText(certificationNumber.value, 60, currentY);
-  ctx.font = "bold 16px sans-serif";
-  ctx.fillText(issueDate.value, 300, currentY);
-  ctx.fillText(expiryDate, 540, currentY);
+  ctx.fillText(generationId.value, 60, currentY);
 
-  // Watermark
-  ctx.fillStyle = "rgba(251, 113, 133, 0.4)";
-  ctx.font = "italic 14px sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText("Valid in all 🌈 spaces • Powered by Pride™", canvas.width / 2, 610);
+  currentY += 30;
+  ctx.font = "bold 12px sans-serif";
+  ctx.fillStyle = "#fb7185";
+  ctx.fillText("ISSUED:", 60, currentY);
+  let labelWidth = ctx.measureText("ISSUED:").width;
+  ctx.fillStyle = "#ffffff";
+  ctx.fillText(issueDate.value, 60 + labelWidth + 4, currentY);
+  currentY += 18;
+  ctx.fillStyle = "#fb7185";
+  ctx.fillText("EXPIRES:", 60, currentY);
+  labelWidth = ctx.measureText("EXPIRES:").width;
+  ctx.fillStyle = "#ffffff";
+  ctx.fillText(expiryDate.value, 60 + labelWidth + 4, currentY);
 
-  // 6. Download
-  const link = document.createElement("a");
-  link.download = `queerkit-cert-${formData.name.toLowerCase().replace(/\s+/g, "-") || "card"}.png`;
-  link.href = canvas.toDataURL("image/png");
-  link.click();
+  return canvas;
+}
+
+async function generateBackCanvas() {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Could not get context");
+
+  canvas.width = 1011;
+  canvas.height = 674; // 3:2 Ratio
+
+  // 1. Draw Identity Background (Load image with gradient fallback)
+  const theme = getIdentityTheme.value;
+  
+  try {
+    const bgImg = new Image();
+    bgImg.src = theme.bgImage;
+    await new Promise((resolve, reject) => {
+      bgImg.onload = resolve;
+      bgImg.onerror = reject;
+    });
+    ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+  } catch (err) {
+    // Fallback to gradient if image fails to load
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    theme.colors.forEach((color, i) => {
+      gradient.addColorStop(i / (theme.colors.length - 1), color);
+    });
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  // 2. Draw White Logo Block (Same size as previous black block)
+  const blockW = 600, blockH = 300;
+  const blockX = (canvas.width - blockW) / 2;
+  const blockY = (canvas.height - blockH) / 2;
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(blockX, blockY, blockW, blockH);
+
+  return canvas;
 }
 
 // Predefined options
@@ -305,31 +337,133 @@ const relationshipOrientationOptions = ref([
   { label: "Questioning", value: "Questioning" },
 ]);
 
+const customOptions = ref<any[]>([]);
 
-// Generate a random certification number
-const certificationNumber = computed(() => {
-  if (!formData.name) return "XXXX-XXXX-XXXX";
+const identityOptions = computed(() => [
+  { type: "label", label: "Gender Identity" },
+  ...genderIdentityOptions.value.map(o => ({ ...o, category: "Gender" })),
+  { type: "separator" },
+  { type: "label", label: "Sexual Orientation" },
+  ...sexualOrientationOptions.value.map(o => ({ ...o, category: "Orientation" })),
+  { type: "separator" },
+  { type: "label", label: "Romantic Orientation" },
+  ...romanticOrientationOptions.value.map(o => ({ ...o, category: "Romantic" })),
+  { type: "separator" },
+  { type: "label", label: "Relationship Orientation" },
+  ...relationshipOrientationOptions.value.map(o => ({ ...o, category: "Relationship Style" })),
+  ...(customOptions.value.length > 0 ? [
+    { type: "separator" },
+    { type: "label", label: "Custom" },
+    ...customOptions.value.map(o => ({ ...o, category: "Identity" }))
+  ] : [])
+]);
+
+function onIdentityCreate(item: string) {
+  const newOption = { label: item, value: item, category: "Identity" };
+  customOptions.value.push(newOption);
+  formData.identity = newOption;
+}
+
+
+// Generate ID (QK-xxxxxx derived from name and date)
+const generationId = computed(() => {
+  if (!formData.name) return "QK-000000";
+  const dateParts = new Date().toISOString().split('T')[0];
+  const dateStr = (dateParts || '').replace(/-/g, '');
   const hash = formData.name
     .split("")
     .reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const num1 = (hash % 9000) + 1000;
-  const num2 = ((hash * 7) % 9000) + 1000;
-  const num3 = ((hash * 13) % 9000) + 1000;
-  return `${num1}-${num2}-${num3}`;
+  const derivedNum = (hash * parseInt(dateStr.slice(-4) || '0')) % 1000000;
+  return `QK-${derivedNum.toString().padStart(6, '0')}`;
 });
+
+// Helper to format date as dd/mm/yyyy
+const formatDate = (date: Date) => {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
 
 // Generate issue date (today)
 const issueDate = computed(() => {
-  const today = new Date();
-  return today.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  return formatDate(new Date());
 });
 
-// Generate expiry date (never expires!)
-const expiryDate = "Never (You're stuck with us! 🌈)";
+// Generate expiry date (1 year from now)
+const expiryDate = computed(() => {
+  const date = new Date();
+  date.setFullYear(date.getFullYear() + 1);
+  return formatDate(date);
+});
+
+// Back card background mapping (Colors for Canvas and Classes for CSS)
+const identityThemes = {
+  trans: {
+    bgImage: "/images/certification/back-bg-trans.png",
+    colors: ["#5BCEFA", "#F5A9B8", "#5BCEFA"]
+  },
+  nonbinary: {
+    bgImage: "/images/certification/back-bg-nonbinary.png",
+    colors: ["#FCF434", "#FFFFFF", "#9C59D1", "#2C2C2C"]
+  },
+  bi: {
+    bgImage: "/images/certification/back-bg-bi.png",
+    colors: ["#D60270", "#9B4F96", "#0038A8"]
+  },
+  pan: {
+    bgImage: "/images/certification/back-bg-pan.png",
+    colors: ["#FF218C", "#FFD800", "#21B1FF"]
+  },
+  lesbian: {
+    bgImage: "/images/certification/back-bg-lesbian.png",
+    colors: ["#D52D00", "#FF9A56", "#FFFFFF", "#D362A4", "#A30262"]
+  },
+  ace: {
+    bgImage: "/images/certification/back-bg-ace.png",
+    colors: ["#000000", "#A3A3A3", "#FFFFFF", "#800080"]
+  },
+  aro: {
+    bgImage: "/images/certification/back-bg-aro.png",
+    colors: ["#3DA542", "#A7D379", "#FFFFFF", "#A9A9A9", "#000000"]
+  },
+  genderqueer: {
+    bgImage: "/images/certification/back-bg-genderqueer.png",
+    colors: ["#B57EDC", "#FFFFFF", "#4A8123"]
+  },
+  genderfluid: {
+    bgImage: "/images/certification/back-bg-genderfluid.png",
+    colors: ["#FF75A2", "#FFFFFF", "#BE18D6", "#000000", "#333EBD"]
+  },
+  agender: {
+    bgImage: "/images/certification/back-bg-agender.png",
+    colors: ["#000000", "#B9B9B9", "#FFFFFF", "#B8F483", "#FFFFFF", "#B9B9B9", "#000000"]
+  },
+  rainbow: {
+    bgImage: "/images/certification/back-bg-rainbow.png",
+    colors: ["#FF0018", "#FFA52C", "#FFFF41", "#008018", "#0000F9", "#86007D"]
+  }
+};
+
+const getIdentityTheme = computed(() => {
+  const identity = getTagLabel(formData.identity)?.toLowerCase() || "";
+  if (identity.includes("trans")) return identityThemes.trans;
+  if (identity.includes("non-binary") || identity.includes("enby")) return identityThemes.nonbinary;
+  if (identity.includes("bisexual") || identity.includes("bi ")) return identityThemes.bi;
+  if (identity.includes("pansexual") || identity.includes("pan ")) return identityThemes.pan;
+  if (identity.includes("lesbian")) return identityThemes.lesbian;
+  if (identity.includes("asexual") || identity === "ace") return identityThemes.ace;
+  if (identity.includes("aromantic")) return identityThemes.aro;
+  if (identity.includes("genderqueer")) return identityThemes.genderqueer;
+  if (identity.includes("genderfluid")) return identityThemes.genderfluid;
+  if (identity.includes("agender")) return identityThemes.agender;
+  return identityThemes.rainbow;
+});
+
+const backCardBackground = computed(() => {
+  return {}; // No longer using class strings directly
+});
+
 </script>
 
 <template>
@@ -366,7 +500,7 @@ const expiryDate = "Never (You're stuck with us! 🌈)";
           <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
             <!-- Left Side: Basic Identity -->
             <div class="flex flex-col gap-6">
-              <h3 class="text-lg font-semibold text-primary-400">Basic Identity</h3>
+              <h3 class="text-lg font-semibold text-primary-400">Personal Info</h3>
               
               <!-- Name -->
               <UFormField label="Full Name" name="name" required>
@@ -395,7 +529,7 @@ const expiryDate = "Never (You're stuck with us! 🌈)";
                 <USelectMenu
                   v-model="formData.pronouns"
                   :items="pronounOptions"
-                  value-key="value"
+                  by="value"
                   label-key="label"
                   create-item
                   placeholder="Select or type your pronouns"
@@ -403,96 +537,32 @@ const expiryDate = "Never (You're stuck with us! 🌈)";
                   size="lg"
                   @create="(item) => {
                     pronounOptions.push({ label: item, value: item });
-                    formData.pronouns = item;
-                  }"
-                />
-              </UFormField>
-
-              <!-- Gender Identity -->
-              <UFormField label="Gender Identity" name="genderIdentity" required>
-                <USelectMenu
-                  v-model="formData.genderIdentity"
-                  :items="genderIdentityOptions"
-                  value-key="value"
-                  label-key="label"
-                  create-item
-                  placeholder="Select or type your gender identity"
-                  searchable
-                  size="lg"
-                  @create="(item) => {
-                    genderIdentityOptions.push({ label: item, value: item });
-                    formData.genderIdentity = item;
+                    formData.pronouns = { label: item, value: item };
                   }"
                 />
               </UFormField>
             </div>
 
-            <!-- Right Side: Orientations -->
+            <!-- Right Side: LGBT+ Identity -->
             <div class="flex flex-col gap-6">
-              <h3 class="text-lg font-semibold text-primary-400">Orientations</h3>
+              <h3 class="text-lg font-semibold text-primary-400">Certification Details</h3>
 
-              <!-- Sexual Orientation -->
-              <UFormField
-                label="Sexual Orientation"
-                name="sexualOrientation"
-                required
-              >
+              <!-- Combined Identity Select -->
+              <UFormField label="Primary Identity" name="identity" required>
                 <USelectMenu
-                  v-model="formData.sexualOrientation"
-                  :items="sexualOrientationOptions"
-                  value-key="value"
+                  v-model="formData.identity"
+                  :items="identityOptions"
+                  by="value"
                   label-key="label"
                   create-item
-                  placeholder="Select or type your sexual orientation"
+                  placeholder="Select your primary identity"
                   searchable
                   size="lg"
-                  @create="(item) => {
-                    sexualOrientationOptions.push({ label: item, value: item });
-                    formData.sexualOrientation = item;
-                  }"
+                  @create="onIdentityCreate"
                 />
-              </UFormField>
-
-              <!-- Romantic Orientation -->
-              <UFormField
-                label="Romantic Orientation"
-                name="romanticOrientation"
-              >
-                <USelectMenu
-                  v-model="formData.romanticOrientation"
-                  :items="romanticOrientationOptions"
-                  value-key="value"
-                  label-key="label"
-                  create-item
-                  placeholder="Select or type your romantic orientation"
-                  searchable
-                  size="lg"
-                  @create="(item) => {
-                    romanticOrientationOptions.push({ label: item, value: item });
-                    formData.romanticOrientation = item;
-                  }"
-                />
-              </UFormField>
-
-              <!-- Relationship Orientation -->
-              <UFormField
-                label="Relationship Orientation"
-                name="relationshipOrientation"
-              >
-                <USelectMenu
-                  v-model="formData.relationshipOrientation"
-                  :items="relationshipOrientationOptions"
-                  value-key="value"
-                  label-key="label"
-                  create-item
-                  placeholder="Select or type your relationship orientation"
-                  searchable
-                  size="lg"
-                  @create="(item) => {
-                    relationshipOrientationOptions.push({ label: item, value: item });
-                    formData.relationshipOrientation = item;
-                  }"
-                />
+                <template #help>
+                  Choose the identity you want to feature on your card!
+                </template>
               </UFormField>
             </div>
           </div>
@@ -508,11 +578,11 @@ const expiryDate = "Never (You're stuck with us! 🌈)";
             to see it update in real-time!
           </p>
 
-          <!-- ID Card -->
+          <!-- Front Card Preview -->
           <div
-            class="relative overflow-hidden rounded-xl border-2 border-primary-500 bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 p-1 shadow-2xl"
+            class="relative overflow-hidden rounded-xl border-2 border-primary-500 bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 p-1 shadow-2xl aspect-[3/2]"
           >
-            <div class="rounded-lg bg-black p-6">
+            <div class="rounded-lg bg-black p-6 h-full flex flex-col">
               <!-- Header -->
               <div class="mb-6 flex items-center justify-between">
                 <div>
@@ -526,106 +596,89 @@ const expiryDate = "Never (You're stuck with us! 🌈)";
                 </div>
               </div>
 
-              <!-- Photo Placeholder -->
-              <div
-                class="mb-6 flex h-32 w-32 items-center justify-center rounded-lg bg-gradient-to-br from-primary-500/20 to-purple-500/20 border border-primary-500/30 overflow-hidden"
-              >
-                <img v-if="formData.image" :src="formData.image" class="w-full h-full object-cover" />
-                <UIcon
-                  v-else
-                  class="size-16 text-primary-400"
-                  name="lucide:user"
-                />
-              </div>
-
-              <!-- Personal Information -->
-              <div class="mb-6 space-y-3">
-                <div>
-                  <p class="text-xs font-semibold uppercase tracking-wider text-primary-400">
-                    Name
-                  </p>
-                  <p class="text-lg font-bold text-white">
-                    {{ formData.name || "Your Name Here" }}
-                  </p>
+              <!-- Content Row: Photo & Info -->
+              <div class="flex gap-6 items-start mb-4">
+                <!-- Photo Placeholder -->
+                <div
+                  class="shrink-0 flex h-32 w-24 items-center justify-center rounded-lg bg-gradient-to-br from-primary-500/20 to-purple-500/20 border border-primary-500/30 overflow-hidden"
+                >
+                  <img v-if="formData.image" :src="formData.image" class="w-full h-full object-cover" />
+                  <UIcon
+                    v-else
+                    class="size-12 text-primary-400"
+                    name="lucide:user"
+                  />
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
+                <!-- Personal Information -->
+                <div class="space-y-3 pt-1">
                   <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-primary-400">
-                      Pronouns
+                    <p class="text-[10px] font-semibold uppercase tracking-wider text-primary-400">
+                      Name
                     </p>
-                    <p class="text-sm text-white">
-                      {{ getTagLabel(formData.pronouns) || "—" }}
+                    <p class="text-lg font-bold text-white leading-tight">
+                      {{ formData.name || "Your Name Here" }}
                     </p>
                   </div>
-                  <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-primary-400">
-                      Gender
-                    </p>
-                    <p class="text-sm text-white">
-                      {{ getTagLabel(formData.genderIdentity) || "—" }}
-                    </p>
+
+                  <div class="flex gap-8">
+                    <div v-if="formData.pronouns">
+                      <p class="text-[10px] font-semibold uppercase tracking-wider text-primary-400">
+                        Pronouns
+                      </p>
+                      <p class="text-sm text-white">
+                        {{ getTagLabel(formData.pronouns) }}
+                      </p>
+                    </div>
+
+                    <div v-if="formData.identity">
+                      <p class="text-[10px] font-semibold uppercase tracking-wider text-primary-400">
+                        {{ (typeof formData.identity === 'object' && formData.identity.category) || "Identity" }}
+                      </p>
+                      <p class="text-md font-bold text-white leading-tight">
+                        {{ getTagLabel(formData.identity) }}
+                      </p>
+                    </div>
                   </div>
-                </div>
-
-                <div>
-                  <p class="text-xs font-semibold uppercase tracking-wider text-primary-400">
-                    Sexual Orientation
-                  </p>
-                  <p class="text-sm text-white">
-                    {{ getTagLabel(formData.sexualOrientation) || "—" }}
-                  </p>
-                </div>
-
-                <div v-if="formData.romanticOrientation">
-                  <p class="text-xs font-semibold uppercase tracking-wider text-primary-400">
-                    Romantic Orientation
-                  </p>
-                  <p class="text-sm text-white">
-                    {{ getTagLabel(formData.romanticOrientation) }}
-                  </p>
-                </div>
-
-                <div v-if="formData.relationshipOrientation">
-                  <p class="text-xs font-semibold uppercase tracking-wider text-primary-400">
-                    Relationship Style
-                  </p>
-                  <p class="text-sm text-white">
-                    {{ getTagLabel(formData.relationshipOrientation) }}
-                  </p>
                 </div>
               </div>
 
               <!-- Footer -->
-              <div class="border-t border-primary-500/30 pt-4">
-                <div class="grid grid-cols-2 gap-4 text-xs">
-                  <div>
-                    <p class="font-semibold uppercase tracking-wider text-primary-400">
-                      Cert. No.
-                    </p>
-                    <p class="font-mono text-white">{{ certificationNumber }}</p>
-                  </div>
-                  <div>
-                    <p class="font-semibold uppercase tracking-wider text-primary-400">
-                      Issued
-                    </p>
-                    <p class="text-white">{{ issueDate }}</p>
-                  </div>
-                </div>
-                <div class="mt-3">
-                  <p class="font-semibold uppercase tracking-wider text-primary-400 text-xs">
-                    Expires
+              <div class="mt-auto border-t border-primary-500/30 pt-4 px-1 flex flex-col gap-sm text-xs">
+                <div>
+                  <p class="font-semibold uppercase tracking-wider text-primary-400 text-[10px]">
+                    Cert. No.
                   </p>
-                  <p class="text-white text-xs">{{ expiryDate }}</p>
+                  <p class="font-mono text-white">{{ generationId }}</p>
+                </div>
+                
+                <!-- Issued / Expires Vertical Stack -->
+                <div class="flex flex-col gap-sm">
+                  <div class="flex gap-1 items-center">
+                    <span class="font-semibold uppercase text-primary-400 text-[10px]">Issued:</span>
+                    <span class="text-white">{{ issueDate }}</span>
+                  </div>
+                  <div class="flex gap-1 items-center">
+                    <span class="font-semibold uppercase text-primary-400 text-[10px]">Expires:</span>
+                    <span class="text-white">{{ expiryDate }}</span>
+                  </div>
                 </div>
               </div>
 
-              <!-- Watermark -->
-              <div class="mt-4 text-center">
-                <p class="text-xs italic text-primary-400/60">
-                  Valid in all 🌈 spaces • Powered by Pride™
-                </p>
-              </div>
+
+            </div>
+          </div>
+
+          <!-- Back Side Preview -->
+          <div
+            class="relative overflow-hidden rounded-xl border-2 border-primary-500 p-1 shadow-2xl mt-4 aspect-[3/2]"
+          >
+            <div 
+              class="rounded-lg flex flex-col items-center justify-center p-6 text-center bg-cover bg-center h-full"
+              :style="{ backgroundImage: `url(${getIdentityTheme.bgImage})` }"
+            >
+              <!-- White Logo Block (Non-rounded, replaces previous black block) -->
+              <div class="aspect-[2/1] w-[60%] bg-white shadow-2xl"></div>
             </div>
           </div>
 
