@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+﻿<script lang="ts" setup>
 // Metadata
 useSeoMeta({
   title: "LGBT+ Certification - QueerKit",
@@ -15,7 +15,7 @@ const formData = reactive({
 
 // Helper for display preview
 const getTagLabel = (val: any) => {
-  if (!val) return "—";
+  if (!val) return "â€”";
   if (typeof val === "string") return val;
   if (typeof val === "object" && val.label) return val.label;
   return val;
@@ -82,9 +82,9 @@ async function generateFrontCanvas() {
   ctx.fillText("OFFICIAL LGBT+ CERTIFICATION", 60, 70);
   ctx.fillStyle = "#ffffff";
   ctx.font = "bold 48px sans-serif";
-  ctx.fillText("QueerKit™", 60, 120);
+  ctx.fillText("QueerKitâ„¢", 60, 120);
   ctx.font = "40px sans-serif";
-  ctx.fillText("🏳️‍🌈", canvas.width - 100, 80);
+  ctx.fillText("ðŸ³ï¸â€ðŸŒˆ", canvas.width - 100, 80);
 
   // 3. Image
   if (formData.image) {
@@ -116,7 +116,7 @@ async function generateFrontCanvas() {
     currentY += 30;
     ctx.fillStyle = "#ffffff";
     ctx.font = `bold ${size}px sans-serif`;
-    ctx.fillText(displayValue || "—", textX, currentY);
+    ctx.fillText(displayValue || "â€”", textX, currentY);
     currentY += 50;
   };
 
@@ -143,7 +143,7 @@ async function generateFrontCanvas() {
     currentY += 30;
     ctx.fillStyle = "#ffffff";
     ctx.font = "bold 24px sans-serif";
-    ctx.fillText(displayValue || "—", identityX, currentY);
+    ctx.fillText(displayValue || "â€”", identityX, currentY);
     
     currentY += 50; // Resume vertical flow
   }
@@ -475,9 +475,9 @@ const backCardBackground = computed(() => {
       </h1>
       <p class="mx-auto max-w-2xl text-lg text-dimmed">
         Welcome to the <em>totally official, absolutely legitimate, 100%
-          legally binding</em> LGBT+ Certification Process™! Fill out the form
+          legally binding</em> LGBT+ Certification Processâ„¢! Fill out the form
         below to receive your personalized certification card. No tests
-        required—just vibes and authenticity! 🏳️‍🌈✨
+        requiredâ€”just vibes and authenticity! ðŸ³ï¸â€ðŸŒˆâœ¨
       </p>
       <p class="mt-4 text-sm italic text-dimmed">
         (Disclaimer: This is for fun and community celebration. Your identity is
@@ -589,10 +589,10 @@ const backCardBackground = computed(() => {
                   <h3 class="text-xs font-bold uppercase tracking-wider text-primary-400">
                     Official LGBT+ Certification
                   </h3>
-                  <p class="text-2xl font-bold text-white">QueerKit™</p>
+                  <p class="text-2xl font-bold text-white">QueerKitâ„¢</p>
                 </div>
                 <div class="text-right">
-                  <div class="text-4xl">🏳️‍🌈</div>
+                  <div class="text-4xl">ðŸ³ï¸â€ðŸŒˆ</div>
                 </div>
               </div>
 
@@ -705,23 +705,23 @@ const backCardBackground = computed(() => {
     <div class="mt-16">
       <UCard>
         <template #header>
-          <h2 class="text-2xl font-bold">Did You Know? 🌈</h2>
+          <h2 class="text-2xl font-bold">Did You Know? ðŸŒˆ</h2>
         </template>
         <div class="space-y-4 text-dimmed">
           <p>
-            • This certification is as official as a participation trophy, but
+            â€¢ This certification is as official as a participation trophy, but
             infinitely more fabulous!
           </p>
           <p>
-            • Your identity doesn't need validation from anyone—but if you want
+            â€¢ Your identity doesn't need validation from anyoneâ€”but if you want
             a pretty card, we've got you covered.
           </p>
           <p>
-            • The only test required is: "Are you being your authentic self?"
-            If yes, you pass! 🎉
+            â€¢ The only test required is: "Are you being your authentic self?"
+            If yes, you pass! ðŸŽ‰
           </p>
           <p>
-            • Side effects may include: increased confidence, finding your
+            â€¢ Side effects may include: increased confidence, finding your
             community, and an inexplicable urge to own more rainbow items.
           </p>
         </div>
@@ -729,3 +729,4 @@ const backCardBackground = computed(() => {
     </div>
   </UContainer>
 </template>
+
