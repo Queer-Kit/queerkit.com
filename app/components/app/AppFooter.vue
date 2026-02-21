@@ -57,13 +57,7 @@ onMounted(() => {
 <template>
   <RCFooter :contain="false" class="bg-black z-50">
     <template #left>
-      <RCNewsletterSignup
-        class="max-w-64"
-        :field-label="t('newsletter_field_label')"
-        :description="t('newsletter_description')"
-        :placeholder="t('newsletter_placeholder')"
-        :button-label="t('newsletter_button_label')"
-      />
+      <RCNewsletterSignup :title="t('app.newsletter.title')" :description="t('app.newsletter.description')" :submit="t('app.newsletter.submit')" :rc="{ label: 'text-white', description: 'text-neutral-500', button: 'text-white bg-primary-500 hover:bg-primary-600' }" class="max-w-64" />
       <div class="flex flex-col items-center gap-xs lg:items-start">
         <RCLogo class="h-6 w-auto" variant="type" />
         <p class="text-sm text-white">{{ t("app_tagline") }}</p>

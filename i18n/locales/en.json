@@ -2,35 +2,34 @@
   "error": {
     "retry": "Try Again"
   },
-  "pages": {
-    "home": {
-      "meta": {
-        "title": "Home",
-        "description": "Tell your story."
-      },
-      "sections": {
-        "hero": {
-          "title": "We are Rimelight Entertainment",
-          "description": "We are creators of Grand Tale.",
-          "actions": {
-            "join_us": "Join Us",
-            "learn_more": "Learn More"
+  "app": {
+    "newsletter": {
+      "title": "Subscribe to our newsletter",
+      "description": "Get the latest news and updates from us. Unsubscribe at any time.",
+      "placeholder": "email{'@'}domain.com",
+      "submit": "Subscribe",
+      "success": "Thank you for subscribing! Check your inbox for a confirmation email.",
+      "error": "Failed to subscribe. Please try again later."
+    },
+    "footer": {
+      "links": {
+        "resources": {
+          "label": "Resources",
+          "content": {
+            "branding": "Branding"
           }
         },
-        "news": {
-          "title": "Latest News",
-          "description": "Read our latest news, posts, and project updates."
-        },
-        "cta": {
-          "title": "Ready to play?",
-          "description": "Join us and let's tell our story together.",
-          "actions": {
-            "create_account": "Create Account",
-            "explore_careers": "Explore Careers"
+        "documents": {
+          "label": "Documents",
+          "content": {
+            "privacyPolicy": "Privacy Policy",
+            "cookiePolicy": "Cookie Policy"
           }
         }
       }
-    },
+    }
+  },
+  "pages": {
     "blog": {
       "meta": {
         "title": "Blog",
