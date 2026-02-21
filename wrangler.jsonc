@@ -6,41 +6,41 @@
   "routes": [
     {
       "pattern": "queerkit.com",
-      "custom_domain": true
+      "custom_domain": true,
     },
     {
       "pattern": "www.queerkit.com",
-      "custom_domain": true
-    }
+      "custom_domain": true,
+    },
   ],
   "observability": {
     "logs": {
       "enabled": true,
       "head_sampling_rate": 1,
-      "invocation_logs": true
-    }
+      "invocation_logs": true,
+    },
   },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "queerkit-dot-com",
-      "database_id": "aabe6a61-1f48-4321-9534-204623eefe5a"
-    }
+      "database_id": "aabe6a61-1f48-4321-9534-204623eefe5a",
+    },
   ],
   "r2_buckets": [
     {
       "binding": "BLOB",
-      "bucket_name": "queerkit-dot-com"
-    }
+      "bucket_name": "queerkit-dot-com",
+    },
   ],
   "kv_namespaces": [
     {
       "binding": "KV",
-      "id": "7008339684fb4f4d87230e3de39e1aa5"
+      "id": "7008339684fb4f4d87230e3de39e1aa5",
     },
     {
       "binding": "CACHE",
-      "id": "1964db0bc6d04a2cb68fa3af7bfbc6ff"
-    }
-  ]
+      "id": "1964db0bc6d04a2cb68fa3af7bfbc6ff",
+    },
+  ],
 }

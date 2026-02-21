@@ -10,8 +10,11 @@ useHead({
   <div class="flex flex-col gap-16 md:gap-24 pb-24">
     <!-- Hero Section -->
     <section
-      class="flex flex-col items-center justify-center text-center px-4 py-24 md:py-32 gap-6 relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-b from-primary-500/10 to-transparent pointer-events-none" />
+      class="flex flex-col items-center justify-center text-center px-4 py-24 md:py-32 gap-6 relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-primary-500/10 to-transparent pointer-events-none"
+      />
       <h1 class="text-4xl md:text-6xl font-bold tracking-tight relative z-10">
         {{ t("about_hero_title") }}
       </h1>
@@ -33,7 +36,8 @@ useHead({
           </p>
         </div>
         <div
-          class="bg-neutral-900/50 aspect-video rounded-xl border border-neutral-800 flex items-center justify-center">
+          class="bg-neutral-900/50 aspect-video rounded-xl border border-neutral-800 flex items-center justify-center"
+        >
           <UIcon name="lucide:target" class="w-24 h-24 text-primary-500/50" />
         </div>
       </div>
@@ -94,9 +98,10 @@ useHead({
       <UContainer class="bg-primary-900/10 rounded-xl p-12 border border-primary-500/20">
         <h2 class="text-3xl font-bold mb-4">{{ t("about_join_us_title") }}</h2>
         <p class="text-lg text-neutral-400 mb-8">{{ t("about_join_us_description") }}</p>
-        <UButton size="lg" to="/company/careers" icon="lucide:briefcase">{{ t("about_cta_button") }}</UButton>
+        <UButton size="lg" to="/company/careers" icon="lucide:briefcase">{{
+          t("about_cta_button")
+        }}</UButton>
       </UContainer>
     </section>
-
   </div>
 </template>

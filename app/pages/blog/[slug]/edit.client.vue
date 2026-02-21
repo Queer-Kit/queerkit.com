@@ -1,111 +1,115 @@
 <script setup lang="ts">
-import { type Page, type PageType } from "#rimelight-components/types"
-import { PAGE_MAP as pageDefinitions } from "~/types"
+import { type Page, type PageType } from "#rimelight-components/types";
+import { PAGE_MAP as pageDefinitions } from "~/types";
 
-const router = useRouter()
-const route = useRoute()
-const toast = useToast()
-const { t, locale } = useI18n()
-const appConfig = useAppConfig()
+const router = useRouter();
+const route = useRoute();
+const toast = useToast();
+const { t, locale } = useI18n();
+const appConfig = useAppConfig();
 
-const slug = route.params.slug as string
-const isSaving = ref(false)
-const PAGE_TYPE: PageType = "BlogPost"
+const slug = route.params.slug as string;
+const isSaving = ref(false);
+const PAGE_TYPE: PageType = "BlogPost";
 
 const {
   data: page,
   status: pageStatus,
-  error: pageError
+  error: pageError,
 } = useApi<Page>(`/api/pages/${PAGE_TYPE}/${slug}`, {
   method: "GET",
   key: `edit-blog-${slug}`,
-})
+});
 
-const localPage = ref<Page | null>(null)
+const localPage = ref<Page | null>(null);
 
-watch(page, (newVal) => {
-  if (newVal) {
-    localPage.value = JSON.parse(JSON.stringify(newVal))
-  }
-}, { immediate: true })
+watch(
+  page,
+  (newVal) => {
+    if (newVal) {
+      localPage.value = JSON.parse(JSON.stringify(newVal));
+    }
+  },
+  { immediate: true },
+);
 
 const resolvePage = async (id: string) => {
   return $api<Page>(`/api/pages/id/${id}`, {
-    query: { select: 'title,icon,slug' }
-  })
-}
+    query: { select: "title,icon,slug" },
+  });
+};
 
 const handleSave = async (updatedPage: Page): Promise<void> => {
-  if (!updatedPage.id) return
-  isSaving.value = true
+  if (!updatedPage.id) return;
+  isSaving.value = true;
 
   try {
     await $api(`/api/pages/id/${updatedPage.id}`, {
       method: "PUT",
-      body: updatedPage
-    })
+      body: updatedPage,
+    });
 
-    toast.add({ color: "success", title: t("toast_save-post_success_title") })
+    toast.add({ color: "success", title: t("toast_save-post_success_title") });
   } catch (e) {
-    toast.add({ color: "error", title: t("toast_save-post_error_title") })
+    toast.add({ color: "error", title: t("toast_save-post_error_title") });
   } finally {
-    isSaving.value = false
+    isSaving.value = false;
   }
-}
+};
 
 const handlePublish = async (updatedPage: Page): Promise<void> => {
-  if (!updatedPage.id) return
-  isSaving.value = true
+  if (!updatedPage.id) return;
+  isSaving.value = true;
 
   try {
     await $api(`/api/pages/id/${updatedPage.id}/publish`, {
-      method: "POST"
-    })
+      method: "POST",
+    });
 
-    toast.add({ color: "success", title: t("toast_publish_success") })
+    toast.add({ color: "success", title: t("toast_publish_success") });
 
     // Redirect to the live post
-    await nextTick()
-    await navigateTo(`/blog/${updatedPage.slug}`)
+    await nextTick();
+    await navigateTo(`/blog/${updatedPage.slug}`);
   } catch (e) {
-    toast.add({ color: "error", title: t("toast_publish_error") })
+    toast.add({ color: "error", title: t("toast_publish_error") });
   } finally {
-    isSaving.value = false
+    isSaving.value = false;
   }
-}
+};
 
 const handleCreate = async (newPageData: Partial<Page>) => {
   try {
-    const createdPage = await $api<Page>('/api/pages', {
-      method: 'POST',
-      body: newPageData
-    })
+    const createdPage = await $api<Page>("/api/pages", {
+      method: "POST",
+      body: newPageData,
+    });
 
-    toast.add({ color: 'success', title: t('toast_create_success') })
+    toast.add({ color: "success", title: t("toast_create_success") });
 
-    await navigateTo(`/blog/${createdPage.slug}/edit`)
+    await navigateTo(`/blog/${createdPage.slug}/edit`);
   } catch (e) {
-    toast.add({ color: 'error', title: t('toast_create_error') })
+    toast.add({ color: "error", title: t("toast_create_error") });
   }
-}
+};
 
 const handleDelete = async (id: string) => {
   try {
     await $api(`/api/pages/id/${id}`, {
-      method: 'DELETE'
-    })
+      method: "DELETE",
+    });
 
-    toast.add({ color: 'success', title: t('toast_delete_success') })
+    toast.add({ color: "success", title: t("toast_delete_success") });
 
-    await router.push('/blog')
+    await router.push("/blog");
   } catch (e) {
-    toast.add({ color: 'error', title: t('toast_delete_error') })
+    toast.add({ color: "error", title: t("toast_delete_error") });
   }
-}
+};
 
 useHead({
-  title: () => `Edit Post: ${getLocalizedContent(page.value?.title, locale) ?? appConfig.title}`
-})
+  title: () => `Edit Post: ${getLocalizedContent(page.value?.title, locale) ?? appConfig.title}`,
+});
 </script>
 
 <template>

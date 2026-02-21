@@ -29,8 +29,16 @@ const logomarkMonochromeWhite = computed(() => ({
   <UContainer>
     <UPage>
       <UPageBody>
-        <RCSection :description="t('page_branding_description')" :level="1" :title="t('page_branding_title')">
-          <RCSection :level="2" description="The logos and variations we use in our branding." title="Logo">
+        <RCSection
+          :description="t('page_branding_description')"
+          :level="1"
+          :title="t('page_branding_title')"
+        >
+          <RCSection
+            :level="2"
+            description="The logos and variations we use in our branding."
+            title="Logo"
+          >
             <RCCallout variant="error">
               <p>If a color combination isn't listed, it means it shouldn't be used.</p>
             </RCCallout>
@@ -38,16 +46,27 @@ const logomarkMonochromeWhite = computed(() => ({
             <RCSection :level="3" title="Logomark">
               <RCSection :level="4" title="Monochrome White">
                 <div class="flex flex-col gap-lg lg:grid lg:grid-cols-4">
-                  <RCImageSwatch v-bind="logomarkMonochromeWhite" name="Logomark - Monochrome White" />
+                  <RCImageSwatch
+                    v-bind="logomarkMonochromeWhite"
+                    name="Logomark - Monochrome White"
+                  />
                 </div>
               </RCSection>
             </RCSection>
 
-            <RCSection :level="2" description="The color palette used across our branding." title="Colors">
+            <RCSection
+              :level="2"
+              description="The color palette used across our branding."
+              title="Colors"
+            >
               <RCColorPalette :css="mainCss" />
             </RCSection>
 
-            <RCSection :level="2" title="Typography" description="The font families and styles used in our branding.">
+            <RCSection
+              :level="2"
+              title="Typography"
+              description="The font families and styles used in our branding."
+            >
               <RCFontPalette :css="mainCss" />
             </RCSection>
           </RCSection>

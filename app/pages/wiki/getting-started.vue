@@ -1,6 +1,6 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 definePageMeta({
-  layout: 'wiki'
+  layout: "wiki",
 });
 
 useHead({
@@ -12,14 +12,17 @@ useHead({
   <div class="space-y-16">
     <section class="space-y-6">
       <div
-        class="inline-flex items-center gap-2 px-3 py-1 bg-primary-500/10 border border-primary-500/20 text-primary-400 text-xs font-bold uppercase tracking-widest">
+        class="inline-flex items-center gap-2 px-3 py-1 bg-primary-500/10 border border-primary-500/20 text-primary-400 text-xs font-bold uppercase tracking-widest"
+      >
         Getting Started
       </div>
-      <h1 class="text-5xl font-black uppercase tracking-tighter text-white leading-none">Welcome to <br /> <span
-          class="text-primary-500">QueerKit</span></h1>
+      <h1 class="text-5xl font-black uppercase tracking-tighter text-white leading-none">
+        Welcome to <br />
+        <span class="text-primary-500">QueerKit</span>
+      </h1>
       <p class="text-xl text-primary-100/60 font-light max-w-2xl leading-relaxed">
-        Your comprehensive guide to understanding identities, history, and community. Start here if you're looking
-        to learn more about the LGBTQ+ community.
+        Your comprehensive guide to understanding identities, history, and community. Start here if
+        you're looking to learn more about the LGBTQ+ community.
       </p>
     </section>
 
@@ -27,7 +30,7 @@ useHead({
 
     <section class="space-y-8">
       <h2 class="text-2xl font-bold text-white uppercase tracking-tight flex items-center gap-3">
-        <UIcon name="i-lucide-book-open" class="text-primary-500" />
+        <UIcon name="lucide:book-open" class="text-primary-500" />
         Foundations
       </h2>
 
@@ -76,14 +79,15 @@ useHead({
 
     <section class="space-y-8">
       <h2 class="text-2xl font-bold text-white uppercase tracking-tight flex items-center gap-3">
-        <UIcon name="i-lucide-scroll-text" class="text-primary-500" />
+        <UIcon name="lucide:scroll-text" class="text-primary-500" />
         Exploring History
       </h2>
 
       <div class="space-y-4">
         <p class="text-primary-100/60 leading-relaxed">
-          Dive into the rich history of the LGBTQ+ movement, from early activism to modern milestones.
-          The world of QueerKit is built on the shoulders of those who fought for visibility and rights.
+          Dive into the rich history of the LGBTQ+ movement, from early activism to modern
+          milestones. The world of QueerKit is built on the shoulders of those who fought for
+          visibility and rights.
         </p>
         <div class="flex gap-4">
           <UButton color="primary" variant="outline">Timeline of History</UButton>
@@ -94,13 +98,13 @@ useHead({
       <UCard class="bg-primary-800/10 border-primary-800/50">
         <div class="flex flex-col md:flex-row gap-8 items-center">
           <div class="p-4 bg-primary-500/20 rounded-none border border-primary-500/30">
-            <UIcon name="i-lucide-info" class="size-8 text-primary-400" />
+            <UIcon name="lucide:info" class="size-8 text-primary-400" />
           </div>
           <div class="space-y-2">
             <h4 class="font-bold text-white uppercase">Early Access</h4>
             <p class="text-sm text-primary-100/40">
-              Many articles are currently being researched and drafted. If you encounter missing information or
-              placeholder content, please report it via our community channels.
+              Many articles are currently being researched and drafted. If you encounter missing
+              information or placeholder content, please report it via our community channels.
             </p>
           </div>
         </div>

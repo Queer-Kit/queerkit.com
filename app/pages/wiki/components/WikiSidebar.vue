@@ -5,87 +5,92 @@ const { t } = useI18n();
 const navigationItems = computed(() => [
   [
     {
-      label: 'Wiki Explorer',
-      type: 'label' as const
+      label: "Wiki Explorer",
+      type: "label" as const,
     },
     {
-      label: 'Getting Started',
-      to: '/wiki/getting-started'
+      label: "Getting Started",
+      to: "/wiki/getting-started",
     },
     {
-      label: 'Contribution Guide',
-      to: '/wiki/contribution-guide'
-    }
+      label: "Contribution Guide",
+      to: "/wiki/contribution-guide",
+    },
   ],
   [
     {
-      label: 'Resources',
-      type: 'label' as const
+      label: "Resources",
+      type: "label" as const,
     },
     {
-      label: 'Queer History',
-      to: '/wiki/history'
+      label: "Queer History",
+      to: "/wiki/history",
     },
     {
-      label: 'Terminology',
-      to: '/wiki/terminology'
+      label: "Terminology",
+      to: "/wiki/terminology",
     },
     {
-      label: 'Community Guide',
-      to: '/wiki/community'
-    }
+      label: "Community Guide",
+      to: "/wiki/community",
+    },
   ],
   [
     {
-      label: 'Identity',
-      type: 'label' as const
+      label: "Identity",
+      type: "label" as const,
     },
     {
-      label: 'Gender',
-      to: '/wiki/identity/gender'
+      label: "Gender",
+      to: "/wiki/identity/gender",
     },
     {
-      label: 'Sexuality',
-      to: '/wiki/identity/sexuality'
+      label: "Sexuality",
+      to: "/wiki/identity/sexuality",
     },
     {
-      label: 'Pronouns',
-      to: '/wiki/identity/pronouns'
-    }
+      label: "Pronouns",
+      to: "/wiki/identity/pronouns",
+    },
   ],
   [
     {
-      label: 'Health & Wellness',
-      type: 'label' as const
+      label: "Health & Wellness",
+      type: "label" as const,
     },
     {
-      label: 'Mental Health',
-      to: '/wiki/health/mental'
+      label: "Mental Health",
+      to: "/wiki/health/mental",
     },
     {
-      label: 'Physical Health',
-      to: '/wiki/health/physical'
-    }
+      label: "Physical Health",
+      to: "/wiki/health/physical",
+    },
   ],
   [
     {
-      label: 'Support',
-      type: 'label' as const
+      label: "Support",
+      type: "label" as const,
     },
     {
-      label: 'Contribute',
-      to: '/wiki/contribution-guide'
-    }
-  ]
+      label: "Contribute",
+      to: "/wiki/contribution-guide",
+    },
+  ],
 ]);
 </script>
 
 <template>
   <div class="space-y-8 p-md">
-    <UNavigationMenu :items="navigationItems" orientation="vertical" :ui="{
-      label: 'text-[10px] font-black uppercase tracking-[0.1em]',
-      link: 'text-[11px] text-dimmed py-1'
-    }" class="w-full" />
+    <UNavigationMenu
+      :items="navigationItems"
+      orientation="vertical"
+      :ui="{
+        label: 'text-[10px] font-black uppercase tracking-[0.1em]',
+        link: 'text-[11px] text-dimmed py-1',
+      }"
+      class="w-full"
+    />
 
     <!-- Stats or Contribution Info -->
     <div class="px-4 py-6 bg-primary-900/50 border border-primary-800/50 rounded-none space-y-4">

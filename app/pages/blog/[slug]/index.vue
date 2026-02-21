@@ -1,41 +1,42 @@
 <script setup lang="ts">
-import { type Page, type PageType } from "#rimelight-components/types"
+import { type Page, type PageType } from "#rimelight-components/types";
 
-const route = useRoute()
-const { user } = useAuth()
-const { locale } = useI18n()
-const appConfig = useAppConfig()
+const route = useRoute();
+const { user } = useAuth();
+const { locale } = useI18n();
+const appConfig = useAppConfig();
 
-const PAGE_TYPE: PageType = "BlogPost"
-const slug = route.params.slug
+const PAGE_TYPE: PageType = "BlogPost";
+const slug = route.params.slug;
 
-const canEdit = computed(() => user.value?.role === 'owner' || user.value?.role === 'admin')
+const canEdit = computed(() => user.value?.role === "owner" || user.value?.role === "admin");
 
 const {
   data: page,
   status: pageStatus,
-  error: pageError
+  error: pageError,
 } = await useApi<Page>(`/api/pages/${PAGE_TYPE}/${slug}`, {
   method: "GET",
   key: `blog-${slug}`,
-})
+});
 
 const resolvePage = async (id: string) => {
   return $api<Page>(`/api/pages/id/${id}`, {
     query: { select: "title,icon,slug" },
-  })
-}
+  });
+};
 
 useHead({
-  title: () => getLocalizedContent(page.value?.title, locale) ?? appConfig.title
-})
+  title: () => getLocalizedContent(page.value?.title, locale) ?? appConfig.title,
+});
 
 useSeoMeta({
   title: () => getLocalizedContent(page.value?.title, locale) ?? appConfig.title,
   ogTitle: () => getLocalizedContent(page.value?.title, locale) ?? appConfig.title,
   description: () => getLocalizedContent(page.value?.description, locale) ?? appConfig.description,
-  ogDescription: () => getLocalizedContent(page.value?.description, locale) ?? appConfig.description
-})
+  ogDescription: () =>
+    getLocalizedContent(page.value?.description, locale) ?? appConfig.description,
+});
 </script>
 
 <template>
@@ -62,4 +63,3 @@ useSeoMeta({
 </template>
 
 <style scoped></style>
-

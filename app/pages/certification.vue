@@ -73,7 +73,7 @@ async function generateFrontCanvas() {
   ctx.fillStyle = "rgba(0, 0, 0, 0.9)";
   const margin = 20;
   ctx.beginPath();
-  ctx.roundRect(margin, margin, canvas.width - (margin * 2), canvas.height - (margin * 2), 20);
+  ctx.roundRect(margin, margin, canvas.width - margin * 2, canvas.height - margin * 2, 20);
   ctx.fill();
 
   // 2. Header
@@ -91,17 +91,26 @@ async function generateFrontCanvas() {
     const img = new Image();
     img.src = formData.image;
     await new Promise((resolve) => (img.onload = resolve));
-    const imgX = 60, imgY = 160, imgW = 210, imgH = 280;
+    const imgX = 60,
+      imgY = 160,
+      imgW = 210,
+      imgH = 280;
     ctx.save();
     ctx.beginPath();
     ctx.roundRect(imgX, imgY, imgW, imgH, 20);
     ctx.clip();
-    
+
     // Maintain aspect ratio (center crop)
     const ratio = Math.max(imgW / img.width, imgH / img.height);
     const newWidth = img.width * ratio;
     const newHeight = img.height * ratio;
-    ctx.drawImage(img, imgX + (imgW - newWidth) / 2, imgY + (imgH - newHeight) / 2, newWidth, newHeight);
+    ctx.drawImage(
+      img,
+      imgX + (imgW - newWidth) / 2,
+      imgY + (imgH - newHeight) / 2,
+      newWidth,
+      newHeight,
+    );
     ctx.restore();
   }
 
@@ -130,28 +139,31 @@ async function generateFrontCanvas() {
   if (formData.identity) {
     // Reset Y to start of previous field call to put them side-by-side
     currentY = startY;
-    const label = (typeof formData.identity === "object" && formData.identity.category) || "Identity";
-    
+    const label =
+      (typeof formData.identity === "object" && formData.identity.category) || "Identity";
+
     // Draw identity to the right
     const identityX = 550; // Offset from textX (300)
     const displayValue = getTagLabel(formData.identity);
-    
+
     ctx.fillStyle = "#fb7185";
     ctx.font = "bold 14px sans-serif";
     ctx.fillText(label.toUpperCase(), identityX, currentY);
-    
+
     currentY += 30;
     ctx.fillStyle = "#ffffff";
     ctx.font = "bold 24px sans-serif";
     ctx.fillText(displayValue || "â€”", identityX, currentY);
-    
+
     currentY += 50; // Resume vertical flow
   }
 
   // 5. Footer
   ctx.strokeStyle = "rgba(251, 113, 133, 0.2)";
   ctx.beginPath();
-  ctx.moveTo(60, 520); ctx.lineTo(canvas.width - 60, 520); ctx.stroke();
+  ctx.moveTo(60, 520);
+  ctx.lineTo(canvas.width - 60, 520);
+  ctx.stroke();
 
   currentY = 550;
   ctx.fillStyle = "#fb7185";
@@ -189,7 +201,7 @@ async function generateBackCanvas() {
 
   // 1. Draw Identity Background (Load image with gradient fallback)
   const theme = getIdentityTheme.value;
-  
+
   try {
     const bgImg = new Image();
     bgImg.src = theme.bgImage;
@@ -209,7 +221,8 @@ async function generateBackCanvas() {
   }
 
   // 2. Draw White Logo Block (Same size as previous black block)
-  const blockW = 600, blockH = 300;
+  const blockW = 600,
+    blockH = 300;
   const blockX = (canvas.width - blockW) / 2;
   const blockY = (canvas.height - blockH) / 2;
 
@@ -341,21 +354,23 @@ const customOptions = ref<any[]>([]);
 
 const identityOptions = computed(() => [
   { type: "label", label: "Gender Identity" },
-  ...genderIdentityOptions.value.map(o => ({ ...o, category: "Gender" })),
+  ...genderIdentityOptions.value.map((o) => ({ ...o, category: "Gender" })),
   { type: "separator" },
   { type: "label", label: "Sexual Orientation" },
-  ...sexualOrientationOptions.value.map(o => ({ ...o, category: "Orientation" })),
+  ...sexualOrientationOptions.value.map((o) => ({ ...o, category: "Orientation" })),
   { type: "separator" },
   { type: "label", label: "Romantic Orientation" },
-  ...romanticOrientationOptions.value.map(o => ({ ...o, category: "Romantic" })),
+  ...romanticOrientationOptions.value.map((o) => ({ ...o, category: "Romantic" })),
   { type: "separator" },
   { type: "label", label: "Relationship Orientation" },
-  ...relationshipOrientationOptions.value.map(o => ({ ...o, category: "Relationship Style" })),
-  ...(customOptions.value.length > 0 ? [
-    { type: "separator" },
-    { type: "label", label: "Custom" },
-    ...customOptions.value.map(o => ({ ...o, category: "Identity" }))
-  ] : [])
+  ...relationshipOrientationOptions.value.map((o) => ({ ...o, category: "Relationship Style" })),
+  ...(customOptions.value.length > 0
+    ? [
+        { type: "separator" },
+        { type: "label", label: "Custom" },
+        ...customOptions.value.map((o) => ({ ...o, category: "Identity" })),
+      ]
+    : []),
 ]);
 
 function onIdentityCreate(item: string) {
@@ -364,23 +379,20 @@ function onIdentityCreate(item: string) {
   formData.identity = newOption;
 }
 
-
 // Generate ID (QK-xxxxxx derived from name and date)
 const generationId = computed(() => {
   if (!formData.name) return "QK-000000";
-  const dateParts = new Date().toISOString().split('T')[0];
-  const dateStr = (dateParts || '').replace(/-/g, '');
-  const hash = formData.name
-    .split("")
-    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const derivedNum = (hash * parseInt(dateStr.slice(-4) || '0')) % 1000000;
-  return `QK-${derivedNum.toString().padStart(6, '0')}`;
+  const dateParts = new Date().toISOString().split("T")[0];
+  const dateStr = (dateParts || "").replace(/-/g, "");
+  const hash = formData.name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const derivedNum = (hash * parseInt(dateStr.slice(-4) || "0")) % 1000000;
+  return `QK-${derivedNum.toString().padStart(6, "0")}`;
 });
 
 // Helper to format date as dd/mm/yyyy
 const formatDate = (date: Date) => {
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 };
@@ -401,48 +413,48 @@ const expiryDate = computed(() => {
 const identityThemes = {
   trans: {
     bgImage: "/images/certification/back-bg-trans.png",
-    colors: ["#5BCEFA", "#F5A9B8", "#5BCEFA"]
+    colors: ["#5BCEFA", "#F5A9B8", "#5BCEFA"],
   },
   nonbinary: {
     bgImage: "/images/certification/back-bg-nonbinary.png",
-    colors: ["#FCF434", "#FFFFFF", "#9C59D1", "#2C2C2C"]
+    colors: ["#FCF434", "#FFFFFF", "#9C59D1", "#2C2C2C"],
   },
   bi: {
     bgImage: "/images/certification/back-bg-bi.png",
-    colors: ["#D60270", "#9B4F96", "#0038A8"]
+    colors: ["#D60270", "#9B4F96", "#0038A8"],
   },
   pan: {
     bgImage: "/images/certification/back-bg-pan.png",
-    colors: ["#FF218C", "#FFD800", "#21B1FF"]
+    colors: ["#FF218C", "#FFD800", "#21B1FF"],
   },
   lesbian: {
     bgImage: "/images/certification/back-bg-lesbian.png",
-    colors: ["#D52D00", "#FF9A56", "#FFFFFF", "#D362A4", "#A30262"]
+    colors: ["#D52D00", "#FF9A56", "#FFFFFF", "#D362A4", "#A30262"],
   },
   ace: {
     bgImage: "/images/certification/back-bg-ace.png",
-    colors: ["#000000", "#A3A3A3", "#FFFFFF", "#800080"]
+    colors: ["#000000", "#A3A3A3", "#FFFFFF", "#800080"],
   },
   aro: {
     bgImage: "/images/certification/back-bg-aro.png",
-    colors: ["#3DA542", "#A7D379", "#FFFFFF", "#A9A9A9", "#000000"]
+    colors: ["#3DA542", "#A7D379", "#FFFFFF", "#A9A9A9", "#000000"],
   },
   genderqueer: {
     bgImage: "/images/certification/back-bg-genderqueer.png",
-    colors: ["#B57EDC", "#FFFFFF", "#4A8123"]
+    colors: ["#B57EDC", "#FFFFFF", "#4A8123"],
   },
   genderfluid: {
     bgImage: "/images/certification/back-bg-genderfluid.png",
-    colors: ["#FF75A2", "#FFFFFF", "#BE18D6", "#000000", "#333EBD"]
+    colors: ["#FF75A2", "#FFFFFF", "#BE18D6", "#000000", "#333EBD"],
   },
   agender: {
     bgImage: "/images/certification/back-bg-agender.png",
-    colors: ["#000000", "#B9B9B9", "#FFFFFF", "#B8F483", "#FFFFFF", "#B9B9B9", "#000000"]
+    colors: ["#000000", "#B9B9B9", "#FFFFFF", "#B8F483", "#FFFFFF", "#B9B9B9", "#000000"],
   },
   rainbow: {
     bgImage: "/images/certification/back-bg-rainbow.png",
-    colors: ["#FF0018", "#FFA52C", "#FFFF41", "#008018", "#0000F9", "#86007D"]
-  }
+    colors: ["#FF0018", "#FFA52C", "#FFFF41", "#008018", "#0000F9", "#86007D"],
+  },
 };
 
 const getIdentityTheme = computed(() => {
@@ -463,25 +475,21 @@ const getIdentityTheme = computed(() => {
 const backCardBackground = computed(() => {
   return {}; // No longer using class strings directly
 });
-
 </script>
 
 <template>
   <UContainer class="py-12">
     <!-- Header Section -->
     <div class="mb-12 text-center">
-      <h1 class="mb-4 text-4xl font-bold md:text-5xl">
-        Official LGBT+ Certification
-      </h1>
+      <h1 class="mb-4 text-4xl font-bold md:text-5xl">Official LGBT+ Certification</h1>
       <p class="mx-auto max-w-2xl text-lg text-dimmed">
-        Welcome to the <em>totally official, absolutely legitimate, 100%
-          legally binding</em> LGBT+ Certification Processâ„¢! Fill out the form
-        below to receive your personalized certification card. No tests
-        requiredâ€”just vibes and authenticity! ðŸ³ï¸â€ðŸŒˆâœ¨
+        Welcome to the <em>totally official, absolutely legitimate, 100% legally binding</em> LGBT+
+        Certification Processâ„¢! Fill out the form below to receive your personalized certification
+        card. No tests requiredâ€”just vibes and authenticity! ðŸ³ï¸â€ðŸŒˆâœ¨
       </p>
       <p class="mt-4 text-sm italic text-dimmed">
-        (Disclaimer: This is for fun and community celebration. Your identity is
-        valid regardless of any "certification"!)
+        (Disclaimer: This is for fun and community celebration. Your identity is valid regardless of
+        any "certification"!)
       </p>
     </div>
 
@@ -501,27 +509,16 @@ const backCardBackground = computed(() => {
             <!-- Left Side: Basic Identity -->
             <div class="flex flex-col gap-6">
               <h3 class="text-lg font-semibold text-primary-400">Personal Info</h3>
-              
+
               <!-- Name -->
               <UFormField label="Full Name" name="name" required>
-                <UInput
-                  v-model="formData.name"
-                  placeholder="Enter your name"
-                  size="lg"
-                />
+                <UInput v-model="formData.name" placeholder="Enter your name" size="lg" />
               </UFormField>
 
               <!-- Photo Upload -->
               <UFormField label="Your Photo" name="image">
-                <UInput
-                  type="file"
-                  accept="image/*"
-                  size="lg"
-                  @change="onFileChange"
-                />
-                <template #help>
-                  Square photos work best for the ID card!
-                </template>
+                <UInput type="file" accept="image/*" size="lg" @change="onFileChange" />
+                <template #help> Square photos work best for the ID card! </template>
               </UFormField>
 
               <!-- Pronouns -->
@@ -535,10 +532,12 @@ const backCardBackground = computed(() => {
                   placeholder="Select or type your pronouns"
                   searchable
                   size="lg"
-                  @create="(item) => {
-                    pronounOptions.push({ label: item, value: item });
-                    formData.pronouns = { label: item, value: item };
-                  }"
+                  @create="
+                    (item) => {
+                      pronounOptions.push({ label: item, value: item });
+                      formData.pronouns = { label: item, value: item };
+                    }
+                  "
                 />
               </UFormField>
             </div>
@@ -560,9 +559,7 @@ const backCardBackground = computed(() => {
                   size="lg"
                   @create="onIdentityCreate"
                 />
-                <template #help>
-                  Choose the identity you want to feature on your card!
-                </template>
+                <template #help> Choose the identity you want to feature on your card! </template>
               </UFormField>
             </div>
           </div>
@@ -574,8 +571,8 @@ const backCardBackground = computed(() => {
         <div class="sticky top-24">
           <h2 class="mb-4 text-2xl font-bold">Your Certification Card</h2>
           <p class="mb-6 text-sm text-dimmed">
-            This is a live preview of your certification card. Fill out the form
-            to see it update in real-time!
+            This is a live preview of your certification card. Fill out the form to see it update in
+            real-time!
           </p>
 
           <!-- Front Card Preview -->
@@ -602,12 +599,12 @@ const backCardBackground = computed(() => {
                 <div
                   class="shrink-0 flex h-32 w-24 items-center justify-center rounded-lg bg-gradient-to-br from-primary-500/20 to-purple-500/20 border border-primary-500/30 overflow-hidden"
                 >
-                  <img v-if="formData.image" :src="formData.image" class="w-full h-full object-cover" />
-                  <UIcon
-                    v-else
-                    class="size-12 text-primary-400"
-                    name="lucide:user"
+                  <img
+                    v-if="formData.image"
+                    :src="formData.image"
+                    class="w-full h-full object-cover"
                   />
+                  <UIcon v-else class="size-12 text-primary-400" name="lucide:user" />
                 </div>
 
                 <!-- Personal Information -->
@@ -623,7 +620,9 @@ const backCardBackground = computed(() => {
 
                   <div class="flex gap-8">
                     <div v-if="formData.pronouns">
-                      <p class="text-[10px] font-semibold uppercase tracking-wider text-primary-400">
+                      <p
+                        class="text-[10px] font-semibold uppercase tracking-wider text-primary-400"
+                      >
                         Pronouns
                       </p>
                       <p class="text-sm text-white">
@@ -632,8 +631,13 @@ const backCardBackground = computed(() => {
                     </div>
 
                     <div v-if="formData.identity">
-                      <p class="text-[10px] font-semibold uppercase tracking-wider text-primary-400">
-                        {{ (typeof formData.identity === 'object' && formData.identity.category) || "Identity" }}
+                      <p
+                        class="text-[10px] font-semibold uppercase tracking-wider text-primary-400"
+                      >
+                        {{
+                          (typeof formData.identity === "object" && formData.identity.category) ||
+                          "Identity"
+                        }}
                       </p>
                       <p class="text-md font-bold text-white leading-tight">
                         {{ getTagLabel(formData.identity) }}
@@ -644,28 +648,32 @@ const backCardBackground = computed(() => {
               </div>
 
               <!-- Footer -->
-              <div class="mt-auto border-t border-primary-500/30 pt-4 px-1 flex flex-col gap-sm text-xs">
+              <div
+                class="mt-auto border-t border-primary-500/30 pt-4 px-1 flex flex-col gap-sm text-xs"
+              >
                 <div>
                   <p class="font-semibold uppercase tracking-wider text-primary-400 text-[10px]">
                     Cert. No.
                   </p>
                   <p class="font-mono text-white">{{ generationId }}</p>
                 </div>
-                
+
                 <!-- Issued / Expires Vertical Stack -->
                 <div class="flex flex-col gap-sm">
                   <div class="flex gap-1 items-center">
-                    <span class="font-semibold uppercase text-primary-400 text-[10px]">Issued:</span>
+                    <span class="font-semibold uppercase text-primary-400 text-[10px]"
+                      >Issued:</span
+                    >
                     <span class="text-white">{{ issueDate }}</span>
                   </div>
                   <div class="flex gap-1 items-center">
-                    <span class="font-semibold uppercase text-primary-400 text-[10px]">Expires:</span>
+                    <span class="font-semibold uppercase text-primary-400 text-[10px]"
+                      >Expires:</span
+                    >
                     <span class="text-white">{{ expiryDate }}</span>
                   </div>
                 </div>
               </div>
-
-
             </div>
           </div>
 
@@ -673,7 +681,7 @@ const backCardBackground = computed(() => {
           <div
             class="relative overflow-hidden rounded-xl border-2 border-primary-500 p-1 shadow-2xl mt-4 aspect-[3/2]"
           >
-            <div 
+            <div
               class="rounded-lg flex flex-col items-center justify-center p-6 text-center bg-cover bg-center h-full"
               :style="{ backgroundImage: `url(${getIdentityTheme.bgImage})` }"
             >
@@ -693,9 +701,7 @@ const backCardBackground = computed(() => {
               size="lg"
               @click="downloadCard"
             />
-            <p class="mt-2 text-center text-xs text-dimmed">
-              Fill out your name to download
-            </p>
+            <p class="mt-2 text-center text-xs text-dimmed">Fill out your name to download</p>
           </div>
         </div>
       </div>
@@ -709,24 +715,23 @@ const backCardBackground = computed(() => {
         </template>
         <div class="space-y-4 text-dimmed">
           <p>
-            â€¢ This certification is as official as a participation trophy, but
-            infinitely more fabulous!
+            â€¢ This certification is as official as a participation trophy, but infinitely more
+            fabulous!
           </p>
           <p>
-            â€¢ Your identity doesn't need validation from anyoneâ€”but if you want
-            a pretty card, we've got you covered.
+            â€¢ Your identity doesn't need validation from anyoneâ€”but if you want a pretty card,
+            we've got you covered.
           </p>
           <p>
-            â€¢ The only test required is: "Are you being your authentic self?"
-            If yes, you pass! ðŸŽ‰
+            â€¢ The only test required is: "Are you being your authentic self?" If yes, you pass!
+            ðŸŽ‰
           </p>
           <p>
-            â€¢ Side effects may include: increased confidence, finding your
-            community, and an inexplicable urge to own more rainbow items.
+            â€¢ Side effects may include: increased confidence, finding your community, and an
+            inexplicable urge to own more rainbow items.
           </p>
         </div>
       </UCard>
     </div>
   </UContainer>
 </template>
-

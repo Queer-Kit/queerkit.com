@@ -6,7 +6,7 @@ const appConfig = useAppConfig();
 const { t, locale, setLocale, locales: i18nLocales } = useI18n();
 
 const availableLocales = computed(() => {
-  return i18nLocales.value.map(l => (uiLocales as any)[l.code]).filter(Boolean);
+  return i18nLocales.value.map((l) => (uiLocales as any)[l.code]).filter(Boolean);
 });
 
 const columns = computed<FooterColumn[]>(() => [
@@ -57,9 +57,13 @@ onMounted(() => {
 <template>
   <RCFooter :contain="false" class="bg-black z-50">
     <template #left>
-      <RCNewsletterSignup class="max-w-64" :field-label="t('newsletter_field_label')"
-        :description="t('newsletter_description')" :placeholder="t('newsletter_placeholder')"
-        :button-label="t('newsletter_button_label')" />
+      <RCNewsletterSignup
+        class="max-w-64"
+        :field-label="t('newsletter_field_label')"
+        :description="t('newsletter_description')"
+        :placeholder="t('newsletter_placeholder')"
+        :button-label="t('newsletter_button_label')"
+      />
       <div class="flex flex-col items-center gap-xs lg:items-start">
         <RCLogo class="h-6 w-auto" variant="type" />
         <p class="text-sm text-white">{{ t("app_tagline") }}</p>
@@ -80,8 +84,13 @@ onMounted(() => {
           </template>
         </ClientOnly>
         <ClientOnly>
-          <ULocaleSelect :model-value="locale" :locales="availableLocales" class="w-48 rounded-none" color="secondary"
-            @update:model-value="setLocale($event as any)" />
+          <ULocaleSelect
+            :model-value="locale"
+            :locales="availableLocales"
+            class="w-48 rounded-none"
+            color="secondary"
+            @update:model-value="setLocale($event as any)"
+          />
           <template #fallback>
             <div class="h-9 w-48 rounded-md border bg-transparent"></div>
           </template>
@@ -89,12 +98,30 @@ onMounted(() => {
       </div>
       <div class="flex flex-col items-center gap-xs lg:items-end">
         <div class="flex flex-row gap-sm lg:items-end">
-          <UButton class="text-white hover:text-primary-100" color="neutral" icon="mdi:instagram" size="xl"
-            to="https://www.instagram.com/queerkit" variant="ghost" />
-          <UButton class="text-white hover:text-primary-100" color="neutral" icon="ic:baseline-discord" size="xl"
-            to="https://discord.gg/queerkit" variant="ghost" />
-          <UButton class="text-white hover:text-primary-100" color="neutral" icon="mdi:github" size="xl"
-            to="https://www.github.com/queerkit" variant="ghost" />
+          <UButton
+            class="text-white hover:text-primary-100"
+            color="neutral"
+            icon="mdi:instagram"
+            size="xl"
+            to="https://www.instagram.com/queerkit"
+            variant="ghost"
+          />
+          <UButton
+            class="text-white hover:text-primary-100"
+            color="neutral"
+            icon="ic:baseline-discord"
+            size="xl"
+            to="https://discord.gg/queerkit"
+            variant="ghost"
+          />
+          <UButton
+            class="text-white hover:text-primary-100"
+            color="neutral"
+            icon="mdi:github"
+            size="xl"
+            to="https://www.github.com/queerkit"
+            variant="ghost"
+          />
         </div>
       </div>
     </template>
