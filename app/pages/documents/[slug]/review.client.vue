@@ -6,22 +6,20 @@ const { permissions } = useAuth();
 const isAdmin = permissions?.admin?.canAccess ?? true;
 
 const slug = computed(() => route.params.slug as string);
-const lookupSlug = computed(() => `blog/${slug.value}`);
+const lookupSlug = computed(() => `documents/${slug.value}`);
 </script>
 
 <template>
-  <RCPageEditView
+  <RCPageReviewView
     :lookup-path="lookupSlug"
-    :cache-key="`blog-edit-${slug}`"
+    :cache-key="`document-review-${slug}`"
     :page-definitions="pageDefinitions"
-    base-url="/blog"
-    :hierarchy-path="''"
+    base-url="/documents"
     :is-admin="isAdmin"
-    back-url="/blog"
     :error-redirect-params="{
-      redirect: '/blog',
-      label: 'Back to Blog',
-      message: 'The requested blog post could not be located.',
+      redirect: '/documents',
+      label: 'Back to Documents',
+      message: 'The requested document could not be located.',
     }"
   />
 </template>

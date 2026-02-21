@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "wiki",
+  layout: "guides",
 });
 
 const route = useRoute();
@@ -12,20 +12,20 @@ const slug = computed(() => {
   return s;
 });
 
-const lookupSlug = computed(() => `wiki/${slug.value}`);
+const lookupSlug = computed(() => `guides/${slug.value}`);
 const canEdit = computed(() => user.value?.role === "owner" || user.value?.role === "admin");
 </script>
 
 <template>
   <RCPageLiveView
     :lookup-path="lookupSlug"
-    :cache-key="`wiki-${slug}`"
-    base-url="/wiki"
+    :cache-key="`guides-${slug}`"
+    base-url="/guides"
     :can-edit="canEdit"
     :error-redirect-params="{
-      redirect: '/wiki',
-      label: 'Back to Wiki',
-      message: 'The requested wiki page could not be located.',
+      redirect: '/guides',
+      label: 'Back to Guides',
+      message: 'The requested guide could not be located.',
     }"
   />
 </template>

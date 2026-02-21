@@ -11,21 +11,20 @@ const slug = computed(() => {
   return s;
 });
 
-const lookupSlug = computed(() => `wiki/${slug.value}`);
+const lookupSlug = computed(() => `guides/${slug.value}`);
 </script>
 
 <template>
-  <RCPageEditView
+  <RCPageReviewView
     :lookup-path="lookupSlug"
-    :cache-key="`wiki-edit-${slug}`"
+    :cache-key="`guides-review-${slug}`"
     :page-definitions="pageDefinitions"
-    base-url="/wiki"
+    base-url="/guides"
     :is-admin="isAdmin"
-    back-url="/wiki"
     :error-redirect-params="{
-      redirect: '/wiki',
-      label: 'Back to Wiki',
-      message: 'The requested wiki page could not be located.',
+      redirect: '/guides',
+      label: 'Back to Guides',
+      message: 'The requested guide could not be located.',
     }"
   />
 </template>

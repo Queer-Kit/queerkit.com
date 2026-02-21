@@ -2,20 +2,20 @@
 const route = useRoute();
 const { user } = useAuth();
 const slug = computed(() => route.params.slug as string);
-const lookupSlug = computed(() => `blog/${slug.value}`);
+const lookupSlug = computed(() => `documents/${slug.value}`);
 const canEdit = computed(() => user.value?.role === "owner" || user.value?.role === "admin");
 </script>
 
 <template>
   <RCPageLiveView
     :lookup-path="lookupSlug"
-    :cache-key="`blog-view-${slug}`"
-    base-url="/blog"
+    :cache-key="`document-view-${slug}`"
+    base-url="/documents"
     :can-edit="canEdit"
     :error-redirect-params="{
-      redirect: '/blog',
-      label: 'Back to Blog',
-      message: 'The requested blog post could not be located.',
+      redirect: '/documents',
+      label: 'Back to Documents',
+      message: 'The requested document could not be located.',
     }"
   />
 </template>

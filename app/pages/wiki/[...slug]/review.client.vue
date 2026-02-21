@@ -15,13 +15,12 @@ const lookupSlug = computed(() => `wiki/${slug.value}`);
 </script>
 
 <template>
-  <RCPageEditView
+  <RCPageReviewView
     :lookup-path="lookupSlug"
-    :cache-key="`wiki-edit-${slug}`"
+    :cache-key="`wiki-review-${slug}`"
     :page-definitions="pageDefinitions"
     base-url="/wiki"
     :is-admin="isAdmin"
-    back-url="/wiki"
     :error-redirect-params="{
       redirect: '/wiki',
       label: 'Back to Wiki',

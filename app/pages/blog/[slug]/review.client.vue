@@ -10,14 +10,12 @@ const lookupSlug = computed(() => `blog/${slug.value}`);
 </script>
 
 <template>
-  <RCPageEditView
+  <RCPageReviewView
     :lookup-path="lookupSlug"
-    :cache-key="`blog-edit-${slug}`"
+    :cache-key="`blog-review-${slug}`"
     :page-definitions="pageDefinitions"
     base-url="/blog"
-    :hierarchy-path="''"
     :is-admin="isAdmin"
-    back-url="/blog"
     :error-redirect-params="{
       redirect: '/blog',
       label: 'Back to Blog',
