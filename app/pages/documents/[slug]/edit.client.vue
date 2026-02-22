@@ -6,12 +6,24 @@ const { permissions } = useAuth();
 const isAdmin = permissions?.admin?.canAccess ?? true;
 
 const slug = computed(() => route.params.slug as string);
-const lookupSlug = computed(() => `documents/${slug.value}`);
+const canEdit = computed(() => user.value?.role === "owner" || user.value?.role === "admin");
+
+/* region State */
+/* endregion */
+
+/* region Meta */
+/* endregion */
+
+/* region Lifecycle */
+/* endregion */
+
+/* region Logic */
+/* endregion */
 </script>
 
 <template>
   <RCPageEditView
-    :lookup-path="lookupSlug"
+    :lookup-path="slug"
     :cache-key="`document-edit-${slug}`"
     :page-definitions="pageDefinitions"
     base-url="/documents"
