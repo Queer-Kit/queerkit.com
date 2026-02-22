@@ -1,6 +1,7 @@
 {
   "error": {
-    "retry": "Try Again"
+    "retry": "Try Again",
+    "clear": "Go Back Home"
   },
   "app": {
     "newsletter": {
