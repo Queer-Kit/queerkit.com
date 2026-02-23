@@ -257,7 +257,7 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
           :ui="{
             viewportWrapper:
               'top-[var(--header-bottom-boundary)] flex fixed w-screen mt-[var(--ui-header-height)] z-[100]',
-            viewport: 'rounded-none',
+            viewport: 'rounded-none ring-0',
             link: [
               'text-white transition-colors duration-200',
               'hover:text-primary-400',
