@@ -272,29 +272,21 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
     <template #center></template>
     <template #right>
       <div class="flex flex-row gap-sm">
-        <ClientOnly>
-          <template v-if="session">
-            <div class="flex flex-row items-center gap-md">
+        <ClientOnly v-if="session">
+          <div class="flex flex-row items-center gap-md">
+            <UTooltip text="Notifications">
               <UButton
-                class="text-white hover:text-primary-400 transition-colors duration-200"
+                class="text-white hover:bg-primary-500"
                 color="neutral"
-                label="Dashboard"
-                to="/dashboard"
-                variant="link"
-              />
-              <UTooltip text="Notifications">
-                <UButton
-                  class="text-white hover:bg-primary-500"
-                  color="neutral"
-                  square
-                  variant="ghost"
-                  @click="slideoverState.notifications = true"
-                >
-                  <UChip color="error" inset>
-                    <UIcon class="size-5 shrink-0" name="lucide:bell" />
-                  </UChip>
-                </UButton>
-              </UTooltip>
+                square
+                variant="ghost"
+                @click="slideoverState.notifications = true"
+              >
+                <UChip color="error" inset>
+                  <UIcon class="size-5 shrink-0" name="lucide:bell" />
+                </UChip>
+              </UButton>
+            </UTooltip>
               <UPopover :ui="{ content: 'w-64' }" arrow mode="hover">
                 <template #default>
                   <UTooltip>
@@ -323,75 +315,74 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
                     </template>
                   </UTooltip>
                 </template>
-                <template #content>
-                  <div class="flex flex-col">
-                    <div class="flex flex-col gap-1 bg-primary-500 p-sm">
-                      <UUser
-                        v-if="session"
-                        :avatar="{
-                          src: session?.user.image ?? '',
-                          alt: session?.user.name ?? '',
-                        }"
-                        :description="session?.user.status ?? 'Set a custom status...'"
-                        :ui="{
-                          name: 'text-left text-white',
-                          description: 'text-left text-neutral-400',
-                        }"
-                        size="md"
-                      >
-                        <template #name>
-                          <span
-                            >{{ session?.user.name }}
-                            <span class="text-dimmed">#{{ session?.user.tag }}</span></span
-                          >
-                        </template>
-                      </UUser>
-                      <UButton
-                        :label="t('dashboard')"
-                        class="text-white hover:text-black transition-colors duration-200"
-                        color="neutral"
-                        leading-icon="lucide:layout-dashboard"
-                        to="/dashboard"
-                        variant="ghost"
-                      />
-                      <UButton
-                        :label="t('account_profile')"
-                        class="text-white hover:text-black transition-colors duration-200"
-                        color="neutral"
-                        leading-icon="lucide:user"
-                        variant="ghost"
-                      />
-                    </div>
-                    <div class="flex flex-col gap-1 bg-primary-600 p-sm">
-                      <UButton
-                        :label="t('account_support')"
-                        class="text-white hover:text-black transition-colors duration-200"
-                        color="neutral"
-                        leading-icon="lucide:headset"
-                        variant="ghost"
-                      />
-                      <UButton
-                        :label="t('account_settings')"
-                        class="text-white hover:text-black transition-colors duration-200"
-                        color="neutral"
-                        leading-icon="lucide:cog"
-                        to="/dashboard/settings"
-                        variant="ghost"
-                      />
-                      <UButton
-                        :label="t('auth_sign-out')"
-                        class="text-white hover:text-black transition-colors duration-200"
-                        color="neutral"
-                        leading-icon="lucide:log-out"
-                        variant="ghost"
-                        @click="onSignOut"
-                      />
-                    </div>
-                  </div>
-                </template>
-              </UPopover>
-            </div>
-          </template>
+              <template #content>
+                 <div class="flex flex-col">
+                   <div class="flex flex-col gap-1 bg-white p-sm">
+                     <UUser
+                       v-if="session"
+                       :avatar="{
+                         src: session?.user.image ?? '',
+                         alt: session?.user.name ?? '',
+                       }"
+                       :description="session?.user.status ?? t('app.header.user.status.placeholder')"
+                       :ui="{
+                         name: 'text-left text-black',
+                         description: 'text-left text-neutral-500',
+                       }"
+                       size="md"
+                     >
+                       <template #name>
+                         <span
+                           >{{ session?.user.name }}
+                           <span class="text-dimmed">#{{ session?.user.tag }}</span></span
+                         >
+                       </template>
+                     </UUser>
+                     <UButton
+                       :label="t('app.header.user.dashboard')"
+                       class="text-black hover:bg-neutral-200"
+                       color="neutral"
+                       leading-icon="lucide:layout-dashboard"
+                       to="/dashboard"
+                       variant="ghost"
+                     />
+                     <UButton
+                       :label="t('app.header.user.profile')"
+                       class="text-black hover:bg-neutral-200"
+                       color="neutral"
+                       leading-icon="lucide:user"
+                       variant="ghost"
+                     />
+                   </div>
+                   <div class="flex flex-col gap-1 bg-neutral-100 p-sm">
+                     <UButton
+                       :label="t('app.header.user.support')"
+                       class="text-black hover:bg-neutral-200"
+                       color="neutral"
+                       leading-icon="lucide:headset"
+                       variant="ghost"
+                     />
+                     <UButton
+                       :label="t('app.header.user.settings')"
+                       class="text-black hover:bg-neutral-200"
+                       color="neutral"
+                       leading-icon="lucide:cog"
+                       to="/dashboard/settings"
+                       variant="ghost"
+                     />
+                     <UButton
+                       :label="t('app.header.user.signOut')"
+                       class="text-black hover:bg-neutral-200"
+                       color="neutral"
+                       leading-icon="lucide:log-out"
+                       variant="ghost"
+                       @click="onSignOut"
+                     />
+                   </div>
+                 </div>
+               </template>
+            </UPopover>
+          </div>
         </ClientOnly>
       </div>
     </template>
@@ -438,7 +429,7 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
     </template>
     <template #collapsed-right>
       <div class="flex flex-row justify-end gap-sm">
-        <ClientOnly>
+        <ClientOnly v-if="session">
           <UTooltip text="Notifications">
             <UButton
               color="neutral"
@@ -494,9 +485,7 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
             </template>
             <template #body>
               <div class="flex flex-col gap-md">
-                <template v-if="session">
-                  <UNavigationMenu :items="accountMenuItems" orientation="vertical" />
-                </template>
+                <UNavigationMenu v-if="session" orientation="vertical" :items="accountMenuItems" />
               </div>
             </template>
           </USlideover>

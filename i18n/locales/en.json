@@ -28,6 +28,22 @@
           }
         }
       }
+    },
+    "header": {
+      "actions": {
+        "signUp": "Sign Up",
+        "signIn": "Sign In"
+      },
+      "user": {
+        "status": {
+          "placeholder": "Set a custom status..."
+        },
+        "dashboard": "Dashboard",
+        "profile": "Profile",
+        "support": "Support",
+        "settings": "Settings",
+        "signOut": "Sign Out"
+      }
     }
   },
   "pages": {
