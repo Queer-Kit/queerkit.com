@@ -9,46 +9,61 @@ const localLayerPath = resolve(currentDir, "../rimelight-components");
 const isLocalLayer = existsSync(localLayerPath);
 
 export default defineNuxtConfig({
+  compatibilityDate: "2026-02-13",
+  future: {
+    compatibilityVersion: 5,
+  },
+
   extends: [
     [
       isLocalLayer ? localLayerPath : "github:Rimelight-Entertainment/rimelight-components",
       { install: true },
     ],
   ],
-  compatibilityDate: "2026-02-13",
-  $env: {
-    development: {
-      devtools: { enabled: true },
-      devServer: { host: "127.0.0.1", port: 3000 },
-      typescript: { typeCheck: false },
-      site: { indexable: false },
+
+  modules: [
+    "@pinia/nuxt",
+    "@pinia/colada-nuxt",
+    ...(!isTauri ? ["@nuxtjs/sitemap", "@nuxtjs/robots", "nuxt-og-image"] : []),
+  ],
+
+  ignore: ["**/src-tauri/**"],
+
+  $development: {
+    devtools: { enabled: true },
+    // Change to true in case the issue gets resolved: https://github.com/fi3ework/vite-plugin-checker/issues/557
+    typescript: { typeCheck: false },
+    a11y: {
+      enabled: true,
+      defaultHighlight: false,
+      logIssues: false,
     },
-    testing: {
-      devtools: { enabled: false },
+    site: { indexable: false },
+  },
+
+  $test: {
+    devtools: { enabled: true },
+  },
+
+  $production: {
+    devtools: { enabled: false },
+    typescript: { typeCheck: false },
+    nitro: {
+      compressPublicAssets: true,
+      minify: true,
     },
-    staging: {
-      devtools: { enabled: true },
-      site: { url: "https://staging.queerkit.com", indexable: false },
-      nitro: {
-        sourceMap: true,
-      },
+    // Switch to true on release
+    site: { url: "https://rimelight.com", indexable: false },
+    robots: {
+      blockAiBots: true,
+      blockNonSeoBots: true,
+      disallow: ["/dashboard"],
     },
-    production: {
-      devtools: { enabled: false },
-      typescript: { typeCheck: false },
-      nitro: {
-        compressPublicAssets: true,
-        minify: true,
-      },
-      // Switch to true on release
-      site: { url: "https://queerkit.com", indexable: false },
-      robots: {
-        blockAiBots: true,
-        blockNonSeoBots: true,
-        disallow: ["/internal"],
-      },
+    a11y: {
+      enabled: false,
     },
   },
+
   ssr: !isTauri,
   router: {
     options: {
@@ -90,11 +105,6 @@ export default defineNuxtConfig({
     },
     viewTransition: true,
   },
-  modules: [
-    "@pinia/nuxt",
-    "@pinia/colada-nuxt",
-    ...(!isTauri ? ["@nuxtjs/sitemap", "@nuxtjs/robots", "nuxt-og-image"] : []),
-  ],
   alias: {
     "#types": fileURLToPath(new URL("./app/types", import.meta.url)),
     "#validators": fileURLToPath(new URL("./shared/validators", import.meta.url)),
@@ -125,7 +135,6 @@ export default defineNuxtConfig({
       },
     },
   },
-  ignore: ["**/src-tauri/**"],
   nitro: {
     preset: isTauri ? "node" : "cloudflare_module",
     ...(!isTauri
@@ -174,7 +183,61 @@ export default defineNuxtConfig({
         },
       }
     : {}),
+
+  i18n: {
+    strategy: "prefix_except_default",
+    defaultLocale: "en",
+    locales: [
+      //{
+      //  code: "ar",
+      //  name: "العربية",
+      //  file: "ar.json"
+      //},
+      {
+        code: "en",
+        name: "English",
+        file: "en.json",
+      },
+      //{
+      //  code: "es",
+      //  name: "Español",
+      //  file: "es.json"
+      //},
+      //{
+      //  code: "fr",
+      //  name: "Français",
+      //  file: "fr.json"
+      //},
+      //{
+      //  code: "ja",
+      //  name: "日本語",
+      //  file: "ja.json"
+      //},
+      //{
+      //  code: "ko",
+      //  name: "한국어",
+      //  file: "ko.json"
+      //},
+      {
+        code: "pt",
+        name: "Português",
+        file: "pt.json",
+      },
+      //{
+      //  code: "ro",
+      //  name: "Română",
+      //  file: "ro.json"
+      //},
+      //{
+      //  code: "zh_cn",
+      //  name: "简体中文",
+      //  file: "zh_cn.json"
+      //}
+    ],
+  },
+
   css: ["~/assets/css/main.css"],
+
   components: [
     {
       path: "~/components",
@@ -188,9 +251,19 @@ export default defineNuxtConfig({
       prefix: "QK",
     },
   ],
+
   pages: {
     pattern: ["**/*.vue", "!**/components/**"],
   },
+
+  image: {
+    format: ["webp"],
+    provider: "cloudflare",
+    cloudflare: {
+      baseURL: "https://cdn.queerkit.com",
+    },
+  },
+
   icon: {
     class: "icon",
     size: "24px",
@@ -206,31 +279,5 @@ export default defineNuxtConfig({
         normalizeIconName: false,
       },
     ],
-  },
-  image: {
-    format: ["webp"],
-    provider: "cloudflare",
-    cloudflare: {
-      baseURL: "https://cdn.queerkit.com",
-    },
-  },
-  i18n: {
-    strategy: "prefix_except_default",
-    defaultLocale: "en",
-    locales: [
-      {
-        code: "en",
-        name: "English",
-        file: "en.json",
-      },
-      {
-        code: "pt",
-        name: "Português (Brasil)",
-        file: "pt.json",
-      },
-    ],
-  },
-  future: {
-    compatibilityVersion: 5,
   },
 });
