@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Agênero" xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #a6cc7a;
+      }
+
+      .cls-3 {
+        fill: #a2a1a1;
+      }
+    </style>
+  </defs>
+  <rect y="857.1" width="1500" height="142.9"/>
+  <rect class="cls-1" y="571.4" width="1500" height="142.9"/>
+  <rect class="cls-2" y="428.6" width="1500" height="142.9"/>
+  <rect class="cls-1" y="285.7" width="1500" height="142.9"/>
+  <rect class="cls-3" y="714.3" width="1500" height="142.9"/>
+  <rect class="cls-3" y="142.9" width="1500" height="142.9"/>
+  <rect width="1500" height="142.9"/>
+</svg>
