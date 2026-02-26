@@ -37,7 +37,7 @@ const FRONT_LAYOUT = {
   EMBLEM_SIZE: 80,
   EMBLEM_GAP: 12,
   FLAG_W: 80,
-  RENDER_DEBUG: true
+  RENDER_DEBUG: false
 };
 
 // Back Layout Constants
@@ -141,13 +141,13 @@ async function generateFrontCanvas() {
     const words = text.split(" ");
     let line = "";
     let testY = y;
-    
+
     // Calculate initial Y based on textBaseline "bottom"
-    // Since we're drawing from bottom up if we have multiple lines, 
+    // Since we're drawing from bottom up if we have multiple lines,
     // we should actually calculate the number of lines first.
     const lines = [];
     let currentLine = "";
-    
+
     for (let n = 0; n < words.length; n++) {
       const testLine = currentLine + words[n] + " ";
       const metrics = ctx.measureText(testLine);
@@ -203,12 +203,12 @@ async function generateFrontCanvas() {
     const img = new Image();
     img.src = formData.image;
     await new Promise((resolve) => (img.onload = resolve));
-    
+
     const imgX = FRONT_LAYOUT.PADDING_LEFT * scale;
     const imgY = FRONT_LAYOUT.PADDING_TOP * scale;
     const imgW = FRONT_LAYOUT.PHOTO_W * scale;
     const imgH = FRONT_LAYOUT.PHOTO_H * scale;
-    
+
     ctx.save();
     ctx.beginPath();
     ctx.roundRect(imgX, imgY, imgW, imgH, FRONT_LAYOUT.PHOTO_CORNER_RADIUS * scale);
@@ -235,10 +235,10 @@ async function generateFrontCanvas() {
   const instituteText = t('pages.certification.card.instituteNote');
   const noteMaxWidth = FRONT_LAYOUT.PHOTO_W * scale;
   const noteLineHeight = FRONT_LAYOUT.NOTE_SIZE * 1.2 * scale;
-  
+
   wrapText(
-    instituteText, 
-    FRONT_LAYOUT.PADDING_LEFT * scale, 
+    instituteText,
+    FRONT_LAYOUT.PADDING_LEFT * scale,
     canvas.height - FRONT_LAYOUT.PADDING_BOTTOM * scale,
     noteMaxWidth,
     noteLineHeight
@@ -247,16 +247,16 @@ async function generateFrontCanvas() {
   // 4. Middle Column: Fields (Top Block vs Bottom Block)
   const textX = (FRONT_LAYOUT.PADDING_LEFT + FRONT_LAYOUT.PHOTO_W + FRONT_LAYOUT.GAP_HORIZONTAL) * scale;
   const textWidth = canvas.width - textX - FRONT_LAYOUT.PADDING_RIGHT * scale;
-  
+
   // A. Top Block
   let topY = FRONT_LAYOUT.PADDING_TOP * scale;
   ctx.textBaseline = "top";
   ctx.textAlign = "left";
-  
+
   const idLabel = getTagLabel(formData.identity);
   const displayIdentity = (!idLabel || idLabel === "—") ? t('pages.certification.card.defaultIdentity') : String(idLabel);
   const headingText = t('pages.certification.card.title', { identity: displayIdentity });
-  
+
   // Track Top Block Height for Debug
   let currentTopY = topY;
 
@@ -306,7 +306,7 @@ async function generateFrontCanvas() {
   ctx.fillStyle = "#000000";
   ctx.font = `bold ${FRONT_LAYOUT.SUBTITLE_SIZE * scale}px ${fontMain}`;
   ctx.fillText(issueDate.value, textX, currentBottomY);
-  ctx.fillText(expiryDate.value, textX + 180 * scale, currentBottomY); 
+  ctx.fillText(expiryDate.value, textX + 180 * scale, currentBottomY);
   currentBottomY -= (FRONT_LAYOUT.SUBTITLE_SIZE + 4 * scale) * scale; // Scaled offset
 
   ctx.fillStyle = "#ec4899";
@@ -378,7 +378,7 @@ async function generateBackCanvas(targetWidth?: number, targetHeight?: number) {
     canvas.height = targetHeight || bgImg.naturalHeight;
     ctx.fillStyle = BACK_LAYOUT.PLACEHOLDER_BG;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+
     // Draw background covering the canvas
     const ratio = Math.max(canvas.width / bgImg.naturalWidth, canvas.height / bgImg.naturalHeight);
     const newW = bgImg.naturalWidth * ratio;
@@ -402,7 +402,7 @@ async function generateBackCanvas(targetWidth?: number, targetHeight?: number) {
       flagImg.onload = resolve;
       flagImg.onerror = () => resolve(null);
     });
-    
+
     if (flagImg.complete && flagImg.naturalWidth > 0) {
       const ratio = Math.max(canvas.width / flagImg.width, canvas.height / flagImg.height);
       const newW = flagImg.width * ratio;
@@ -446,29 +446,9 @@ async function generateBackCanvas(targetWidth?: number, targetHeight?: number) {
 
 // Predefined options
 const pronounOptions = ref([
-  { label: "she/her", value: "she/her" },
-  { label: "he/him", value: "he/him" },
-  { label: "they/them", value: "they/them" },
-  { label: "she/they", value: "she/they" },
-  { label: "he/they", value: "he/they" },
-  { label: "they/she", value: "they/she" },
-  { label: "they/he", value: "they/he" },
-  { label: "it/its", value: "it/its" },
-  { label: "xe/xem", value: "xe/xem" },
-  { label: "fae/faer", value: "fae/faer" },
-  { label: "ze/zir", value: "ze/zir" },
-  { label: "ze/hir", value: "ze/hir" },
-  { label: "ey/em", value: "ey/em" },
-  { label: "ve/ver", value: "ve/ver" },
-  { label: "per/per", value: "per/per" },
-  { label: "hu/hum", value: "hu/hum" },
-  { label: "ae/aer", value: "ae/aer" },
-  { label: "ne/nem", value: "ne/nem" },
-  { label: "name only", value: "name only" },
-  { label: "use name", value: "use name" },
-  { label: "no pronouns", value: "no pronouns" },
-  { label: "any pronouns", value: "any pronouns" },
-  { label: "ask me", value: "ask me" },
+  { label: "he/him - ele/dele", value: "he/him - ele/dele" },
+  { label: "she/her - ela/dela", value: "she/her - ela/dela" },
+  { label: "they/them - elo/delo", value: "they/them - elo/delo" },
 ]);
 
 const genderIdentityOptions = ref([
@@ -568,7 +548,7 @@ const expiryDate = computed(() => {
 const getFlagPath = (identityLabel?: string) => {
   const identity = (identityLabel || getTagLabel(formData.identity))?.toLowerCase() || "";
   if (!identity || identity === "—") return null;
-  
+
   // Normalized mappings for the specified identities
   if (identity.includes("trans")) return "/images/flags/QUEERKIT_FLAG_TRANSGENDER.svg";
   if (identity.includes("bisexual") || identity === "bi") return "/images/flags/QUEERKIT_FLAG_BISEXUAL.svg";
@@ -705,7 +685,7 @@ const backCardBackground = computed(() => {
           >
               <div class="h-full relative overflow-hidden">
                 <!-- Flag Overlay (Top Right) -->
-                <div 
+                <div
                   v-if="getFlagPath()"
                   class="absolute z-30"
                   :style="{
@@ -719,7 +699,7 @@ const backCardBackground = computed(() => {
                 </div>
 
                 <!-- Content Row (Flexbox Boundary) -->
-              <div 
+              <div
                 class="absolute flex items-start z-10"
                 :style="{
                   top: `${FRONT_LAYOUT.PADDING_TOP * previewScale}px`,
@@ -749,7 +729,7 @@ const backCardBackground = computed(() => {
                   </div>
 
                   <!-- Institute Note (Left Bottom) -->
-                  <p 
+                  <p
                     class="text-black leading-tight"
                     :style="{ fontSize: `${FRONT_LAYOUT.NOTE_SIZE * previewScale}px` }"
                   >
@@ -760,18 +740,18 @@ const backCardBackground = computed(() => {
                 <!-- Personal Information / Middle Column (Vertical Flexbox with justify-between) -->
                 <div class="flex flex-col flex-1 h-full justify-between">
                   <!-- Top Block -->
-                  <div 
-                    class="flex flex-col" 
+                  <div
+                    class="flex flex-col"
                     :class="{ 'border-2 border-blue-500': FRONT_LAYOUT.RENDER_DEBUG }"
                     :style="{ gap: `${(FRONT_LAYOUT.GAP_VERTICAL / 2) * previewScale}px` }"
                   >
-                    <h2 
+                    <h2
                       class="font-bold text-pink-500 leading-none"
                       :style="{ fontSize: `${FRONT_LAYOUT.TITLE_SIZE * previewScale}px` }"
                     >
                       {{ $t('pages.certification.card.title', { identity: (!getTagLabel(formData.identity) || getTagLabel(formData.identity) === '—') ? $t('pages.certification.card.defaultIdentity') : getTagLabel(formData.identity) }) }}
                     </h2>
-                    <p 
+                    <p
                       class="font-bold text-black opacity-80"
                       :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE * previewScale}px` }"
                     >
@@ -779,13 +759,13 @@ const backCardBackground = computed(() => {
                     </p>
 
                     <div class="mt-2">
-                      <p 
+                      <p
                         class="font-semibold uppercase tracking-wider text-pink-500"
                         :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) * previewScale}px` }"
                       >
                         {{ $t('pages.certification.card.name') }}
                       </p>
-                      <p 
+                      <p
                         class="font-bold text-black leading-tight"
                         :style="{ fontSize: `${FRONT_LAYOUT.FIELD_SIZE * previewScale}px` }"
                       >
@@ -800,7 +780,7 @@ const backCardBackground = computed(() => {
                       >
                         {{ $t('pages.certification.card.pronouns') }}
                       </p>
-                      <p 
+                      <p
                         class="font-bold text-black"
                         :style="{ fontSize: `${(FRONT_LAYOUT.FIELD_SIZE - 4) * previewScale}px` }"
                       >
@@ -810,20 +790,20 @@ const backCardBackground = computed(() => {
                   </div>
 
                   <!-- Bottom Block -->
-                  <div 
-                    class="flex flex-col" 
+                  <div
+                    class="flex flex-col"
                     :class="{ 'border-2 border-blue-500': FRONT_LAYOUT.RENDER_DEBUG }"
                     :style="{ gap: `${(FRONT_LAYOUT.GAP_VERTICAL / 2) * previewScale}px` }"
                   >
                     <div class="flex">
                       <div :style="{ width: `${180 * previewScale}px` }">
-                        <p 
+                        <p
                           class="font-semibold uppercase text-pink-500"
                           :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) * previewScale}px` }"
                         >
                           {{ $t('pages.certification.card.issued') }}
                         </p>
-                        <p 
+                        <p
                           class="text-black font-bold"
                           :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE * previewScale}px` }"
                         >
@@ -831,13 +811,13 @@ const backCardBackground = computed(() => {
                         </p>
                       </div>
                       <div>
-                        <p 
+                        <p
                           class="font-semibold uppercase text-pink-500"
                           :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) * previewScale}px` }"
                         >
                           {{ $t('pages.certification.card.expires') }}
                         </p>
-                        <p 
+                        <p
                           class="text-black font-bold"
                           :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE * previewScale}px` }"
                         >
@@ -849,29 +829,29 @@ const backCardBackground = computed(() => {
                 </div>
 
                 <!-- Emblems (Absolute Bottom Right of CARD) -->
-                <div 
-                  class="absolute pointer-events-none flex items-end z-30" 
-                  :style="{ 
+                <div
+                  class="absolute pointer-events-none flex items-end z-30"
+                  :style="{
                     gap: `${FRONT_LAYOUT.EMBLEM_GAP * previewScale}px`,
                     bottom: 0,
                     right: 0
                   }"
                 >
-                  <img 
-                    src="/images/emblem_01.png" 
-                    class="object-contain" 
+                  <img
+                    src="/images/emblem_01.png"
+                    class="object-contain"
                     :style="{ height: `${FRONT_LAYOUT.EMBLEM_SIZE * previewScale}px`, width: `${FRONT_LAYOUT.EMBLEM_SIZE * previewScale}px` }"
                   />
-                  <img 
-                    src="/images/emblem_02.png" 
-                    class="object-contain" 
+                  <img
+                    src="/images/emblem_02.png"
+                    class="object-contain"
                     :style="{ height: `${FRONT_LAYOUT.EMBLEM_SIZE * previewScale}px`, width: `${FRONT_LAYOUT.EMBLEM_SIZE * previewScale}px` }"
                   />
                 </div>
               </div>
             </div>
             <!-- Debug Border Overlay -->
-            <div 
+            <div
               v-if="FRONT_LAYOUT.RENDER_DEBUG"
               class="absolute border-2 border-red-500 pointer-events-none z-50"
               :style="{
@@ -903,7 +883,7 @@ const backCardBackground = computed(() => {
             />
 
             <!-- Logo Overlay -->
-            <div 
+            <div
               v-if="BACK_LAYOUT.RENDER_LOGO"
               class="absolute inset-0 z-10 flex items-center justify-center pointer-events-none"
             >
