@@ -123,6 +123,22 @@
         "load_more": "Load More",
         "end_of_list": "You've reached the end of the posts."
       }
+    },
+    "certification": {
+      "meta": {
+        "title": "Certification",
+        "description": "Learn more about our certification program and how to get started."
+      },
+      "card": {
+        "title": "{identity} Certification",
+        "registryId": "Registry ID",
+        "name": "Name",
+        "pronouns": "Pronouns",
+        "issued": "Issued",
+        "expires": "Expires",
+        "instituteNote": "Valid in all global territory.",
+        "defaultIdentity": "Queer"
+      }
     }
   }
 }

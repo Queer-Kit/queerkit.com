@@ -151,6 +151,20 @@
   "page_music_section_mixes_title": "Mixes de DJ",
   "page_blog_title": "blog",
   "page_blog_description": "Leia nossos posts mais recentes e atualizações de projeto.",
+  "pages": {
+    "certification": {
+      "card": {
+        "title": "Certificação {identity}",
+        "registryId": "ID de Registro",
+        "name": "Nome",
+        "pronouns": "Pronomes",
+        "issued": "Emitido em",
+        "expires": "Expira em",
+        "instituteNote": "Certificação emitida pelo International Validity Institute. Válida em todo o território global.",
+        "defaultIdentity": "Queer"
+      }
+    }
+  },
 
   "home_hero_badge": "Empoderando o Coletivo",
   "home_hero_title": "Todas as Coisas Queer",

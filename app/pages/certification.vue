@@ -1,9 +1,14 @@
 ﻿<script lang="ts" setup>
+import { useI18n } from "vue-i18n";
+import { jsPDF } from "jspdf";
+
 // Metadata
 useSeoMeta({
   title: "LGBT+ Certification - QueerKit",
   description: "Get your official (totally legitimate) LGBT+ Certification Card!",
 });
+
+const { t } = useI18n();
 
 // Form state
 const formData = reactive({
@@ -13,9 +18,61 @@ const formData = reactive({
   image: null as string | null,
 });
 
+// Front Layout Constants
+const FRONT_LAYOUT = {
+  PADDING_TOP: 128,
+  PADDING_BOTTOM: 40,
+  PADDING_LEFT: 40,
+  PADDING_RIGHT: 40,
+  GAP_HORIZONTAL: 24,
+  GAP_VERTICAL: 16,
+  PHOTO_W: 192,
+  PHOTO_H: 256,
+  PHOTO_CORNER_RADIUS: 16,
+  TITLE_SIZE: 28,
+  SUBTITLE_SIZE: 20,
+  LABEL_SIZE: 20,
+  FIELD_SIZE: 24,
+  NOTE_SIZE: 16,
+  EMBLEM_SIZE: 80,
+  EMBLEM_GAP: 12,
+  FLAG_W: 80,
+  RENDER_DEBUG: true
+};
+
+// Back Layout Constants
+const BACK_LAYOUT = {
+  PADDING_X: 192, // Horizontal padding for the logo block
+  PADDING_Y: 192, // Vertical padding for the logo block
+  LOGO_PADDING_X: 40, // Horizontal padding inside the logo block
+  LOGO_PADDING_Y: 20, // Vertical padding inside the logo block
+  PLACEHOLDER_BG: "#ec4899", // primary-500 fallback
+  BLOCK_BG: "#ffffff", // Color of the logo container
+  RENDER_LOGO: false
+};
+
+const frontImageStats = reactive({ width: 0, height: 0 });
+const backImageStats = reactive({ width: 0, height: 0 });
+
+onMounted(() => {
+  const front = new Image();
+  front.src = "/images/certification_front.jpg";
+  front.onload = () => {
+    frontImageStats.width = front.naturalWidth;
+    frontImageStats.height = front.naturalHeight;
+  };
+
+  const back = new Image();
+  back.src = "/images/certification_back.jpg";
+  back.onload = () => {
+    backImageStats.width = back.naturalWidth;
+    backImageStats.height = back.naturalHeight;
+  };
+});
+
 // Helper for display preview
 const getTagLabel = (val: any) => {
-  if (!val) return "â€”";
+  if (!val) return "—";
   if (typeof val === "string") return val;
   if (typeof val === "object" && val.label) return val.label;
   return val;
@@ -36,15 +93,34 @@ function onFileChange(event: Event) {
 // Generate and download the card
 // Generate and download both sides of the card
 async function downloadCard() {
-  const nameSlug = formData.name.toLowerCase().replace(/\s+/g, "-") || "card";
+  const namePart = (formData.name || "CERTIFICATE").toUpperCase().replace(/\s+/g, "-");
+  const baseName = `QUEERKIT_CERTIFICATION_${namePart}`;
 
   // Front Side
   const frontCanvas = await generateFrontCanvas();
-  downloadFile(frontCanvas.toDataURL("image/png"), `queerkit-front-${nameSlug}.png`);
+  const frontDataUrl = frontCanvas.toDataURL("image/png");
+  downloadFile(frontDataUrl, `${baseName}_FRONT.png`);
 
   // Back Side
-  const backCanvas = await generateBackCanvas();
-  downloadFile(backCanvas.toDataURL("image/png"), `queerkit-back-${nameSlug}.png`);
+  const backCanvas = await generateBackCanvas(frontCanvas.width, frontCanvas.height);
+  const backDataUrl = backCanvas.toDataURL("image/png");
+  downloadFile(backDataUrl, `${baseName}_BACK.png`);
+
+  // PDF Group (Print Ready - 2 Pages at Card Size)
+  const pdf = new jsPDF({
+    orientation: "landscape",
+    unit: "mm",
+    format: [85.6, 53.98],
+  });
+
+  // Page 1: Front
+  pdf.addImage(frontDataUrl, "PNG", 0, 0, 85.6, 53.98);
+  
+  // Page 2: Back
+  pdf.addPage([85.6, 53.98], "landscape");
+  pdf.addImage(backDataUrl, "PNG", 0, 0, 85.6, 53.98);
+
+  pdf.save(`${baseName}_GROUP.pdf`);
 }
 
 function downloadFile(href: string, filename: string) {
@@ -54,53 +130,89 @@ function downloadFile(href: string, filename: string) {
   link.click();
 }
 
+// 1. Front Side
 async function generateFrontCanvas() {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("Could not get context");
 
-  canvas.width = 1011;
-  canvas.height = 674; // 3:2 Ratio
+  const wrapText = (text: string, x: number, y: number, maxWidth: number, lineHeight: number) => {
+    const words = text.split(" ");
+    let line = "";
+    let testY = y;
+    
+    // Calculate initial Y based on textBaseline "bottom"
+    // Since we're drawing from bottom up if we have multiple lines, 
+    // we should actually calculate the number of lines first.
+    const lines = [];
+    let currentLine = "";
+    
+    for (let n = 0; n < words.length; n++) {
+      const testLine = currentLine + words[n] + " ";
+      const metrics = ctx.measureText(testLine);
+      const testWidth = metrics.width;
+      if (testWidth > maxWidth && n > 0) {
+        lines.push(currentLine);
+        currentLine = words[n] + " ";
+      } else {
+        currentLine = testLine;
+      }
+    }
+    lines.push(currentLine);
+
+    // Draw lines from bottom to top
+    for (let i = lines.length - 1; i >= 0; i--) {
+      ctx.fillText(lines[i], x, testY);
+      testY -= lineHeight;
+    }
+  };
 
   // 1. Draw Background
-  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  gradient.addColorStop(0, "#ec4899");
-  gradient.addColorStop(0.5, "#a855f7");
-  gradient.addColorStop(1, "#3b82f6");
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const frontImg = new Image();
+  frontImg.src = "/images/certification_front.jpg";
+  await new Promise((resolve) => {
+    frontImg.onload = resolve;
+    frontImg.onerror = () => resolve(null);
+  });
 
-  ctx.fillStyle = "rgba(0, 0, 0, 0.9)";
-  const margin = 20;
-  ctx.beginPath();
-  ctx.roundRect(margin, margin, canvas.width - margin * 2, canvas.height - margin * 2, 20);
-  ctx.fill();
+  // Base dimensions used for scaling (based on standard preview width)
+  const baseWidth = 1011;
+  const baseHeight = 674;
+
+  if (frontImg.complete && frontImg.naturalWidth > 0) {
+    canvas.width = frontImg.naturalWidth;
+    canvas.height = frontImg.naturalHeight;
+    ctx.drawImage(frontImg, 0, 0, canvas.width, canvas.height);
+  } else {
+    canvas.width = baseWidth;
+    canvas.height = baseHeight;
+    ctx.fillStyle = "#ec4899";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  const scale = canvas.width / baseWidth;
+  const fontMain = '"JetBrains Mono", sans-serif';
 
   // 2. Header
-  ctx.fillStyle = "#fb7185";
-  ctx.font = "bold 20px sans-serif";
-  ctx.fillText("OFFICIAL LGBT+ CERTIFICATION", 60, 70);
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 48px sans-serif";
-  ctx.fillText("QueerKitâ„¢", 60, 120);
-  ctx.font = "40px sans-serif";
-  ctx.fillText("ðŸ³ï¸â€ðŸŒˆ", canvas.width - 100, 80);
+  // NO DEBUG RENDERING IN EXPORT
 
-  // 3. Image
+  // 3. Left Column: Photo (Top) and Note (Bottom)
+  // A. Image
   if (formData.image) {
     const img = new Image();
     img.src = formData.image;
     await new Promise((resolve) => (img.onload = resolve));
-    const imgX = 60,
-      imgY = 160,
-      imgW = 210,
-      imgH = 280;
+    
+    const imgX = FRONT_LAYOUT.PADDING_LEFT * scale;
+    const imgY = FRONT_LAYOUT.PADDING_TOP * scale;
+    const imgW = FRONT_LAYOUT.PHOTO_W * scale;
+    const imgH = FRONT_LAYOUT.PHOTO_H * scale;
+    
     ctx.save();
     ctx.beginPath();
-    ctx.roundRect(imgX, imgY, imgW, imgH, 20);
+    ctx.roundRect(imgX, imgY, imgW, imgH, FRONT_LAYOUT.PHOTO_CORNER_RADIUS * scale);
     ctx.clip();
 
-    // Maintain aspect ratio (center crop)
     const ratio = Math.max(imgW / img.width, imgH / img.height);
     const newWidth = img.width * ratio;
     const newHeight = img.height * ratio;
@@ -114,120 +226,219 @@ async function generateFrontCanvas() {
     ctx.restore();
   }
 
-  // 4. Fields
-  const textX = 300;
-  let currentY = 160; // Align with top of image (imgY)
-  const drawFieldFront = (label: string, value: any, size: number = 24) => {
-    const displayValue = getTagLabel(value);
-    ctx.fillStyle = "#fb7185";
-    ctx.font = "bold 14px sans-serif";
-    ctx.fillText(label.toUpperCase(), textX, currentY);
-    currentY += 30;
-    ctx.fillStyle = "#ffffff";
-    ctx.font = `bold ${size}px sans-serif`;
-    ctx.fillText(displayValue || "â€”", textX, currentY);
-    currentY += 50;
+  // B. Institute Note (Bottom Left of writable area)
+  ctx.fillStyle = "#000000";
+  ctx.font = `${FRONT_LAYOUT.NOTE_SIZE * scale}px ${fontMain}`;
+  ctx.textAlign = "left";
+  ctx.textBaseline = "bottom";
+  const instituteText = t('pages.certification.card.instituteNote');
+  const noteMaxWidth = FRONT_LAYOUT.PHOTO_W * scale;
+  const noteLineHeight = FRONT_LAYOUT.NOTE_SIZE * 1.2 * scale;
+  
+  wrapText(
+    instituteText, 
+    FRONT_LAYOUT.PADDING_LEFT * scale, 
+    canvas.height - FRONT_LAYOUT.PADDING_BOTTOM * scale,
+    noteMaxWidth,
+    noteLineHeight
+  );
+
+  // 4. Middle Column: Fields (Top Block vs Bottom Block)
+  const textX = (FRONT_LAYOUT.PADDING_LEFT + FRONT_LAYOUT.PHOTO_W + FRONT_LAYOUT.GAP_HORIZONTAL) * scale;
+  const textWidth = canvas.width - textX - FRONT_LAYOUT.PADDING_RIGHT * scale;
+  
+  // A. Top Block
+  let topY = FRONT_LAYOUT.PADDING_TOP * scale;
+  ctx.textBaseline = "top";
+  ctx.textAlign = "left";
+  
+  const idLabel = getTagLabel(formData.identity);
+  const displayIdentity = (!idLabel || idLabel === "—") ? t('pages.certification.card.defaultIdentity') : String(idLabel);
+  const headingText = t('pages.certification.card.title', { identity: displayIdentity });
+  
+  // Track Top Block Height for Debug
+  let currentTopY = topY;
+
+  // Title
+  ctx.fillStyle = "#ec4899";
+  ctx.font = `bold ${FRONT_LAYOUT.TITLE_SIZE * scale}px ${fontMain}`;
+  ctx.fillText(headingText, textX, currentTopY);
+  currentTopY += (FRONT_LAYOUT.TITLE_SIZE + FRONT_LAYOUT.GAP_VERTICAL / 3) * scale;
+
+  // Registry ID
+  ctx.fillStyle = "#000000";
+  ctx.font = `bold ${FRONT_LAYOUT.SUBTITLE_SIZE * scale}px ${fontMain}`;
+  ctx.fillText(`${t('pages.certification.card.registryId')}: ${generationId.value}`, textX, currentTopY);
+  currentTopY += (FRONT_LAYOUT.SUBTITLE_SIZE + FRONT_LAYOUT.GAP_VERTICAL) * scale;
+
+  // Name (Moved to Top Block)
+  ctx.fillStyle = "#ec4899";
+  ctx.font = `bold ${FRONT_LAYOUT.LABEL_SIZE * scale}px ${fontMain}`;
+  ctx.fillText(t('pages.certification.card.name').toUpperCase(), textX, currentTopY);
+  currentTopY += (FRONT_LAYOUT.LABEL_SIZE + 4 * scale) * scale; // Scaled offset
+  ctx.fillStyle = "#000000";
+  ctx.font = `bold ${FRONT_LAYOUT.FIELD_SIZE * scale}px ${fontMain}`;
+  ctx.fillText(formData.name || "—", textX, currentTopY);
+  currentTopY += (FRONT_LAYOUT.FIELD_SIZE + FRONT_LAYOUT.GAP_VERTICAL) * scale;
+
+  // Pronouns (Always visible, moved to Top Block)
+  ctx.fillStyle = "#ec4899";
+  ctx.font = `bold ${FRONT_LAYOUT.LABEL_SIZE * scale}px ${fontMain}`;
+  ctx.fillText(t('pages.certification.card.pronouns').toUpperCase(), textX, currentTopY);
+  currentTopY += (FRONT_LAYOUT.LABEL_SIZE + 4 * scale) * scale; // Scaled offset
+  ctx.fillStyle = "#000000";
+  ctx.font = `bold ${FRONT_LAYOUT.FIELD_SIZE * scale}px ${fontMain}`;
+  const pronounsLabel = getTagLabel(formData.pronouns);
+  ctx.fillText(pronounsLabel && pronounsLabel !== "—" ? pronounsLabel : "—", textX, currentTopY);
+  currentTopY += FRONT_LAYOUT.FIELD_SIZE * scale;
+
+  const topBlockHeight = currentTopY - topY;
+
+  // B. Bottom Block (Positioned at the bottom of writable area)
+  let bottomY = canvas.height - FRONT_LAYOUT.PADDING_BOTTOM * scale;
+  ctx.textBaseline = "bottom";
+
+  // Track Bottom Block Height for Debug
+  let currentBottomY = bottomY;
+
+  // Render Issued/Expires
+  ctx.fillStyle = "#000000";
+  ctx.font = `bold ${FRONT_LAYOUT.SUBTITLE_SIZE * scale}px ${fontMain}`;
+  ctx.fillText(issueDate.value, textX, currentBottomY);
+  ctx.fillText(expiryDate.value, textX + 180 * scale, currentBottomY); 
+  currentBottomY -= (FRONT_LAYOUT.SUBTITLE_SIZE + 4 * scale) * scale; // Scaled offset
+
+  ctx.fillStyle = "#ec4899";
+  ctx.font = `bold ${(FRONT_LAYOUT.LABEL_SIZE - 2) * scale}px ${fontMain}`;
+  ctx.fillText(t('pages.certification.card.issued').toUpperCase(), textX, currentBottomY);
+  ctx.fillText(t('pages.certification.card.expires').toUpperCase(), textX + 180 * scale, currentBottomY);
+  currentBottomY -= FRONT_LAYOUT.LABEL_SIZE * scale;
+
+  const bottomBlockHeight = bottomY - currentBottomY;
+
+  // 5. Emblems (Absolute Bottom Right of the WHOLE card)
+  const drawEmblem = async (src: string, x: number, y: number, size: number) => {
+    const img = new Image();
+    img.src = src;
+    await new Promise((resolve) => {
+      img.onload = resolve;
+      img.onerror = () => resolve(null);
+    });
+    if (img.complete && img.naturalWidth > 0) {
+      const ratio = size / Math.max(img.naturalWidth, img.naturalHeight);
+      ctx.drawImage(img, x, y, img.naturalWidth * ratio, img.naturalHeight * ratio);
+    }
   };
 
-  drawFieldFront("Name", formData.name, 32);
+  const emblemSize = FRONT_LAYOUT.EMBLEM_SIZE * scale;
+  const emblemY = canvas.height - (FRONT_LAYOUT.PADDING_BOTTOM + FRONT_LAYOUT.EMBLEM_SIZE) * scale;
+  const emblem2X = canvas.width - (FRONT_LAYOUT.PADDING_RIGHT + FRONT_LAYOUT.EMBLEM_SIZE) * scale;
+  const emblem1X = emblem2X - (FRONT_LAYOUT.EMBLEM_SIZE + FRONT_LAYOUT.EMBLEM_GAP) * scale;
 
-  const startY = currentY;
-  if (formData.pronouns) {
-    drawFieldFront("Pronouns", formData.pronouns, 24);
+  await drawEmblem("/images/emblem_01.png", emblem1X, emblemY, emblemSize);
+  await drawEmblem("/images/emblem_02.png", emblem2X, emblemY, emblemSize);
+
+  // 6. Flag (Top Right)
+  const flagPath = getFlagPath();
+  if (flagPath) {
+    const flagImg = new Image();
+    flagImg.src = flagPath;
+    await new Promise((resolve) => {
+      flagImg.onload = resolve;
+      flagImg.onerror = () => resolve(null);
+    });
+    if (flagImg.complete && flagImg.naturalWidth > 0) {
+      const flagW = FRONT_LAYOUT.FLAG_W * scale;
+      const flagH = (flagW * 3) / 4; // 4:3 Aspect Ratio
+      const flagX = canvas.width - (FRONT_LAYOUT.PADDING_RIGHT + FRONT_LAYOUT.FLAG_W) * scale;
+      const flagY = FRONT_LAYOUT.PADDING_TOP * scale;
+      ctx.drawImage(flagImg, flagX, flagY, flagW, flagH);
+    }
   }
-
-  if (formData.identity) {
-    // Reset Y to start of previous field call to put them side-by-side
-    currentY = startY;
-    const label =
-      (typeof formData.identity === "object" && formData.identity.category) || "Identity";
-
-    // Draw identity to the right
-    const identityX = 550; // Offset from textX (300)
-    const displayValue = getTagLabel(formData.identity);
-
-    ctx.fillStyle = "#fb7185";
-    ctx.font = "bold 14px sans-serif";
-    ctx.fillText(label.toUpperCase(), identityX, currentY);
-
-    currentY += 30;
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 24px sans-serif";
-    ctx.fillText(displayValue || "â€”", identityX, currentY);
-
-    currentY += 50; // Resume vertical flow
-  }
-
-  // 5. Footer
-  ctx.strokeStyle = "rgba(251, 113, 133, 0.2)";
-  ctx.beginPath();
-  ctx.moveTo(60, 520);
-  ctx.lineTo(canvas.width - 60, 520);
-  ctx.stroke();
-
-  currentY = 550;
-  ctx.fillStyle = "#fb7185";
-  ctx.font = "bold 12px sans-serif";
-  ctx.fillText("CERT. NO.", 60, currentY);
-  currentY += 20;
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 16px monospace";
-  ctx.fillText(generationId.value, 60, currentY);
-
-  currentY += 30;
-  ctx.font = "bold 12px sans-serif";
-  ctx.fillStyle = "#fb7185";
-  ctx.fillText("ISSUED:", 60, currentY);
-  let labelWidth = ctx.measureText("ISSUED:").width;
-  ctx.fillStyle = "#ffffff";
-  ctx.fillText(issueDate.value, 60 + labelWidth + 4, currentY);
-  currentY += 18;
-  ctx.fillStyle = "#fb7185";
-  ctx.fillText("EXPIRES:", 60, currentY);
-  labelWidth = ctx.measureText("EXPIRES:").width;
-  ctx.fillStyle = "#ffffff";
-  ctx.fillText(expiryDate.value, 60 + labelWidth + 4, currentY);
 
   return canvas;
 }
 
-async function generateBackCanvas() {
+async function generateBackCanvas(targetWidth?: number, targetHeight?: number) {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("Could not get context");
 
-  canvas.width = 1011;
-  canvas.height = 674; // 3:2 Ratio
+  // 1. Draw Background (and set canvas size based on natural dimensions)
+  const bgImg = new Image();
+  bgImg.src = "/images/certification_back.jpg";
+  await new Promise((resolve) => {
+    bgImg.onload = resolve;
+    bgImg.onerror = () => resolve(null);
+  });
 
-  // 1. Draw Identity Background (Load image with gradient fallback)
-  const theme = getIdentityTheme.value;
-
-  try {
-    const bgImg = new Image();
-    bgImg.src = theme.bgImage;
-    await new Promise((resolve, reject) => {
-      bgImg.onload = resolve;
-      bgImg.onerror = reject;
-    });
-    ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
-  } catch (err) {
-    // Fallback to gradient if image fails to load
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    theme.colors.forEach((color, i) => {
-      gradient.addColorStop(i / (theme.colors.length - 1), color);
-    });
-    ctx.fillStyle = gradient;
+  if (bgImg.complete && bgImg.naturalWidth > 0) {
+    canvas.width = targetWidth || bgImg.naturalWidth;
+    canvas.height = targetHeight || bgImg.naturalHeight;
+    ctx.fillStyle = BACK_LAYOUT.PLACEHOLDER_BG;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw background covering the canvas
+    const ratio = Math.max(canvas.width / bgImg.naturalWidth, canvas.height / bgImg.naturalHeight);
+    const newW = bgImg.naturalWidth * ratio;
+    const newH = bgImg.naturalHeight * ratio;
+    ctx.drawImage(bgImg, (canvas.width - newW) / 2, (canvas.height - newH) / 2, newW, newH);
+  } else {
+    canvas.width = targetWidth || 1011;
+    canvas.height = targetHeight || 674;
+    ctx.fillStyle = BACK_LAYOUT.PLACEHOLDER_BG;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 
-  // 2. Draw White Logo Block (Same size as previous black block)
-  const blockW = 600,
-    blockH = 300;
-  const blockX = (canvas.width - blockW) / 2;
-  const blockY = (canvas.height - blockH) / 2;
+  const scale = canvas.width / 1011;
 
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(blockX, blockY, blockW, blockH);
+  // 2. Draw Flag SVG (Full Span)
+  const flagPath = getFlagPath();
+  if (flagPath) {
+    const flagImg = new Image();
+    flagImg.src = flagPath;
+    await new Promise((resolve) => {
+      flagImg.onload = resolve;
+      flagImg.onerror = () => resolve(null);
+    });
+    
+    if (flagImg.complete && flagImg.naturalWidth > 0) {
+      const ratio = Math.max(canvas.width / flagImg.width, canvas.height / flagImg.height);
+      const newW = flagImg.width * ratio;
+      const newH = flagImg.height * ratio;
+      ctx.drawImage(flagImg, (canvas.width - newW) / 2, (canvas.height - newH) / 2, newW, newH);
+    }
+  }
+
+  // 3. Draw White Logo Block
+  if (BACK_LAYOUT.RENDER_LOGO) {
+    const blockX = BACK_LAYOUT.PADDING_X * scale;
+    const blockY = BACK_LAYOUT.PADDING_Y * scale;
+    const blockW = canvas.width - BACK_LAYOUT.PADDING_X * 2 * scale;
+    const blockH = canvas.height - BACK_LAYOUT.PADDING_Y * 2 * scale;
+
+    ctx.fillStyle = BACK_LAYOUT.BLOCK_BG;
+    ctx.fillRect(blockX, blockY, blockW, blockH);
+
+    // 4. Draw Horizontal Cor Logo
+    const logoImg = new Image();
+    logoImg.src = "/images/Horizontal_Cor.svg";
+    await new Promise((resolve) => {
+      logoImg.onload = resolve;
+      logoImg.onerror = () => resolve(null);
+    });
+
+    if (logoImg.complete && logoImg.naturalWidth > 0) {
+      const px = BACK_LAYOUT.LOGO_PADDING_X * scale;
+      const py = BACK_LAYOUT.LOGO_PADDING_Y * scale;
+      const availableW = blockW - px * 2;
+      const availableH = blockH - py * 2;
+      const ratio = Math.min(availableW / logoImg.width, availableH / logoImg.height);
+      const newW = logoImg.width * ratio;
+      const newH = logoImg.height * ratio;
+      ctx.drawImage(logoImg, blockX + (blockW - newW) / 2, blockY + (blockH - newH) / 2, newW, newH);
+    }
+  }
 
   return canvas;
 }
@@ -409,71 +620,39 @@ const expiryDate = computed(() => {
   return formatDate(date);
 });
 
-// Back card background mapping (Colors for Canvas and Classes for CSS)
-const identityThemes = {
-  trans: {
-    bgImage: "/images/certification/back-bg-trans.png",
-    colors: ["#5BCEFA", "#F5A9B8", "#5BCEFA"],
-  },
-  nonbinary: {
-    bgImage: "/images/certification/back-bg-nonbinary.png",
-    colors: ["#FCF434", "#FFFFFF", "#9C59D1", "#2C2C2C"],
-  },
-  bi: {
-    bgImage: "/images/certification/back-bg-bi.png",
-    colors: ["#D60270", "#9B4F96", "#0038A8"],
-  },
-  pan: {
-    bgImage: "/images/certification/back-bg-pan.png",
-    colors: ["#FF218C", "#FFD800", "#21B1FF"],
-  },
-  lesbian: {
-    bgImage: "/images/certification/back-bg-lesbian.png",
-    colors: ["#D52D00", "#FF9A56", "#FFFFFF", "#D362A4", "#A30262"],
-  },
-  ace: {
-    bgImage: "/images/certification/back-bg-ace.png",
-    colors: ["#000000", "#A3A3A3", "#FFFFFF", "#800080"],
-  },
-  aro: {
-    bgImage: "/images/certification/back-bg-aro.png",
-    colors: ["#3DA542", "#A7D379", "#FFFFFF", "#A9A9A9", "#000000"],
-  },
-  genderqueer: {
-    bgImage: "/images/certification/back-bg-genderqueer.png",
-    colors: ["#B57EDC", "#FFFFFF", "#4A8123"],
-  },
-  genderfluid: {
-    bgImage: "/images/certification/back-bg-genderfluid.png",
-    colors: ["#FF75A2", "#FFFFFF", "#BE18D6", "#000000", "#333EBD"],
-  },
-  agender: {
-    bgImage: "/images/certification/back-bg-agender.png",
-    colors: ["#000000", "#B9B9B9", "#FFFFFF", "#B8F483", "#FFFFFF", "#B9B9B9", "#000000"],
-  },
-  rainbow: {
-    bgImage: "/images/certification/back-bg-rainbow.png",
-    colors: ["#FF0018", "#FFA52C", "#FFFF41", "#008018", "#0000F9", "#86007D"],
-  },
+const getFlagPath = (identityLabel?: string) => {
+  const identity = (identityLabel || getTagLabel(formData.identity))?.toLowerCase() || "";
+  if (!identity || identity === "—") return null;
+  if (identity.includes("trans")) return "/images/flags/TRANS.svg";
+  if (identity.includes("non-binary") || identity.includes("enby")) return "/images/flags/NÃO-BI.svg";
+  if (identity.includes("bisexual") || identity === "bi") return "/images/flags/BI.svg";
+  if (identity.includes("pansexual") || identity === "pan") return "/images/flags/PAN.svg";
+  if (identity.includes("lesbian")) return "/images/flags/LÉSBICA.svg";
+  if (identity.includes("asexual") || identity === "ace") return "/images/flags/ASSEX.svg";
+  if (identity.includes("aromantic") || identity === "aro") return "/images/flags/ARROMANTIC.svg";
+  if (identity.includes("genderqueer")) return "/images/flags/QUEER.svg";
+  if (identity.includes("genderfluid")) return "/images/flags/GEN FLUID.svg";
+  if (identity.includes("agender")) return "/images/flags/AGÊNERO.svg";
+  if (identity.includes("gay")) return "/images/flags/GAY.svg";
+  if (identity.includes("intersex")) return "/images/flags/INTERSEX.svg";
+  if (identity.includes("demisexual")) return "/images/flags/DEMISSEX.svg";
+  if (identity.includes("abrosexual")) return "/images/flags/ABROSEX.svg";
+  if (identity.includes("polysexual")) return "/images/flags/POLISEX.svg";
+  if (identity.includes("polyamorous") || identity.includes("poliamor"))
+    return "/images/flags/POLIAMOR.svg";
+  if (identity.includes("non-monogamous") || identity.includes("não mono"))
+    return "/images/flags/NÃO MONO.svg";
+
+  // For those not in my list, return an unexistant path (slugified)
+  const slug = identity
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .toUpperCase();
+  return `/images/flags/${slug || "UNKNOWN"}.svg`;
 };
 
-const getIdentityTheme = computed(() => {
-  const identity = getTagLabel(formData.identity)?.toLowerCase() || "";
-  if (identity.includes("trans")) return identityThemes.trans;
-  if (identity.includes("non-binary") || identity.includes("enby")) return identityThemes.nonbinary;
-  if (identity.includes("bisexual") || identity.includes("bi ")) return identityThemes.bi;
-  if (identity.includes("pansexual") || identity.includes("pan ")) return identityThemes.pan;
-  if (identity.includes("lesbian")) return identityThemes.lesbian;
-  if (identity.includes("asexual") || identity === "ace") return identityThemes.ace;
-  if (identity.includes("aromantic")) return identityThemes.aro;
-  if (identity.includes("genderqueer")) return identityThemes.genderqueer;
-  if (identity.includes("genderfluid")) return identityThemes.genderfluid;
-  if (identity.includes("agender")) return identityThemes.agender;
-  return identityThemes.rainbow;
-});
-
 const backCardBackground = computed(() => {
-  return {}; // No longer using class strings directly
+  return "/images/certification_back.jpg";
 });
 </script>
 
@@ -484,8 +663,8 @@ const backCardBackground = computed(() => {
       <h1 class="mb-4 text-4xl font-bold md:text-5xl">Official LGBT+ Certification</h1>
       <p class="mx-auto max-w-2xl text-lg text-dimmed">
         Welcome to the <em>totally official, absolutely legitimate, 100% legally binding</em> LGBT+
-        Certification Processâ„¢! Fill out the form below to receive your personalized certification
-        card. No tests requiredâ€”just vibes and authenticity! ðŸ³ï¸â€ðŸŒˆâœ¨
+        Certification Process™! Fill out the form below to receive your personalized certification
+        card. No tests required—just vibes and authenticity! 🏳️‍⚧️🏳️‍🌈✨
       </p>
       <p class="mt-4 text-sm italic text-dimmed">
         (Disclaimer: This is for fun and community celebration. Your identity is valid regardless of
@@ -577,116 +756,234 @@ const backCardBackground = computed(() => {
 
           <!-- Front Card Preview -->
           <div
-            class="relative overflow-hidden rounded-xl border-2 border-primary-500 bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 p-1 shadow-2xl aspect-[3/2]"
+            class="relative overflow-hidden rounded-xl shadow-2xl bg-cover bg-center"
+            :style="{
+              backgroundImage: 'url(/images/certification_front.jpg)',
+              aspectRatio: frontImageStats.width ? `${frontImageStats.width}/${frontImageStats.height}` : '3/2',
+            }"
           >
-            <div class="rounded-lg bg-black p-6 h-full flex flex-col">
-              <!-- Header -->
-              <div class="mb-6 flex items-center justify-between">
-                <div>
-                  <h3 class="text-xs font-bold uppercase tracking-wider text-primary-400">
-                    Official LGBT+ Certification
-                  </h3>
-                  <p class="text-2xl font-bold text-white">QueerKitâ„¢</p>
-                </div>
-                <div class="text-right">
-                  <div class="text-4xl">ðŸ³ï¸â€ðŸŒˆ</div>
-                </div>
-              </div>
-
-              <!-- Content Row: Photo & Info -->
-              <div class="flex gap-6 items-start mb-4">
-                <!-- Photo Placeholder -->
-                <div
-                  class="shrink-0 flex h-32 w-24 items-center justify-center rounded-lg bg-gradient-to-br from-primary-500/20 to-purple-500/20 border border-primary-500/30 overflow-hidden"
+              <div class="h-full relative overflow-hidden">
+                <!-- Flag Overlay (Top Right) -->
+                <div 
+                  v-if="getFlagPath()"
+                  class="absolute z-30"
+                  :style="{
+                    top: `${FRONT_LAYOUT.PADDING_TOP / 1.5}px`,
+                    right: `${FRONT_LAYOUT.PADDING_RIGHT / 1.5}px`,
+                    width: `${FRONT_LAYOUT.FLAG_W / 1.5}px`,
+                    aspectRatio: '4/3'
+                  }"
                 >
-                  <img
-                    v-if="formData.image"
-                    :src="formData.image"
-                    class="w-full h-full object-cover"
-                  />
-                  <UIcon v-else class="size-12 text-primary-400" name="lucide:user" />
+                  <img :src="getFlagPath()!" class="w-full h-full object-cover" />
                 </div>
 
-                <!-- Personal Information -->
-                <div class="space-y-3 pt-1">
-                  <div>
-                    <p class="text-[10px] font-semibold uppercase tracking-wider text-primary-400">
-                      Name
-                    </p>
-                    <p class="text-lg font-bold text-white leading-tight">
-                      {{ formData.name || "Your Name Here" }}
-                    </p>
-                  </div>
-
-                  <div class="flex gap-8">
-                    <div v-if="formData.pronouns">
-                      <p
-                        class="text-[10px] font-semibold uppercase tracking-wider text-primary-400"
-                      >
-                        Pronouns
-                      </p>
-                      <p class="text-sm text-white">
-                        {{ getTagLabel(formData.pronouns) }}
-                      </p>
-                    </div>
-
-                    <div v-if="formData.identity">
-                      <p
-                        class="text-[10px] font-semibold uppercase tracking-wider text-primary-400"
-                      >
-                        {{
-                          (typeof formData.identity === "object" && formData.identity.category) ||
-                          "Identity"
-                        }}
-                      </p>
-                      <p class="text-md font-bold text-white leading-tight">
-                        {{ getTagLabel(formData.identity) }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Footer -->
-              <div
-                class="mt-auto border-t border-primary-500/30 pt-4 px-1 flex flex-col gap-sm text-xs"
+                <!-- Content Row (Flexbox Boundary) -->
+              <div 
+                class="absolute flex items-start z-10"
+                :style="{
+                  top: `${FRONT_LAYOUT.PADDING_TOP / 1.5}px`,
+                  bottom: `${FRONT_LAYOUT.PADDING_BOTTOM / 1.5}px`,
+                  left: `${FRONT_LAYOUT.PADDING_LEFT / 1.5}px`,
+                  right: `${FRONT_LAYOUT.PADDING_RIGHT / 1.5}px`,
+                  gap: `${FRONT_LAYOUT.GAP_HORIZONTAL / 1.5}px`
+                }"
               >
-                <div>
-                  <p class="font-semibold uppercase tracking-wider text-primary-400 text-[10px]">
-                    Cert. No.
+                <!-- Photo / Note Column (Left) -->
+                <div class="flex flex-col justify-between h-full" :style="{ width: `${FRONT_LAYOUT.PHOTO_W / 1.5}px` }">
+                  <!-- Photo Placeholder -->
+                  <div
+                    class="shrink-0 flex items-center justify-center bg-black/40 border border-primary-500 overflow-hidden"
+                    :style="{
+                      width: `${FRONT_LAYOUT.PHOTO_W / 1.5}px`,
+                      height: `${FRONT_LAYOUT.PHOTO_H / 1.5}px`,
+                      borderRadius: `${FRONT_LAYOUT.PHOTO_CORNER_RADIUS / 1.5}px`
+                    }"
+                  >
+                    <img
+                      v-if="formData.image"
+                      :src="formData.image"
+                      class="w-full h-full object-cover"
+                    />
+                    <UIcon v-else class="size-12 text-primary-400" name="lucide:user" />
+                  </div>
+
+                  <!-- Institute Note (Left Bottom) -->
+                  <p 
+                    class="text-black leading-tight"
+                    :style="{ fontSize: `${FRONT_LAYOUT.NOTE_SIZE / 1.5}px` }"
+                  >
+                    {{ $t('pages.certification.card.instituteNote') }}
                   </p>
-                  <p class="font-mono text-white">{{ generationId }}</p>
                 </div>
 
-                <!-- Issued / Expires Vertical Stack -->
-                <div class="flex flex-col gap-sm">
-                  <div class="flex gap-1 items-center">
-                    <span class="font-semibold uppercase text-primary-400 text-[10px]"
-                      >Issued:</span
+                <!-- Personal Information / Middle Column (Vertical Flexbox with justify-between) -->
+                <div class="flex flex-col flex-1 h-full justify-between">
+                  <!-- Top Block -->
+                  <div 
+                    class="flex flex-col" 
+                    :class="{ 'border-2 border-blue-500': FRONT_LAYOUT.RENDER_DEBUG }"
+                    :style="{ gap: `${FRONT_LAYOUT.GAP_VERTICAL / 3}px` }"
+                  >
+                    <h2 
+                      class="font-bold text-pink-500 leading-none"
+                      :style="{ fontSize: `${FRONT_LAYOUT.TITLE_SIZE / 1.5}px` }"
                     >
-                    <span class="text-white">{{ issueDate }}</span>
-                  </div>
-                  <div class="flex gap-1 items-center">
-                    <span class="font-semibold uppercase text-primary-400 text-[10px]"
-                      >Expires:</span
+                      {{ $t('pages.certification.card.title', { identity: (!getTagLabel(formData.identity) || getTagLabel(formData.identity) === '—') ? $t('pages.certification.card.defaultIdentity') : getTagLabel(formData.identity) }) }}
+                    </h2>
+                    <p 
+                      class="font-bold text-black opacity-80"
+                      :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE / 1.5}px` }"
                     >
-                    <span class="text-white">{{ expiryDate }}</span>
+                      {{ $t('pages.certification.card.registryId') }}: {{ generationId }}
+                    </p>
+
+                    <div class="mt-2">
+                      <p 
+                        class="font-semibold uppercase tracking-wider text-pink-500"
+                        :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) / 1.5}px` }"
+                      >
+                        {{ $t('pages.certification.card.name') }}
+                      </p>
+                      <p 
+                        class="font-bold text-black leading-tight"
+                        :style="{ fontSize: `${FRONT_LAYOUT.FIELD_SIZE / 1.5}px` }"
+                      >
+                        {{ formData.name || "—" }}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p
+                        class="font-semibold uppercase tracking-wider text-pink-500"
+                        :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) / 1.5}px` }"
+                      >
+                        {{ $t('pages.certification.card.pronouns') }}
+                      </p>
+                      <p 
+                        class="font-bold text-black"
+                        :style="{ fontSize: `${(FRONT_LAYOUT.FIELD_SIZE - 4) / 1.5}px` }"
+                      >
+                        {{ getTagLabel(formData.pronouns) === '—' ? '—' : (getTagLabel(formData.pronouns) || '—') }}
+                      </p>
+                    </div>
                   </div>
+
+                  <!-- Bottom Block -->
+                  <div 
+                    class="flex flex-col" 
+                    :class="{ 'border-2 border-blue-500': FRONT_LAYOUT.RENDER_DEBUG }"
+                    :style="{ gap: `${FRONT_LAYOUT.GAP_VERTICAL / 3}px` }"
+                  >
+                    <div class="flex">
+                      <div :style="{ width: `${180 / 1.5}px` }">
+                        <p 
+                          class="font-semibold uppercase text-pink-500"
+                          :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) / 1.5}px` }"
+                        >
+                          {{ $t('pages.certification.card.issued') }}
+                        </p>
+                        <p 
+                          class="text-black font-bold"
+                          :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE / 1.5}px` }"
+                        >
+                          {{ issueDate }}
+                        </p>
+                      </div>
+                      <div>
+                        <p 
+                          class="font-semibold uppercase text-pink-500"
+                          :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) / 1.5}px` }"
+                        >
+                          {{ $t('pages.certification.card.expires') }}
+                        </p>
+                        <p 
+                          class="text-black font-bold"
+                          :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE / 1.5}px` }"
+                        >
+                          {{ expiryDate }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Emblems (Absolute Bottom Right of CARD) -->
+                <div 
+                  class="absolute pointer-events-none flex items-end z-30" 
+                  :style="{ 
+                    gap: `${FRONT_LAYOUT.EMBLEM_GAP / 1.5}px`,
+                    bottom: 0,
+                    right: 0
+                  }"
+                >
+                  <img 
+                    src="/images/emblem_01.png" 
+                    class="object-contain" 
+                    :style="{ height: `${FRONT_LAYOUT.EMBLEM_SIZE / 1.5}px`, width: `${FRONT_LAYOUT.EMBLEM_SIZE / 1.5}px` }"
+                  />
+                  <img 
+                    src="/images/emblem_02.png" 
+                    class="object-contain" 
+                    :style="{ height: `${FRONT_LAYOUT.EMBLEM_SIZE / 1.5}px`, width: `${FRONT_LAYOUT.EMBLEM_SIZE / 1.5}px` }"
+                  />
                 </div>
               </div>
             </div>
+            <!-- Debug Border Overlay -->
+            <div 
+              v-if="FRONT_LAYOUT.RENDER_DEBUG"
+              class="absolute border-2 border-red-500 pointer-events-none z-50"
+              :style="{
+                top: `${FRONT_LAYOUT.PADDING_TOP / 1.5}px`,
+                bottom: `${FRONT_LAYOUT.PADDING_BOTTOM / 1.5}px`,
+                left: `${FRONT_LAYOUT.PADDING_LEFT / 1.5}px`,
+                right: `${FRONT_LAYOUT.PADDING_RIGHT / 1.5}px`
+              }"
+            ></div>
           </div>
 
           <!-- Back Side Preview -->
           <div
-            class="relative overflow-hidden rounded-xl border-2 border-primary-500 p-1 shadow-2xl mt-4 aspect-[3/2]"
+            class="relative overflow-hidden rounded-xl shadow-2xl mt-4 bg-cover bg-center"
+            :style="{
+              backgroundImage: `url(${backCardBackground})`,
+              backgroundColor: BACK_LAYOUT.PLACEHOLDER_BG,
+              aspectRatio: backImageStats.width ? `${backImageStats.width}/${backImageStats.height}` : '3/2',
+            }"
           >
-            <div
-              class="rounded-lg flex flex-col items-center justify-center p-6 text-center bg-cover bg-center h-full"
-              :style="{ backgroundImage: `url(${getIdentityTheme.bgImage})` }"
+            <!-- Full Span Flag Overlay -->
+            <img
+              v-if="getFlagPath()"
+              :key="getFlagPath()!"
+              :src="getFlagPath()!"
+              class="absolute inset-0 h-full w-full object-cover z-0"
+              @error="(e) => (e.target as any).style.visibility = 'hidden'"
+              @load="(e) => (e.target as any).style.visibility = 'visible'"
+            />
+
+            <!-- Logo Overlay -->
+            <div 
+              v-if="BACK_LAYOUT.RENDER_LOGO"
+              class="absolute inset-0 z-10 flex items-center justify-center pointer-events-none"
             >
-              <!-- White Logo Block (Non-rounded, replaces previous black block) -->
-              <div class="aspect-[2/1] w-[60%] bg-white shadow-2xl"></div>
+              <!-- White Logo Block -->
+              <div
+                class="shadow-2xl flex items-center justify-center pointer-events-auto"
+                :style="{
+                  top: `${BACK_LAYOUT.PADDING_Y / 1.5}px`,
+                  bottom: `${BACK_LAYOUT.PADDING_Y / 1.5}px`,
+                  left: `${BACK_LAYOUT.PADDING_X / 1.5}px`,
+                  right: `${BACK_LAYOUT.PADDING_X / 1.5}px`,
+                  paddingTop: `${BACK_LAYOUT.LOGO_PADDING_Y / 1.5}px`,
+                  paddingBottom: `${BACK_LAYOUT.LOGO_PADDING_Y / 1.5}px`,
+                  paddingLeft: `${BACK_LAYOUT.LOGO_PADDING_X / 1.5}px`,
+                  paddingRight: `${BACK_LAYOUT.LOGO_PADDING_X / 1.5}px`,
+                  backgroundColor: BACK_LAYOUT.BLOCK_BG,
+                  position: 'absolute'
+                }"
+              >
+                <img src="/images/Horizontal_Cor.svg" class="h-full w-auto object-contain" />
+              </div>
             </div>
           </div>
 
@@ -711,23 +1008,23 @@ const backCardBackground = computed(() => {
     <div class="mt-16">
       <UCard>
         <template #header>
-          <h2 class="text-2xl font-bold">Did You Know? ðŸŒˆ</h2>
+          <h2 class="text-2xl font-bold">Did You Know? 🌈</h2>
         </template>
         <div class="space-y-4 text-dimmed">
           <p>
-            â€¢ This certification is as official as a participation trophy, but infinitely more
+            • This certification is as official as a participation trophy, but infinitely more
             fabulous!
           </p>
           <p>
-            â€¢ Your identity doesn't need validation from anyoneâ€”but if you want a pretty card,
+            • Your identity doesn't need validation from anyone—but if you want a pretty card,
             we've got you covered.
           </p>
           <p>
-            â€¢ The only test required is: "Are you being your authentic self?" If yes, you pass!
-            ðŸŽ‰
+            • The only test required is: "Are you being your authentic self?" If yes, you pass!
+            🎉
           </p>
           <p>
-            â€¢ Side effects may include: increased confidence, finding your community, and an
+            • Side effects may include: increased confidence, finding your community, and an
             inexplicable urge to own more rainbow items.
           </p>
         </div>
