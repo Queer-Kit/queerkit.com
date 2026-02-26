@@ -472,94 +472,38 @@ const pronounOptions = ref([
 ]);
 
 const genderIdentityOptions = ref([
-  { label: "Woman", value: "Woman" },
-  { label: "Man", value: "Man" },
-  { label: "Non-binary", value: "Non-binary" },
-  { label: "Genderfluid", value: "Genderfluid" },
-  { label: "Genderqueer", value: "Genderqueer" },
-  { label: "Agender", value: "Agender" },
-  { label: "Bigender", value: "Bigender" },
-  { label: "Demigirl", value: "Demigirl" },
-  { label: "Demiboy", value: "Demiboy" },
-  { label: "Demigender", value: "Demigender" },
-  { label: "Two-Spirit", value: "Two-Spirit" },
-  { label: "Transgender", value: "Transgender" },
-  { label: "Trans-feminine", value: "Trans-feminine" },
-  { label: "Trans-masculine", value: "Trans-masculine" },
   { label: "Cisgender", value: "Cisgender" },
-  { label: "Cis-Woman", value: "Cis-Woman" },
-  { label: "Cis-Man", value: "Cis-Man" },
-  { label: "Pangender", value: "Pangender" },
-  { label: "Neutrois", value: "Neutrois" },
+  { label: "Transgender", value: "Transgender" },
+  { label: "Bigender", value: "Bigender" },
+  { label: "Genderfluid", value: "Genderfluid" },
   { label: "Intersex", value: "Intersex" },
-  { label: "Maverique", value: "Maverique" },
-  { label: "Gender Non-conforming", value: "Gender Non-conforming" },
-  { label: "Gender-neutral", value: "Gender-neutral" },
-  { label: "Polygender", value: "Polygender" },
-  { label: "Xenogender", value: "Xenogender" },
-  { label: "Liberafluid", value: "Liberafluid" },
-  { label: "Liberragender", value: "Liberragender" },
-  { label: "Gender-questioning", value: "Gender-questioning" },
+  { label: "Agender", value: "Agender" },
 ]);
 
-const sexualOrientationOptions = ref([
-  { label: "Lesbian", value: "Lesbian" },
-  { label: "Gay", value: "Gay" },
+const sexualIdentityOptions = ref([
+  { label: "Heterosexual", value: "Heterosexual" },
+  { label: "Homosexual (Gay)", value: "Homosexual-Gay" },
+  { label: "Homosexual (Lesbian)", value: "Homosexual-Lesbian" },
   { label: "Bisexual", value: "Bisexual" },
   { label: "Pansexual", value: "Pansexual" },
-  { label: "Asexual", value: "Asexual" },
-  { label: "Demisexual", value: "Demisexual" },
-  { label: "Queer", value: "Queer" },
-  { label: "Gray-asexual", value: "Gray-asexual" },
-  { label: "Aromantic Asexual (AroAce)", value: "AroAce" },
-  { label: "Polysexual", value: "Polysexual" },
-  { label: "Omnisexual", value: "Omnisexual" },
-  { label: "Ceterosexual", value: "Ceterosexual" },
-  { label: "Heterosexual", value: "Heterosexual" },
-  { label: "Homoflexible", value: "Homoflexible" },
-  { label: "Biflexible", value: "Biflexible" },
-  { label: "Questioning", value: "Questioning" },
-  { label: "Unlabeled", value: "Unlabeled" },
-  { label: "Fluid", value: "Fluid" },
   { label: "Abrosexual", value: "Abrosexual" },
-  { label: "Androsexual", value: "Androsexual" },
-  { label: "Gynesexual", value: "Gynesexual" },
-  { label: "Skoliosexual", value: "Skoliosexual" },
-  { label: "Pomosexual", value: "Pomosexual" },
-  { label: "Sapiosexual", value: "Sapiosexual" },
-  { label: "Ace-spec", value: "Ace-spec" },
-  { label: "Aro-spec", value: "Aro-spec" },
+  { label: "Demisexual", value: "Demisexual" },
+  { label: "Asexual", value: "Asexual" },
 ]);
 
-const romanticOrientationOptions = ref([
-  { label: "Homoromantic", value: "Homoromantic" },
+const romanticIdentityOptions = ref([
   { label: "Heteroromantic", value: "Heteroromantic" },
+  { label: "Homoromantic", value: "Homoromantic" },
   { label: "Biromantic", value: "Biromantic" },
   { label: "Panromantic", value: "Panromantic" },
-  { label: "Aromantic", value: "Aromantic" },
+  { label: "Abroromantic", value: "Abroromantic" },
   { label: "Demiromantic", value: "Demiromantic" },
-  { label: "Gray-romantic", value: "Gray-romantic" },
-  { label: "Queer", value: "Queer" },
-  { label: "Polyromantic", value: "Polyromantic" },
-  { label: "Fluid", value: "Fluid" },
-  { label: "Same as sexual orientation", value: "Matching" },
-  { label: "Questioning", value: "Questioning" },
+  { label: "Aromantic", value: "Aromantic" },
 ]);
 
-const relationshipOrientationOptions = ref([
+const relationshipIdentityOptions = ref([
   { label: "Monogamous", value: "Monogamous" },
-  { label: "Polyamorous", value: "Polyamorous" },
-  { label: "Relationship Anarchist", value: "Relationship Anarchist" },
-  { label: "Solo Poly", value: "Solo Poly" },
-  { label: "Ambiamorous", value: "Ambiamorous" },
-  { label: "Open Relationship", value: "Open Relationship" },
-  { label: "Monogamish", value: "Monogamish" },
-  { label: "Poly-fidelitous", value: "Poly-fidelitous" },
-  { label: "Hierarchical Poly", value: "Hierarchical Poly" },
-  { label: "Non-hierarchical Poly", value: "Non-hierarchical Poly" },
-  { label: "Kitchen Table Poly", value: "Kitchen Table Poly" },
-  { label: "Parallel Poly", value: "Parallel Poly" },
-  { label: "Questioning", value: "Questioning" },
+  { label: "Polygamous", value: "Polygamous" },
 ]);
 
 const customOptions = ref<any[]>([]);
@@ -568,14 +512,14 @@ const identityOptions = computed(() => [
   { type: "label", label: "Gender Identity" },
   ...genderIdentityOptions.value.map((o) => ({ ...o, category: "Gender" })),
   { type: "separator" },
-  { type: "label", label: "Sexual Orientation" },
-  ...sexualOrientationOptions.value.map((o) => ({ ...o, category: "Orientation" })),
+  { type: "label", label: "Sexual Identity" },
+  ...sexualIdentityOptions.value.map((o) => ({ ...o, category: "Sexual" })),
   { type: "separator" },
-  { type: "label", label: "Romantic Orientation" },
-  ...romanticOrientationOptions.value.map((o) => ({ ...o, category: "Romantic" })),
+  { type: "label", label: "Romantic Identity" },
+  ...romanticIdentityOptions.value.map((o) => ({ ...o, category: "Romantic" })),
   { type: "separator" },
-  { type: "label", label: "Relationship Orientation" },
-  ...relationshipOrientationOptions.value.map((o) => ({ ...o, category: "Relationship Style" })),
+  { type: "label", label: "Relationship Identity" },
+  ...relationshipIdentityOptions.value.map((o) => ({ ...o, category: "Relationship" })),
   ...(customOptions.value.length > 0
     ? [
         { type: "separator" },
@@ -624,32 +568,27 @@ const expiryDate = computed(() => {
 const getFlagPath = (identityLabel?: string) => {
   const identity = (identityLabel || getTagLabel(formData.identity))?.toLowerCase() || "";
   if (!identity || identity === "—") return null;
-  if (identity.includes("trans")) return "/images/flags/TRANS.svg";
-  if (identity.includes("non-binary") || identity.includes("enby")) return "/images/flags/NÃO-BI.svg";
-  if (identity.includes("bisexual") || identity === "bi") return "/images/flags/BI.svg";
-  if (identity.includes("pansexual") || identity === "pan") return "/images/flags/PAN.svg";
-  if (identity.includes("lesbian")) return "/images/flags/LÉSBICA.svg";
-  if (identity.includes("asexual") || identity === "ace") return "/images/flags/ASSEX.svg";
-  if (identity.includes("aromantic") || identity === "aro") return "/images/flags/ARROMANTIC.svg";
-  if (identity.includes("genderqueer")) return "/images/flags/QUEER.svg";
-  if (identity.includes("genderfluid")) return "/images/flags/GEN FLUID.svg";
-  if (identity.includes("agender")) return "/images/flags/AGÊNERO.svg";
-  if (identity.includes("gay")) return "/images/flags/GAY.svg";
-  if (identity.includes("intersex")) return "/images/flags/INTERSEX.svg";
-  if (identity.includes("demisexual")) return "/images/flags/DEMISSEX.svg";
-  if (identity.includes("abrosexual")) return "/images/flags/ABROSEX.svg";
-  if (identity.includes("polysexual")) return "/images/flags/POLISEX.svg";
-  if (identity.includes("polyamorous") || identity.includes("poliamor"))
-    return "/images/flags/POLIAMOR.svg";
-  if (identity.includes("non-monogamous") || identity.includes("não mono"))
-    return "/images/flags/NÃO MONO.svg";
+  
+  // Normalized mappings for the specified identities
+  if (identity.includes("trans")) return "/images/flags/QUEERKIT_FLAG_TRANSGENDER.svg";
+  if (identity.includes("bisexual") || identity === "bi") return "/images/flags/QUEERKIT_FLAG_BISEXUAL.svg";
+  if (identity.includes("pansexual") || identity === "pan") return "/images/flags/QUEERKIT_FLAG_PANSEXUAL.svg";
+  if (identity.includes("lesbian")) return "/images/flags/QUEERKIT_FLAG_LESBIAN.svg";
+  if (identity.includes("asexual") || identity === "ace") return "/images/flags/QUEERKIT_FLAG_ASEXUAL.svg";
+  if (identity.includes("aromantic") || identity === "aro") return "/images/flags/QUEERKIT_FLAG_AROMANTIC.svg";
+  if (identity.includes("genderfluid")) return "/images/flags/QUEERKIT_FLAG_GENDERFLUID.svg";
+  if (identity.includes("agender")) return "/images/flags/QUEERKIT_FLAG_AGENDER.svg";
+  if (identity.includes("gay")) return "/images/flags/QUEERKIT_FLAG_GAY.svg";
+  if (identity.includes("intersex")) return "/images/flags/QUEERKIT_FLAG_INTERSEX.svg";
+  if (identity.includes("demisexual")) return "/images/flags/QUEERKIT_FLAG_DEMISEXUAL.svg";
+  if (identity.includes("abrosexual")) return "/images/flags/QUEERKIT_FLAG_ABROSEXUAL.svg";
 
-  // For those not in my list, return an unexistant path (slugified)
+  // Slugified fallback for remaining items (Cisgender, Bigender, Heterosexual, etc.)
   const slug = identity
     .replace(/\s+/g, "-")
     .replace(/[^a-z0-9-]/g, "")
     .toUpperCase();
-  return `/images/flags/${slug || "UNKNOWN"}.svg`;
+  return `/images/flags/QUEERKIT_FLAG_${slug || "UNKNOWN"}.svg`;
 };
 
 const backCardBackground = computed(() => {
