@@ -1,6 +1,35 @@
 {
   "placeholder": "Espaço Reservado",
-  "app_tagline": "O seu guia para todas as coisas queer.",
+  "app": {
+    "tagline": "O seu guia para todas as coisas queer.",
+    "newsletter": {
+      "title": "Inscreva-se na nossa Newsletter",
+      "description": "Fique atualizado sobre novos posts e novidades. Cancele a inscrição a qualquer momento.",
+      "placeholder": "email{'@'}dominio.com",
+      "submit": "Inscrever"
+    },
+    "footer": {
+      "links": {
+        "resources": {
+          "label": "Recursos",
+          "content": {
+            "branding": "Marca",
+            "visitors": "Contagem de Visitantes"
+          }
+        },
+        "documents": {
+          "label": "Documentos",
+          "content": {
+            "privacyPolicy": "Política de Privacidade",
+            "cookiePolicy": "Política de Cookies",
+            "termsOfService": "Termos de Serviço",
+            "codeOfConduct": "Código de Conduta",
+            "otherDocuments": "Outros Documentos"
+          }
+        }
+      }
+    }
+  },
   "placeholder_name": "João Silva",
   "placeholder_first-name": "João",
   "placeholder_last-name": "Silva",
@@ -122,19 +151,7 @@
   "page_music_section_mixes_title": "Mixes de DJ",
   "page_blog_title": "blog",
   "page_blog_description": "Leia nossos posts mais recentes e atualizações de projeto.",
-  "footer_resources_title": "Recursos",
-  "footer_branding_label": "Marca",
-  "footer_visitor_count_label": "Contagem de Visitantes",
-  "footer_documents_title": "Documentos",
-  "footer_privacy_policy_label": "Política de Privacidade",
-  "footer_cookie_policy_label": "Política de Cookies",
-  "footer_terms_of_service_label": "Termos de Serviço",
-  "footer_code_of_conduct_label": "Código de Conduta",
-  "footer_other_documents_label": "Outros Documentos",
-  "newsletter_field_label": "Inscreva-se na nossa Newsletter",
-  "newsletter_description": "Fique atualizado sobre novos posts e novidades. Cancele a inscrição a qualquer momento.",
-  "newsletter_placeholder": "email{'@'}dominio.com",
-  "newsletter_button_label": "Inscrever",
+
   "home_hero_badge": "Empoderando o Coletivo",
   "home_hero_title": "Todas as Coisas Queer",
   "home_hero_description": "Somos o QueerKit. Um guia impulsionado pela comunidade construindo o recurso mais abrangente para conhecimento e conexão LGBTQ+.",

@@ -4,6 +4,7 @@
     "clear": "Go Back Home"
   },
   "app": {
+    "tagline": "Your guide to all things queer.",
     "newsletter": {
       "title": "Subscribe to our newsletter",
       "description": "Get the latest news and updates from us. Unsubscribe at any time.",
@@ -17,14 +18,18 @@
         "resources": {
           "label": "Resources",
           "content": {
-            "branding": "Branding"
+            "branding": "Branding",
+            "visitors": "Visitor Count"
           }
         },
         "documents": {
           "label": "Documents",
           "content": {
             "privacyPolicy": "Privacy Policy",
-            "cookiePolicy": "Cookie Policy"
+            "cookiePolicy": "Cookie Policy",
+            "termsOfService": "Terms of Service",
+            "codeOfConduct": "Code of Conduct",
+            "otherDocuments": "Other Documents"
           }
         }
       }
