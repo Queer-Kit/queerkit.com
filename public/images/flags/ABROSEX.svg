@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Abrosex" xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #e84673;
+      }
+
+      .cls-2 {
+        fill: #60b98c;
+      }
+
+      .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-4 {
+        fill: #369f6b;
+      }
+
+      .cls-5 {
+        fill: #ef8aaf;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" x="-.1" y="800" width="1500.3" height="200"/>
+  <rect class="cls-4" x="-.1" y="0" width="1500.3" height="200"/>
+  <rect class="cls-3" x="-.1" y="400" width="1500.3" height="200"/>
+  <rect class="cls-5" x="-.1" y="600" width="1500.3" height="200"/>
+  <rect class="cls-2" x="-.1" y="200" width="1500.3" height="200"/>
+</svg>

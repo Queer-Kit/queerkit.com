@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Bi" xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #d50571;
+      }
+
+      .cls-2 {
+        fill: #9b4f95;
+      }
+
+      .cls-3 {
+        fill: #1f4293;
+      }
+    </style>
+  </defs>
+  <rect class="cls-2" y="381.4" width="1500" height="237.3"/>
+  <rect class="cls-1" width="1500" height="381.7"/>
+  <rect class="cls-3" y="618.3" width="1500" height="381.7"/>
+</svg>

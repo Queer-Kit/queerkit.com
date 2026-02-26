@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Gen_Fluid" data-name="Gen Fluid" xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #384998;
+      }
+
+      .cls-2 {
+        fill: #2c2c2c;
+      }
+
+      .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-4 {
+        fill: #894492;
+      }
+
+      .cls-5 {
+        fill: #ed74a0;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" y="795.5" width="1500" height="204.5"/>
+  <rect class="cls-4" y="397.7" width="1500" height="204.5"/>
+  <rect class="cls-3" y="198.9" width="1500" height="204.5"/>
+  <rect class="cls-5" width="1500" height="204.5"/>
+  <rect class="cls-2" y="596.6" width="1500" height="204.5"/>
+</svg>
