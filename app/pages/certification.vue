@@ -1,6 +1,6 @@
 ﻿<script lang="ts" setup>
 import { useI18n } from "vue-i18n";
-import { jsPDF } from "jspdf";
+import { createCmykPdf, downloadBlob } from "~/utils/cmyk-pdf";
 
 // Metadata
 useSeoMeta({
@@ -54,6 +54,16 @@ const BACK_LAYOUT = {
 const frontImageStats = reactive({ width: 0, height: 0 });
 const backImageStats = reactive({ width: 0, height: 0 });
 
+// Dynamic preview scaling: compute scale from actual container width
+// so preview layout matches canvas export proportions exactly
+const frontCardRef = ref<HTMLElement | null>(null);
+const { width: frontCardWidth } = useElementSize(frontCardRef);
+const BASE_WIDTH = 1011;
+const previewScale = computed(() => {
+  if (!frontCardWidth.value || frontCardWidth.value <= 0) return 1 / 1.5;
+  return frontCardWidth.value / BASE_WIDTH;
+});
+
 onMounted(() => {
   const front = new Image();
   front.src = "/images/certification_front.jpg";
@@ -90,7 +100,6 @@ function onFileChange(event: Event) {
   }
 }
 
-// Generate and download the card
 // Generate and download both sides of the card
 async function downloadCard() {
   const namePart = (formData.name || "CERTIFICATE").toUpperCase().replace(/\s+/g, "-");
@@ -106,21 +115,13 @@ async function downloadCard() {
   const backDataUrl = backCanvas.toDataURL("image/png");
   downloadFile(backDataUrl, `${baseName}_BACK.png`);
 
-  // PDF Group (Print Ready - 2 Pages at Card Size)
-  const pdf = new jsPDF({
-    orientation: "landscape",
-    unit: "mm",
-    format: [85.6, 53.98],
-  });
-
-  // Page 1: Front
-  pdf.addImage(frontDataUrl, "PNG", 0, 0, 85.6, 53.98);
-  
-  // Page 2: Back
-  pdf.addPage([85.6, 53.98], "landscape");
-  pdf.addImage(backDataUrl, "PNG", 0, 0, 85.6, 53.98);
-
-  pdf.save(`${baseName}_GROUP.pdf`);
+  // PDF Group (Print Ready - CMYK Color Space - 2 Pages at Card Size)
+  const pdfBytes = await createCmykPdf(
+    [frontCanvas, backCanvas],
+    85.6,
+    53.98,
+  );
+  downloadBlob(pdfBytes, `${baseName}_GROUP.pdf`);
 }
 
 function downloadFile(href: string, filename: string) {
@@ -162,7 +163,7 @@ async function generateFrontCanvas() {
 
     // Draw lines from bottom to top
     for (let i = lines.length - 1; i >= 0; i--) {
-      ctx.fillText(lines[i], x, testY);
+      ctx.fillText(lines[i]!, x, testY);
       testY -= lineHeight;
     }
   };
@@ -263,7 +264,7 @@ async function generateFrontCanvas() {
   ctx.fillStyle = "#ec4899";
   ctx.font = `bold ${FRONT_LAYOUT.TITLE_SIZE * scale}px ${fontMain}`;
   ctx.fillText(headingText, textX, currentTopY);
-  currentTopY += (FRONT_LAYOUT.TITLE_SIZE + FRONT_LAYOUT.GAP_VERTICAL / 3) * scale;
+  currentTopY += (FRONT_LAYOUT.TITLE_SIZE + FRONT_LAYOUT.GAP_VERTICAL / 2) * scale;
 
   // Registry ID
   ctx.fillStyle = "#000000";
@@ -273,7 +274,7 @@ async function generateFrontCanvas() {
 
   // Name (Moved to Top Block)
   ctx.fillStyle = "#ec4899";
-  ctx.font = `bold ${FRONT_LAYOUT.LABEL_SIZE * scale}px ${fontMain}`;
+  ctx.font = `bold ${(FRONT_LAYOUT.LABEL_SIZE - 4) * scale}px ${fontMain}`;
   ctx.fillText(t('pages.certification.card.name').toUpperCase(), textX, currentTopY);
   currentTopY += (FRONT_LAYOUT.LABEL_SIZE + 4 * scale) * scale; // Scaled offset
   ctx.fillStyle = "#000000";
@@ -283,11 +284,11 @@ async function generateFrontCanvas() {
 
   // Pronouns (Always visible, moved to Top Block)
   ctx.fillStyle = "#ec4899";
-  ctx.font = `bold ${FRONT_LAYOUT.LABEL_SIZE * scale}px ${fontMain}`;
+  ctx.font = `bold ${(FRONT_LAYOUT.LABEL_SIZE - 4) * scale}px ${fontMain}`;
   ctx.fillText(t('pages.certification.card.pronouns').toUpperCase(), textX, currentTopY);
   currentTopY += (FRONT_LAYOUT.LABEL_SIZE + 4 * scale) * scale; // Scaled offset
   ctx.fillStyle = "#000000";
-  ctx.font = `bold ${FRONT_LAYOUT.FIELD_SIZE * scale}px ${fontMain}`;
+  ctx.font = `bold ${(FRONT_LAYOUT.FIELD_SIZE - 4) * scale}px ${fontMain}`;
   const pronounsLabel = getTagLabel(formData.pronouns);
   ctx.fillText(pronounsLabel && pronounsLabel !== "—" ? pronounsLabel : "—", textX, currentTopY);
   currentTopY += FRONT_LAYOUT.FIELD_SIZE * scale;
@@ -309,7 +310,7 @@ async function generateFrontCanvas() {
   currentBottomY -= (FRONT_LAYOUT.SUBTITLE_SIZE + 4 * scale) * scale; // Scaled offset
 
   ctx.fillStyle = "#ec4899";
-  ctx.font = `bold ${(FRONT_LAYOUT.LABEL_SIZE - 2) * scale}px ${fontMain}`;
+  ctx.font = `bold ${(FRONT_LAYOUT.LABEL_SIZE - 4) * scale}px ${fontMain}`;
   ctx.fillText(t('pages.certification.card.issued').toUpperCase(), textX, currentBottomY);
   ctx.fillText(t('pages.certification.card.expires').toUpperCase(), textX + 180 * scale, currentBottomY);
   currentBottomY -= FRONT_LAYOUT.LABEL_SIZE * scale;
@@ -756,6 +757,7 @@ const backCardBackground = computed(() => {
 
           <!-- Front Card Preview -->
           <div
+            ref="frontCardRef"
             class="relative overflow-hidden rounded-xl shadow-2xl bg-cover bg-center"
             :style="{
               backgroundImage: 'url(/images/certification_front.jpg)',
@@ -768,9 +770,9 @@ const backCardBackground = computed(() => {
                   v-if="getFlagPath()"
                   class="absolute z-30"
                   :style="{
-                    top: `${FRONT_LAYOUT.PADDING_TOP / 1.5}px`,
-                    right: `${FRONT_LAYOUT.PADDING_RIGHT / 1.5}px`,
-                    width: `${FRONT_LAYOUT.FLAG_W / 1.5}px`,
+                    top: `${FRONT_LAYOUT.PADDING_TOP * previewScale}px`,
+                    right: `${FRONT_LAYOUT.PADDING_RIGHT * previewScale}px`,
+                    width: `${FRONT_LAYOUT.FLAG_W * previewScale}px`,
                     aspectRatio: '4/3'
                   }"
                 >
@@ -781,22 +783,22 @@ const backCardBackground = computed(() => {
               <div 
                 class="absolute flex items-start z-10"
                 :style="{
-                  top: `${FRONT_LAYOUT.PADDING_TOP / 1.5}px`,
-                  bottom: `${FRONT_LAYOUT.PADDING_BOTTOM / 1.5}px`,
-                  left: `${FRONT_LAYOUT.PADDING_LEFT / 1.5}px`,
-                  right: `${FRONT_LAYOUT.PADDING_RIGHT / 1.5}px`,
-                  gap: `${FRONT_LAYOUT.GAP_HORIZONTAL / 1.5}px`
+                  top: `${FRONT_LAYOUT.PADDING_TOP * previewScale}px`,
+                  bottom: `${FRONT_LAYOUT.PADDING_BOTTOM * previewScale}px`,
+                  left: `${FRONT_LAYOUT.PADDING_LEFT * previewScale}px`,
+                  right: `${FRONT_LAYOUT.PADDING_RIGHT * previewScale}px`,
+                  gap: `${FRONT_LAYOUT.GAP_HORIZONTAL * previewScale}px`
                 }"
               >
                 <!-- Photo / Note Column (Left) -->
-                <div class="flex flex-col justify-between h-full" :style="{ width: `${FRONT_LAYOUT.PHOTO_W / 1.5}px` }">
+                <div class="flex flex-col justify-between h-full" :style="{ width: `${FRONT_LAYOUT.PHOTO_W * previewScale}px` }">
                   <!-- Photo Placeholder -->
                   <div
                     class="shrink-0 flex items-center justify-center bg-black/40 border border-primary-500 overflow-hidden"
                     :style="{
-                      width: `${FRONT_LAYOUT.PHOTO_W / 1.5}px`,
-                      height: `${FRONT_LAYOUT.PHOTO_H / 1.5}px`,
-                      borderRadius: `${FRONT_LAYOUT.PHOTO_CORNER_RADIUS / 1.5}px`
+                      width: `${FRONT_LAYOUT.PHOTO_W * previewScale}px`,
+                      height: `${FRONT_LAYOUT.PHOTO_H * previewScale}px`,
+                      borderRadius: `${FRONT_LAYOUT.PHOTO_CORNER_RADIUS * previewScale}px`
                     }"
                   >
                     <img
@@ -810,7 +812,7 @@ const backCardBackground = computed(() => {
                   <!-- Institute Note (Left Bottom) -->
                   <p 
                     class="text-black leading-tight"
-                    :style="{ fontSize: `${FRONT_LAYOUT.NOTE_SIZE / 1.5}px` }"
+                    :style="{ fontSize: `${FRONT_LAYOUT.NOTE_SIZE * previewScale}px` }"
                   >
                     {{ $t('pages.certification.card.instituteNote') }}
                   </p>
@@ -822,17 +824,17 @@ const backCardBackground = computed(() => {
                   <div 
                     class="flex flex-col" 
                     :class="{ 'border-2 border-blue-500': FRONT_LAYOUT.RENDER_DEBUG }"
-                    :style="{ gap: `${FRONT_LAYOUT.GAP_VERTICAL / 3}px` }"
+                    :style="{ gap: `${(FRONT_LAYOUT.GAP_VERTICAL / 2) * previewScale}px` }"
                   >
                     <h2 
                       class="font-bold text-pink-500 leading-none"
-                      :style="{ fontSize: `${FRONT_LAYOUT.TITLE_SIZE / 1.5}px` }"
+                      :style="{ fontSize: `${FRONT_LAYOUT.TITLE_SIZE * previewScale}px` }"
                     >
                       {{ $t('pages.certification.card.title', { identity: (!getTagLabel(formData.identity) || getTagLabel(formData.identity) === '—') ? $t('pages.certification.card.defaultIdentity') : getTagLabel(formData.identity) }) }}
                     </h2>
                     <p 
                       class="font-bold text-black opacity-80"
-                      :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE / 1.5}px` }"
+                      :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE * previewScale}px` }"
                     >
                       {{ $t('pages.certification.card.registryId') }}: {{ generationId }}
                     </p>
@@ -840,13 +842,13 @@ const backCardBackground = computed(() => {
                     <div class="mt-2">
                       <p 
                         class="font-semibold uppercase tracking-wider text-pink-500"
-                        :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) / 1.5}px` }"
+                        :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) * previewScale}px` }"
                       >
                         {{ $t('pages.certification.card.name') }}
                       </p>
                       <p 
                         class="font-bold text-black leading-tight"
-                        :style="{ fontSize: `${FRONT_LAYOUT.FIELD_SIZE / 1.5}px` }"
+                        :style="{ fontSize: `${FRONT_LAYOUT.FIELD_SIZE * previewScale}px` }"
                       >
                         {{ formData.name || "—" }}
                       </p>
@@ -855,13 +857,13 @@ const backCardBackground = computed(() => {
                     <div>
                       <p
                         class="font-semibold uppercase tracking-wider text-pink-500"
-                        :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) / 1.5}px` }"
+                        :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) * previewScale}px` }"
                       >
                         {{ $t('pages.certification.card.pronouns') }}
                       </p>
                       <p 
                         class="font-bold text-black"
-                        :style="{ fontSize: `${(FRONT_LAYOUT.FIELD_SIZE - 4) / 1.5}px` }"
+                        :style="{ fontSize: `${(FRONT_LAYOUT.FIELD_SIZE - 4) * previewScale}px` }"
                       >
                         {{ getTagLabel(formData.pronouns) === '—' ? '—' : (getTagLabel(formData.pronouns) || '—') }}
                       </p>
@@ -872,19 +874,19 @@ const backCardBackground = computed(() => {
                   <div 
                     class="flex flex-col" 
                     :class="{ 'border-2 border-blue-500': FRONT_LAYOUT.RENDER_DEBUG }"
-                    :style="{ gap: `${FRONT_LAYOUT.GAP_VERTICAL / 3}px` }"
+                    :style="{ gap: `${(FRONT_LAYOUT.GAP_VERTICAL / 2) * previewScale}px` }"
                   >
                     <div class="flex">
-                      <div :style="{ width: `${180 / 1.5}px` }">
+                      <div :style="{ width: `${180 * previewScale}px` }">
                         <p 
                           class="font-semibold uppercase text-pink-500"
-                          :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) / 1.5}px` }"
+                          :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) * previewScale}px` }"
                         >
                           {{ $t('pages.certification.card.issued') }}
                         </p>
                         <p 
                           class="text-black font-bold"
-                          :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE / 1.5}px` }"
+                          :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE * previewScale}px` }"
                         >
                           {{ issueDate }}
                         </p>
@@ -892,13 +894,13 @@ const backCardBackground = computed(() => {
                       <div>
                         <p 
                           class="font-semibold uppercase text-pink-500"
-                          :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) / 1.5}px` }"
+                          :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) * previewScale}px` }"
                         >
                           {{ $t('pages.certification.card.expires') }}
                         </p>
                         <p 
                           class="text-black font-bold"
-                          :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE / 1.5}px` }"
+                          :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE * previewScale}px` }"
                         >
                           {{ expiryDate }}
                         </p>
@@ -911,7 +913,7 @@ const backCardBackground = computed(() => {
                 <div 
                   class="absolute pointer-events-none flex items-end z-30" 
                   :style="{ 
-                    gap: `${FRONT_LAYOUT.EMBLEM_GAP / 1.5}px`,
+                    gap: `${FRONT_LAYOUT.EMBLEM_GAP * previewScale}px`,
                     bottom: 0,
                     right: 0
                   }"
@@ -919,12 +921,12 @@ const backCardBackground = computed(() => {
                   <img 
                     src="/images/emblem_01.png" 
                     class="object-contain" 
-                    :style="{ height: `${FRONT_LAYOUT.EMBLEM_SIZE / 1.5}px`, width: `${FRONT_LAYOUT.EMBLEM_SIZE / 1.5}px` }"
+                    :style="{ height: `${FRONT_LAYOUT.EMBLEM_SIZE * previewScale}px`, width: `${FRONT_LAYOUT.EMBLEM_SIZE * previewScale}px` }"
                   />
                   <img 
                     src="/images/emblem_02.png" 
                     class="object-contain" 
-                    :style="{ height: `${FRONT_LAYOUT.EMBLEM_SIZE / 1.5}px`, width: `${FRONT_LAYOUT.EMBLEM_SIZE / 1.5}px` }"
+                    :style="{ height: `${FRONT_LAYOUT.EMBLEM_SIZE * previewScale}px`, width: `${FRONT_LAYOUT.EMBLEM_SIZE * previewScale}px` }"
                   />
                 </div>
               </div>
@@ -934,10 +936,10 @@ const backCardBackground = computed(() => {
               v-if="FRONT_LAYOUT.RENDER_DEBUG"
               class="absolute border-2 border-red-500 pointer-events-none z-50"
               :style="{
-                top: `${FRONT_LAYOUT.PADDING_TOP / 1.5}px`,
-                bottom: `${FRONT_LAYOUT.PADDING_BOTTOM / 1.5}px`,
-                left: `${FRONT_LAYOUT.PADDING_LEFT / 1.5}px`,
-                right: `${FRONT_LAYOUT.PADDING_RIGHT / 1.5}px`
+                top: `${FRONT_LAYOUT.PADDING_TOP * previewScale}px`,
+                bottom: `${FRONT_LAYOUT.PADDING_BOTTOM * previewScale}px`,
+                left: `${FRONT_LAYOUT.PADDING_LEFT * previewScale}px`,
+                right: `${FRONT_LAYOUT.PADDING_RIGHT * previewScale}px`
               }"
             ></div>
           </div>
@@ -970,14 +972,14 @@ const backCardBackground = computed(() => {
               <div
                 class="shadow-2xl flex items-center justify-center pointer-events-auto"
                 :style="{
-                  top: `${BACK_LAYOUT.PADDING_Y / 1.5}px`,
-                  bottom: `${BACK_LAYOUT.PADDING_Y / 1.5}px`,
-                  left: `${BACK_LAYOUT.PADDING_X / 1.5}px`,
-                  right: `${BACK_LAYOUT.PADDING_X / 1.5}px`,
-                  paddingTop: `${BACK_LAYOUT.LOGO_PADDING_Y / 1.5}px`,
-                  paddingBottom: `${BACK_LAYOUT.LOGO_PADDING_Y / 1.5}px`,
-                  paddingLeft: `${BACK_LAYOUT.LOGO_PADDING_X / 1.5}px`,
-                  paddingRight: `${BACK_LAYOUT.LOGO_PADDING_X / 1.5}px`,
+                  top: `${BACK_LAYOUT.PADDING_Y * previewScale}px`,
+                  bottom: `${BACK_LAYOUT.PADDING_Y * previewScale}px`,
+                  left: `${BACK_LAYOUT.PADDING_X * previewScale}px`,
+                  right: `${BACK_LAYOUT.PADDING_X * previewScale}px`,
+                  paddingTop: `${BACK_LAYOUT.LOGO_PADDING_Y * previewScale}px`,
+                  paddingBottom: `${BACK_LAYOUT.LOGO_PADDING_Y * previewScale}px`,
+                  paddingLeft: `${BACK_LAYOUT.LOGO_PADDING_X * previewScale}px`,
+                  paddingRight: `${BACK_LAYOUT.LOGO_PADDING_X * previewScale}px`,
                   backgroundColor: BACK_LAYOUT.BLOCK_BG,
                   position: 'absolute'
                 }"
