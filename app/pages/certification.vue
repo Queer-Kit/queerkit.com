@@ -437,7 +437,7 @@ async function generateBackCanvas(targetWidth?: number, targetHeight?: number) {
 
     // 4. Draw Horizontal Cor Logo
     const logoImg = new Image();
-    logoImg.src = "/images/Horizontal_Cor.svg";
+    logoImg.src = "/images/QUEERKIT_COMBOMARK_HORIZONTAL_COLOR.svg";
     await new Promise((resolve) => {
       logoImg.onload = resolve;
       logoImg.onerror = () => resolve(null);
@@ -564,25 +564,25 @@ const getFlagPath = (identityLabel?: string) => {
   if (!identity || identity === "—") return null;
 
   // Normalized mappings for the specified identities
-  if (identity.includes("trans")) return "/images/flags/QUEERKIT_FLAG_TRANSGENDER.svg";
-  if (identity.includes("bisexual") || identity === "bi") return "/images/flags/QUEERKIT_FLAG_BISEXUAL.svg";
-  if (identity.includes("pansexual") || identity === "pan") return "/images/flags/QUEERKIT_FLAG_PANSEXUAL.svg";
-  if (identity.includes("lesbian")) return "/images/flags/QUEERKIT_FLAG_LESBIAN.svg";
-  if (identity.includes("asexual") || identity === "ace") return "/images/flags/QUEERKIT_FLAG_ASEXUAL.svg";
-  if (identity.includes("aromantic") || identity === "aro") return "/images/flags/QUEERKIT_FLAG_AROMANTIC.svg";
-  if (identity.includes("genderfluid")) return "/images/flags/QUEERKIT_FLAG_GENDERFLUID.svg";
-  if (identity.includes("agender")) return "/images/flags/QUEERKIT_FLAG_AGENDER.svg";
-  if (identity.includes("gay")) return "/images/flags/QUEERKIT_FLAG_GAY.svg";
-  if (identity.includes("intersex")) return "/images/flags/QUEERKIT_FLAG_INTERSEX.svg";
-  if (identity.includes("demisexual")) return "/images/flags/QUEERKIT_FLAG_DEMISEXUAL.svg";
-  if (identity.includes("abrosexual")) return "/images/flags/QUEERKIT_FLAG_ABROSEXUAL.svg";
+  if (identity.includes("trans")) return "/images/flags/QUEERKIT_FLAGS_TRANS.svg";
+  if (identity.includes("bisexual") || identity === "bi") return "/images/flags/QUEERKIT_FLAGS_BISEXUAL.svg";
+  if (identity.includes("pansexual") || identity === "pan") return "/images/flags/QUEERKIT_FLAGS_PANSEXUAL.svg";
+  if (identity.includes("lesbian")) return "/images/flags/QUEERKIT_FLAGS_LESBIAN.svg";
+  if (identity.includes("asexual") || identity === "ace") return "/images/flags/QUEERKIT_FLAGS_ASEXUAL.svg";
+  if (identity.includes("aromantic") || identity === "aro") return "/images/flags/QUEERKIT_FLAGS_AROMANTIC.svg";
+  if (identity.includes("genderfluid")) return "/images/flags/QUEERKIT_FLAGS_GENDER_FLUID.svg";
+  if (identity.includes("agender")) return "/images/flags/QUEERKIT_FLAGS_AGENDER.svg";
+  if (identity.includes("gay")) return "/images/flags/QUEERKIT_FLAGS_GAY.svg";
+  if (identity.includes("intersex")) return "/images/flags/QUEERKIT_FLAGS_INTERSEX.svg";
+  if (identity.includes("demisexual")) return "/images/flags/QUEERKIT_FLAGS_DEMISEXUAL.svg";
+  if (identity.includes("abrosexual")) return "/images/flags/QUEERKIT_FLAGS_ABROSEX.svg";
 
   // Slugified fallback for remaining items (Cisgender, Bigender, Heterosexual, etc.)
   const slug = identity
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9-]/g, "")
+    .replace(/\s+/g, "_")
+    .replace(/[^a-z0-9_]/g, "")
     .toUpperCase();
-  return `/images/flags/QUEERKIT_FLAG_${slug || "UNKNOWN"}.svg`;
+  return `/images/flags/QUEERKIT_FLAGS_${slug || "UNKNOWN"}.svg`;
 };
 
 const backCardBackground = computed(() => {
@@ -930,7 +930,7 @@ const backCardBackground = computed(() => {
                   position: 'absolute'
                 }"
               >
-                <img src="/images/Horizontal_Cor.svg" class="h-full w-auto object-contain" />
+                <img src="/images/QUEERKIT_COMBOMARK_HORIZONTAL_COLOR.svg" class="h-full w-auto object-contain" />
               </div>
             </div>
 

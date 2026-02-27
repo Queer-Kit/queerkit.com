@@ -5,7 +5,7 @@ const { totalHeight } = useHeaderStack();
 <template>
   <div
     :style="{ '--total-header-offset': `${totalHeight}px` }"
-    class="min-h-screen bg-primary-900 flex flex-col"
+    class="min-h-screen bg-white flex flex-col"
   >
     <ClientOnly>
       <RCHeaderLayer id="banner" :order="1" hide-on-scroll>
@@ -32,7 +32,7 @@ const { totalHeight } = useHeaderStack();
 
     <UPage :style="{ paddingTop: 'var(--total-header-offset)' }" class="flex-1">
       <template #left>
-        <UPageAside class="bg-neutral-800 w-64 border-none">
+        <UPageAside class="bg-neutral-50 w-64 border-r border-neutral-200">
           <QKWikiSidebar />
         </UPageAside>
       </template>

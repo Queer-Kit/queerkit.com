@@ -2,24 +2,24 @@ export default defineAppConfig({
   title: "Queer Kit",
   description: "Your guide to all things queer.",
   cdn: "https://cdn.queerkit.com",
-  logomark: "first-party:logomark-white",
-  logotype: "first-party:logotype-white",
+  logomark: "first-party:QUEERKIT_LOGOMARK_COLOR",
+  logotype: "first-party:QUEERKIT_COMBOMARK_HORIZONTAL_COLOR",
   rimelightComponents: {
     logos: {
       mark: {
-        light: "first-party:logomark-white",
-        dark: "first-party:logomark-white",
+        light: "first-party:QUEERKIT_LOGOMARK_COLOR",
+        dark: "first-party:QUEERKIT_LOGOMARK_COLOR",
       },
       type: {
-        light: "first-party:logotype-white",
-        dark: "first-party:logotype-white",
+        light: "first-party:QUEERKIT_COMBOMARK_HORIZONTAL_COLOR",
+        dark: "first-party:QUEERKIT_COMBOMARK_HORIZONTAL_COLOR",
       },
       classic: {
         light: "i-first-party:logo-classic-black",
         dark: "i-first-party:logo-classic-white",
       },
       symbol: "i-lucide:sparkles",
-      monochrome: "i-first-party:logomark-white",
+      monochrome: "i-first-party:QUEERKIT_LOGOMARK_COLOR",
     },
     auth: {
       adminEmailDomain: "@queerkit.com",

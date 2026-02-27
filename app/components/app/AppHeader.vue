@@ -53,11 +53,7 @@ type menuItem = NavigationMenuItem & DropdownMenuItem;
 
 const items = computed<NavigationMenuItem[]>(() =>
   markRaw([
-    {
-      label: "Home",
-      to: "/",
-      active: route.path === "/",
-    },
+
     {
       label: "About",
       to: "/company/about",
@@ -245,38 +241,39 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
 </script>
 
 <template>
-  <RCHeader :contain="false" class="bg-black">
+  <RCHeader :contain="false" class="bg-white shadow-sm">
     <template #left>
       <div class="flex flex-row items-center gap-md">
         <ClientOnly>
           <RCLogo class="h-6 w-auto" variant="mark" />
         </ClientOnly>
-        <UNavigationMenu
-          :items="items"
-          :style="{ '--header-bottom-boundary': `${(bottomOffsets[layerId] || 0) - 64}px` }"
-          :ui="{
-            viewportWrapper:
-              'top-[var(--header-bottom-boundary)] flex fixed w-screen mt-[var(--ui-header-height)] z-[100]',
-            viewport: 'rounded-none ring-0',
-            link: [
-              'text-white transition-colors duration-200',
-              'hover:text-primary-400',
-              'data-[state=open]:text-primary-400',
-              'aria-[current]:text-primary-400',
-            ],
-          }"
-          variant="link"
-        />
       </div>
     </template>
-    <template #center></template>
+    <template #center>
+      <UNavigationMenu
+        :items="items"
+        :style="{ '--header-bottom-boundary': `${(bottomOffsets[layerId] || 0) - 64}px` }"
+        :ui="{
+          viewportWrapper:
+            'top-[var(--header-bottom-boundary)] flex fixed w-screen mt-[var(--ui-header-height)] z-[100]',
+          viewport: 'rounded-none ring-0',
+          link: [
+            'text-neutral-900 transition-colors duration-200',
+            'hover:text-primary-500',
+            'data-[state=open]:text-primary-500',
+            'aria-[current]:text-primary-500',
+          ],
+        }"
+        variant="link"
+      />
+    </template>
     <template #right>
       <div class="flex flex-row gap-sm">
         <ClientOnly v-if="session">
           <div class="flex flex-row items-center gap-md">
             <UTooltip text="Notifications">
               <UButton
-                class="text-white hover:bg-primary-500"
+                class="text-neutral-900 hover:bg-neutral-100"
                 color="neutral"
                 square
                 variant="ghost"
@@ -292,7 +289,7 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
                   <UTooltip>
                     <template #default>
                       <UButton
-                        class="text-white hover:text-primary-400 transition-colors duration-200"
+                        class="text-neutral-900 hover:text-primary-500 transition-colors duration-200"
                         variant="ghost"
                       >
                         <UUser
@@ -305,7 +302,7 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
                           :description="session?.user.status ?? ''"
                           :name="session?.user.name"
                           :ui="{
-                            name: 'text-white group-hover:text-primary-400 transition-colors duration-200',
+                            name: 'text-neutral-900 group-hover:text-primary-500 transition-colors duration-200',
                             description: 'text-left',
                           }"
                           class="group"
