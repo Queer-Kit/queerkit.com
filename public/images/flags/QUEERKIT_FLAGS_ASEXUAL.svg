@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Assex" xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #7b217f;
+      }
+
+      .cls-3 {
+        fill: #a2a1a1;
+      }
+    </style>
+  </defs>
+  <rect y="0" width="1500" height="250"/>
+  <rect class="cls-3" y="250" width="1500" height="250"/>
+  <rect class="cls-1" y="500" width="1500" height="250"/>
+  <rect class="cls-2" y="750" width="1500" height="250"/>
+</svg>

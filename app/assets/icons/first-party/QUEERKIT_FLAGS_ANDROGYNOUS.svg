@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="andrógino" xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #da5062;
+      }
+
+      .cls-2 {
+        fill: #c07ed7;
+      }
+
+      .cls-3 {
+        fill: #696969;
+      }
+
+      .cls-4 {
+        fill: #e7ca54;
+      }
+
+      .cls-5 {
+        fill: #5480d7;
+      }
+    </style>
+  </defs>
+  <rect class="cls-5" y="795.5" width="1500" height="204.5"/>
+  <rect class="cls-4" y="397.7" width="1500" height="204.5"/>
+  <rect class="cls-2" y="198.9" width="1500" height="204.5"/>
+  <rect class="cls-1" y="0" width="1500" height="204.5"/>
+  <rect class="cls-3" y="596.6" width="1500" height="204.5"/>
+</svg>
