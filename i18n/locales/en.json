@@ -133,11 +133,16 @@
         "title": "{identity} Certification",
         "registryId": "Registry ID",
         "name": "Name",
-        "pronouns": "Pronouns",
+        "pronounsLabel": "Pronouns",
         "issued": "Issued",
         "expires": "Expires",
         "instituteNote": "Valid in all global territory.",
-        "defaultIdentity": "Queer"
+        "defaultIdentity": "Queer",
+        "pronouns": {
+          "heHim": "he/him",
+          "sheHer": "she/her",
+          "theyThem": "they/them"
+        }
       }
     }
   }

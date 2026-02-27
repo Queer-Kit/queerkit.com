@@ -157,11 +157,16 @@
         "title": "Certificação {identity}",
         "registryId": "ID de Registro",
         "name": "Nome",
-        "pronouns": "Pronomes",
+        "pronounsLabel": "Pronomes",
         "issued": "Emitido em",
         "expires": "Expira em",
         "instituteNote": "Certificação emitida pelo International Validity Institute. Válida em todo o território global.",
-        "defaultIdentity": "Queer"
+        "defaultIdentity": "Queer",
+        "pronouns": {
+          "heHim": "ele/dele",
+          "sheHer": "ela/dela",
+          "theyThem": "elo/delo"
+        }
       }
     }
   },

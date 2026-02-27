@@ -84,7 +84,10 @@ onMounted(() => {
 const getTagLabel = (val: any) => {
   if (!val) return "—";
   if (typeof val === "string") return val;
-  if (typeof val === "object" && val.label) return val.label;
+  if (typeof val === "object") {
+    if (val.label) return val.label;
+    if (val.value) return val.value;
+  }
   return val;
 };
 
@@ -285,12 +288,23 @@ async function generateFrontCanvas() {
   // Pronouns (Always visible, moved to Top Block)
   ctx.fillStyle = "#ec4899";
   ctx.font = `bold ${(FRONT_LAYOUT.LABEL_SIZE - 4) * scale}px ${fontMain}`;
-  ctx.fillText(t('pages.certification.card.pronouns').toUpperCase(), textX, currentTopY);
+  ctx.fillText(t('pages.certification.card.pronounsLabel').toUpperCase(), textX, currentTopY);
   currentTopY += (FRONT_LAYOUT.LABEL_SIZE + 4 * scale) * scale; // Scaled offset
   ctx.fillStyle = "#000000";
   ctx.font = `bold ${(FRONT_LAYOUT.FIELD_SIZE - 4) * scale}px ${fontMain}`;
-  const pronounsLabel = getTagLabel(formData.pronouns);
-  ctx.fillText(pronounsLabel && pronounsLabel !== "—" ? pronounsLabel : "—", textX, currentTopY);
+  
+  let pronounsLabel = "—";
+  if (formData.pronouns) {
+    if (typeof formData.pronouns === 'string') {
+      pronounsLabel = formData.pronouns;
+    } else if (formData.pronouns.value && ['heHim', 'sheHer', 'theyThem'].includes(formData.pronouns.value)) {
+      pronounsLabel = t(`pages.certification.card.pronouns.${formData.pronouns.value}`);
+    } else {
+      pronounsLabel = formData.pronouns.label || "—";
+    }
+  }
+  
+  ctx.fillText(pronounsLabel, textX, currentTopY);
   currentTopY += FRONT_LAYOUT.FIELD_SIZE * scale;
 
   const topBlockHeight = currentTopY - topY;
@@ -445,10 +459,10 @@ async function generateBackCanvas(targetWidth?: number, targetHeight?: number) {
 }
 
 // Predefined options
-const pronounOptions = ref([
-  { label: "he/him - ele/dele", value: "he/him - ele/dele" },
-  { label: "she/her - ela/dela", value: "she/her - ela/dela" },
-  { label: "they/them - elo/delo", value: "they/them - elo/delo" },
+const pronounOptions = computed(() => [
+  { label: t('pages.certification.card.pronouns.heHim'), value: "heHim" },
+  { label: t('pages.certification.card.pronouns.sheHer'), value: "sheHer" },
+  { label: t('pages.certification.card.pronouns.theyThem'), value: "theyThem" },
 ]);
 
 const genderIdentityOptions = ref([
@@ -633,7 +647,6 @@ const backCardBackground = computed(() => {
                   size="lg"
                   @create="
                     (item) => {
-                      pronounOptions.push({ label: item, value: item });
                       formData.pronouns = { label: item, value: item };
                     }
                   "
@@ -646,14 +659,14 @@ const backCardBackground = computed(() => {
               <h3 class="text-lg font-semibold text-primary-400">Certification Details</h3>
 
               <!-- Combined Identity Select -->
-              <UFormField label="Primary Identity" name="identity" required>
+              <UFormField label="Identity" name="identity" required>
                 <USelectMenu
                   v-model="formData.identity"
                   :items="identityOptions"
                   by="value"
                   label-key="label"
                   create-item
-                  placeholder="Select your primary identity"
+                  placeholder="Queer"
                   searchable
                   size="lg"
                   @create="onIdentityCreate"
@@ -772,19 +785,21 @@ const backCardBackground = computed(() => {
                         {{ formData.name || "—" }}
                       </p>
                     </div>
-
                     <div>
                       <p
                         class="font-semibold uppercase tracking-wider text-pink-500"
                         :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) * previewScale}px` }"
                       >
-                        {{ $t('pages.certification.card.pronouns') }}
+                        {{ $t('pages.certification.card.pronounsLabel') }}
                       </p>
                       <p
                         class="font-bold text-black"
                         :style="{ fontSize: `${(FRONT_LAYOUT.FIELD_SIZE - 4) * previewScale}px` }"
                       >
-                        {{ getTagLabel(formData.pronouns) === '—' ? '—' : (getTagLabel(formData.pronouns) || '—') }}
+                        <template v-if="formData.pronouns">
+                          {{ ['heHim', 'sheHer', 'theyThem'].includes(formData.pronouns.value) ? $t(`pages.certification.card.pronouns.${formData.pronouns.value}`) : getTagLabel(formData.pronouns) }}
+                        </template>
+                        <template v-else>—</template>
                       </p>
                     </div>
                   </div>
@@ -848,6 +863,18 @@ const backCardBackground = computed(() => {
                     :style="{ height: `${FRONT_LAYOUT.EMBLEM_SIZE * previewScale}px`, width: `${FRONT_LAYOUT.EMBLEM_SIZE * previewScale}px` }"
                   />
                 </div>
+
+                <!-- Preview Watermark -->
+                <div 
+                  class="absolute inset-0 z-50 flex items-center justify-center pointer-events-none opacity-20 select-none overflow-hidden"
+                >
+                  <span 
+                    class="text-red-600 font-bold border-8 border-red-600 px-8 py-4 rounded-3xl whitespace-nowrap"
+                    :style="{ fontSize: `${120 * previewScale}px` }"
+                  >
+                    [PREVIEW]
+                  </span>
+                </div>
               </div>
             </div>
             <!-- Debug Border Overlay -->
@@ -905,6 +932,18 @@ const backCardBackground = computed(() => {
               >
                 <img src="/images/Horizontal_Cor.svg" class="h-full w-auto object-contain" />
               </div>
+            </div>
+
+            <!-- Preview Watermark -->
+            <div 
+              class="absolute inset-0 z-50 flex items-center justify-center pointer-events-none opacity-20 select-none overflow-hidden"
+            >
+              <span 
+                class="text-red-600 font-bold border-8 border-red-600 px-8 py-4 rounded-3xl whitespace-nowrap"
+                :style="{ fontSize: `${120 * previewScale}px` }"
+              >
+                [PREVIEW]
+              </span>
             </div>
           </div>
 
