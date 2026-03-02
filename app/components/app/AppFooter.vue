@@ -62,7 +62,7 @@ onMounted(() => {
         <RCLogo class="h-6 w-auto" variant="type" />
         <p class="text-sm text-white">{{ t("app.tagline") }}</p>
         <span class="text-sm text-white">
-          © {{ new Date().getFullYear() }} {{ appConfig.title }}
+          © {{ new Date().getFullYear() }} Queer Kit
         </span>
       </div>
     </template>
