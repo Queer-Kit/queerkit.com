@@ -12,13 +12,9 @@ export default defineNuxtRouteMiddleware(async (to, _from) => {
     });
   }
 
-  // Only block /dashboard pages for unauthenticated users
+  // Only block specific pages for unauthenticated users if needed
   if (!session.value) {
     if (to.path === "/auth") {
-      return navigateTo("/auth/sign-in");
-    }
-
-    if (to.path.startsWith("/dashboard")) {
       return navigateTo("/auth/sign-in");
     }
   }

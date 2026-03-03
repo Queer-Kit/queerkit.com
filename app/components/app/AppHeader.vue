@@ -1,27 +1,8 @@
 <script lang="ts" setup>
-import type { ChipProps, DropdownMenuItem, NavigationMenuItem } from "@nuxt/ui";
+import type { NavigationMenuItem } from "@nuxt/ui";
 
-const { session, signOut } = useAuth();
 const route = useRoute();
-const { t } = useI18n();
-const toast = useToast();
-
-async function onSignOut() {
-  const { error } = await signOut();
-  if (error) {
-    toast.add({
-      color: "error",
-      title: "Sign Out Failed",
-      description: error.message || "A connection issue occurred.",
-    });
-  } else {
-    toast.add({
-      color: "success",
-      title: "Sign Out Successful",
-      description: "You have been signed out.",
-    });
-  }
-}
+const { t, locale, setLocale } = useI18n();
 
 const layerId = inject<string>("header_layer_id", "default");
 
@@ -29,215 +10,38 @@ const { bottomOffsets } = useHeaderStack();
 
 const slideoverState = reactive({
   left: false,
-  right: false,
-  notifications: false,
 });
-
-const { isNotificationsSlideoverOpen } = useDashboard();
-watch(
-  isNotificationsSlideoverOpen,
-  (val: boolean) => {
-    slideoverState.notifications = val;
-  },
-  { immediate: true },
-);
-
-watch(
-  () => slideoverState.notifications,
-  (val: boolean) => {
-    isNotificationsSlideoverOpen.value = val;
-  },
-);
-
-type menuItem = NavigationMenuItem & DropdownMenuItem;
 
 const items = computed<NavigationMenuItem[]>(() =>
   markRaw([
-
     {
-      label: "About",
+      label: t("app.header.navigation.about"),
       to: "/company/about",
       active: route.path.startsWith("/company"),
     },
     {
-      label: "Certification",
+      label: t("app.header.navigation.certification"),
       to: "/certification",
       active: route.path === "/certification",
     },
     {
-      label: "Wiki",
+      label: t("app.header.navigation.wiki"),
       to: "/wiki",
       active: route.path.startsWith("/wiki"),
     },
+
     {
-      label: "Community",
-      to: "/community",
-      active: route.path.startsWith("/community"),
+      label: t("app.header.navigation.blog"),
+      to: "/blog",
+      active: route.path.startsWith("/blog"),
     },
     {
-      label: "Store",
+      label: t("app.header.navigation.store"),
       to: "/store",
       active: route.path.startsWith("/store"),
     },
   ]),
 );
-
-const accountMenuItems = computed<menuItem[][]>(() => {
-  return [
-    [
-      {
-        slot: "user" as const,
-      },
-      {
-        label: "Dashboard",
-        icon: "lucide:layout-dashboard",
-        to: "/dashboard",
-      },
-      {
-        label: "Available",
-        icon: "pajamas:status-active",
-        color: "success",
-        children: [
-          [
-            {
-              label: "Available",
-              icon: "pajamas:status-active",
-              color: "success",
-              onClick: async () => {},
-            },
-            {
-              label: "Busy",
-              icon: "pajamas:status-active",
-              color: "success",
-              onClick: async () => {},
-            },
-          ],
-          [
-            {
-              label: "Invisible",
-              icon: "pajamas:status-active",
-              color: "success",
-              onClick: async () => {},
-            },
-          ],
-        ],
-      },
-    ],
-    [
-      {
-        label: "Profile",
-        icon: "lucide:user",
-      },
-      {
-        label: "Billing",
-        icon: "lucide:credit-card",
-      },
-    ],
-    [
-      {
-        label: "Team",
-        icon: "lucide:users",
-      },
-      {
-        label: "Invite users",
-        icon: "lucide:user-plus",
-        children: [
-          [
-            {
-              label: "Email",
-              icon: "lucide:mail",
-            },
-            {
-              label: "Message",
-              icon: "lucide:message-square",
-            },
-          ],
-          [
-            {
-              label: "More",
-              icon: "lucide:circle-plus",
-            },
-          ],
-        ],
-      },
-      {
-        label: "New team",
-        icon: "lucide:plus",
-        kbds: ["meta", "n"],
-      },
-    ],
-    [
-      {
-        label: "Support",
-        icon: "lucide:headset",
-        to: "/docs/components/dropdown-menu",
-      },
-    ],
-    [
-      {
-        label: "Settings",
-        icon: "lucide:cog",
-        to: "/dashboard/settings",
-        kbds: [","],
-      },
-    ],
-  ];
-});
-
-const availabilityMenuItems = computed<menuItem[][]>(() => {
-  return [
-    [
-      {
-        label: "Available",
-        icon: "pajamas:status-active",
-        color: "success",
-        onClick: async () => {},
-      },
-      {
-        label: "Busy",
-        icon: "pajamas:status-active",
-        color: "error",
-        onClick: async () => {},
-      },
-      {
-        label: "Invisibile",
-        icon: "pajamas:status-active",
-        color: "neutral",
-        onClick: async () => {},
-      },
-    ],
-  ];
-});
-
-defineShortcuts(extractShortcuts(accountMenuItems.value));
-
-const availabilityChip = computed<ChipProps | undefined>(() => {
-  const availability = session.value?.user?.availability;
-
-  if (!availability) {
-    return undefined;
-  }
-
-  let color: ChipProps["color"];
-  switch (availability) {
-    case "available":
-      color = "success";
-      break;
-    case "busy":
-      color = "error";
-      break;
-    case "invisible":
-      color = "neutral";
-      break;
-    default:
-      color = "primary";
-  }
-
-  return {
-    color: color,
-    position: "bottom-right",
-  };
-});
 </script>
 
 <template>
@@ -245,7 +49,7 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
     <template #left>
       <div class="flex flex-row items-center gap-md">
         <ClientOnly>
-          <RCLogo class="h-6 w-auto" variant="mark" />
+          <RCLogo class="h-6 w-auto" mode="color" variant="combomark_horizontal" />
         </ClientOnly>
       </div>
     </template>
@@ -268,118 +72,45 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
       />
     </template>
     <template #right>
-      <div class="flex flex-row gap-sm">
-        <ClientOnly v-if="session">
-          <div class="flex flex-row items-center gap-md">
-            <UTooltip text="Notifications">
-              <UButton
-                class="text-neutral-900 hover:bg-neutral-100"
-                color="neutral"
-                square
-                variant="ghost"
-                @click="slideoverState.notifications = true"
-              >
-                <UChip color="error" inset>
-                  <UIcon class="size-5 shrink-0" name="lucide:bell" />
-                </UChip>
-              </UButton>
-            </UTooltip>
-              <UPopover :ui="{ content: 'w-64' }" arrow mode="hover">
-                <template #default>
-                  <UTooltip>
-                    <template #default>
-                      <UButton
-                        class="text-neutral-900 hover:text-primary-500 transition-colors duration-200"
-                        variant="ghost"
-                      >
-                        <UUser
-                          v-if="session"
-                          :avatar="{
-                            src: session?.user.image ?? '',
-                            alt: session?.user.name ?? '',
-                          }"
-                          :chip="availabilityChip"
-                          :description="session?.user.status ?? ''"
-                          :name="session?.user.name"
-                          :ui="{
-                            name: 'text-neutral-900 group-hover:text-primary-500 transition-colors duration-200',
-                            description: 'text-left',
-                          }"
-                          class="group"
-                          size="md"
-                        />
-                      </UButton>
-                    </template>
-                  </UTooltip>
-                </template>
-              <template #content>
-                 <div class="flex flex-col">
-                   <div class="flex flex-col gap-1 bg-white p-sm">
-                     <UUser
-                       v-if="session"
-                       :avatar="{
-                         src: session?.user.image ?? '',
-                         alt: session?.user.name ?? '',
-                       }"
-                       :description="session?.user.status ?? t('app.header.user.status.placeholder')"
-                       :ui="{
-                         name: 'text-left text-black',
-                         description: 'text-left text-neutral-500',
-                       }"
-                       size="md"
-                     >
-                       <template #name>
-                         <span
-                           >{{ session?.user.name }}
-                           <span class="text-dimmed">#{{ session?.user.tag }}</span></span
-                         >
-                       </template>
-                     </UUser>
-                     <UButton
-                       :label="t('app.header.user.dashboard')"
-                       class="text-black hover:bg-neutral-200"
-                       color="neutral"
-                       leading-icon="lucide:layout-dashboard"
-                       to="/dashboard"
-                       variant="ghost"
-                     />
-                     <UButton
-                       :label="t('app.header.user.profile')"
-                       class="text-black hover:bg-neutral-200"
-                       color="neutral"
-                       leading-icon="lucide:user"
-                       variant="ghost"
-                     />
-                   </div>
-                   <div class="flex flex-col gap-1 bg-neutral-100 p-sm">
-                     <UButton
-                       :label="t('app.header.user.support')"
-                       class="text-black hover:bg-neutral-200"
-                       color="neutral"
-                       leading-icon="lucide:headset"
-                       variant="ghost"
-                     />
-                     <UButton
-                       :label="t('app.header.user.settings')"
-                       class="text-black hover:bg-neutral-200"
-                       color="neutral"
-                       leading-icon="lucide:cog"
-                       to="/dashboard/settings"
-                       variant="ghost"
-                     />
-                     <UButton
-                       :label="t('app.header.user.signOut')"
-                       class="text-black hover:bg-neutral-200"
-                       color="neutral"
-                       leading-icon="lucide:log-out"
-                       variant="ghost"
-                       @click="onSignOut"
-                     />
-                   </div>
-                 </div>
-               </template>
-            </UPopover>
-          </div>
+      <div class="flex flex-row items-center gap-sm h-full">
+        <ClientOnly>
+          <USelectMenu
+            :model-value="locale"
+            @update:model-value="setLocale($event as 'en' | 'pt')"
+            :items="[
+              { code: 'en', name: 'English' },
+              { code: 'pt', name: 'Português' }
+            ]"
+            value-key="code"
+            label-key="name"
+            icon="lucide:languages"
+            variant="ghost"
+            size="sm"
+            class="rounded-md shrink-0 h-9"
+            :ui="{
+              value: 'hidden',
+              content: 'w-48',
+            }"
+            :aria-label="t('app.language_picker')"
+          >
+            <template #leading="{ modelValue }">
+              <span class="text-xs font-medium">{{ modelValue === 'pt' ? 'PT' : 'EN' }}</span>
+            </template>
+            <template #item-leading="{ item }">
+              <span class="text-xs font-medium">{{ item.code.toUpperCase() }}</span>
+            </template>
+          </USelectMenu>
+
+          <UButton
+            icon="i-simple-icons-instagram"
+            to="https://instagram.com"
+            target="_blank"
+            variant="ghost"
+            color="neutral"
+            size="md"
+            class="rounded-md hover:text-primary-500"
+            aria-label="Instagram"
+          />
         </ClientOnly>
       </div>
     </template>
@@ -402,90 +133,68 @@ const availabilityChip = computed<ChipProps | undefined>(() => {
               @click="slideoverState.left = true"
             />
             <template #header>
-              <RCLogo class="h-6 w-auto" variant="mark" />
-              <UButton
-                color="neutral"
-                icon="lucide:x"
-                variant="ghost"
-                @click="slideoverState.left = false"
-              />
-            </template>
-            <template #body>
-              <div class="flex size-full flex-col items-start gap-md">
-                <UNavigationMenu :items="items" orientation="vertical" variant="link" />
-              </div>
-            </template>
+               <RCLogo class="h-6 w-auto" mode="color" variant="combomark_horizontal" />
+               <UButton
+                 color="neutral"
+                 icon="lucide:x"
+                 variant="ghost"
+                 @click="slideoverState.left = false"
+               />
+             </template>
+             <template #body>
+               <div class="flex size-full flex-col items-start gap-md">
+                 <UNavigationMenu :items="items" orientation="vertical" variant="link" />
+               </div>
+             </template>
           </USlideover>
         </ClientOnly>
       </div>
     </template>
     <template #collapsed-center>
       <ClientOnly>
-        <RCLogo class="h-6 w-auto" variant="mark" />
+        <RCLogo class="h-6 w-auto" mode="color" variant="logomark" />
       </ClientOnly>
     </template>
     <template #collapsed-right>
-      <div class="flex flex-row justify-end gap-sm">
-        <ClientOnly v-if="session">
-          <UTooltip text="Notifications">
-            <UButton
-              color="neutral"
-              square
-              variant="ghost"
-              @click="slideoverState.notifications = true"
-            >
-              <UChip color="error" inset>
-                <UIcon class="size-5 shrink-0" name="lucide:bell" />
-              </UChip>
-            </UButton>
-          </UTooltip>
-          <USlideover
-            v-model:open="slideoverState.right"
-            :handle="false"
+      <div class="flex flex-row items-center justify-end gap-sm h-full">
+        <ClientOnly>
+          <USelectMenu
+            :model-value="locale"
+            @update:model-value="setLocale($event as 'en' | 'pt')"
+            :items="[
+              { code: 'en', name: 'English' },
+              { code: 'pt', name: 'Português' }
+            ]"
+            value-key="code"
+            label-key="name"
+            icon="lucide:languages"
+            variant="ghost"
+            size="sm"
+            class="rounded-md shrink-0 h-9"
             :ui="{
-              header: 'flex items-center justify-between',
-              content: 'w-full max-w-4/5 rounded-none',
+              value: 'hidden',
+              content: 'w-48',
             }"
-            side="right"
+            :aria-label="t('app.language_picker')"
           >
-            <UButton
-              color="neutral"
-              icon="lucide:user"
-              variant="ghost"
-              @click="slideoverState.right = true"
-            />
-            <template #header>
-              <UUser
-                v-if="session"
-                :avatar="{
-                  src: session?.user.image ?? '',
-                  alt: session?.user.name ?? '',
-                }"
-                :description="session?.user.status ?? ''"
-                :ui="{ description: 'text-left' }"
-                size="md"
-              >
-                <template #name>
-                  <span
-                    >{{ session?.user.name }}
-                    <span class="text-dimmed">#{{ session?.user.tag }}</span></span
-                  >
-                </template>
-              </UUser>
-              <div v-else />
-              <UButton
-                color="neutral"
-                icon="lucide:x"
-                variant="ghost"
-                @click="slideoverState.right = false"
-              />
+            <template #leading="{ modelValue }">
+              <span class="text-xs font-medium">{{ modelValue === 'pt' ? 'PT' : 'EN' }}</span>
             </template>
-            <template #body>
-              <div class="flex flex-col gap-md">
-                <UNavigationMenu v-if="session" orientation="vertical" :items="accountMenuItems" />
-              </div>
+            <template #item-leading="{ item }">
+              <span class="text-xs font-medium">{{ item.code.toUpperCase() }}</span>
             </template>
-          </USlideover>
+          </USelectMenu>
+
+          <UButton
+            icon="i-simple-icons-instagram"
+            to="https://instagram.com"
+            target="_blank"
+            variant="ghost"
+            color="neutral"
+            size="md"
+            class="rounded-md hover:text-primary-500"
+            aria-label="Instagram"
+          />
         </ClientOnly>
       </div>
     </template>

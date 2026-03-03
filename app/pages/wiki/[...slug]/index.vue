@@ -5,6 +5,7 @@ definePageMeta({
 
 const route = useRoute();
 const { user } = useAuth();
+const { t } = useI18n();
 
 const slug = computed(() => {
   const s = route.params.slug;
@@ -24,8 +25,8 @@ const canEdit = computed(() => user.value?.role === "owner" || user.value?.role 
     :can-edit="canEdit"
     :error-redirect-params="{
       redirect: '/wiki',
-      label: 'Back to Wiki',
-      message: 'The requested wiki page could not be located.',
+      label: t('pages.wiki.error.back'),
+      message: t('pages.wiki.error.notFound'),
     }"
   />
 </template>

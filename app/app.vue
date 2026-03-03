@@ -20,7 +20,6 @@ const color = computed(() => {
 const icon = import.meta.client ? useFavicon() : undefined;
 
 const router = useRouter();
-const { isNotificationsSlideoverOpen } = useDashboard();
 
 function alertMode() {
   if (icon) icon.value = "/favicon-alert.svg";
@@ -30,25 +29,8 @@ function normalMode() {
   if (icon) icon.value = "/favicon.svg";
 }
 
-/* sample reactive favicon for future implementation
-const chat = useChatStore()
-const favicon = useFavicon()
-
-watch(()=> chat.unreadCount, ()=>{
-      favicon.value = chat.unreadCount > 0
-          ? '/favicon-alert.png'
-          : 'favicon.png'
-})
- */
-
 defineShortcuts({
   "g-h": () => router.push("/"),
-  "g-i": () => router.push("/inbox"),
-  "g-c": () => router.push("/customers"),
-  "g-s": () => router.push("/settings"),
-  n: () => {
-    isNotificationsSlideoverOpen.value = !isNotificationsSlideoverOpen.value;
-  },
 });
 
 const toast = useToast();
@@ -171,7 +153,7 @@ useSeoMeta({
 <template>
   <UApp :locale="currentLocale" :tooltip="{ delayDuration: 0 }">
     <NuxtRouteAnnouncer />
-    <NuxtLoadingIndicator color="#0064d7" />
+    <NuxtLoadingIndicator color="#ec4899" />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

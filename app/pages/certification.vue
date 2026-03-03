@@ -1,6 +1,7 @@
 ﻿<script lang="ts" setup>
 import { useI18n } from "vue-i18n";
 import { createCmykPdf, downloadBlob } from "~/utils/cmyk-pdf";
+import { getFlagPathByIdentity } from "~/utils/flags";
 
 // Metadata
 useSeoMeta({
@@ -37,6 +38,7 @@ const FRONT_LAYOUT = {
   EMBLEM_SIZE: 80,
   EMBLEM_GAP: 12,
   FLAG_W: 80,
+  FLAG_CORNER_RADIUS: 4,
   RENDER_DEBUG: false
 };
 
@@ -367,7 +369,13 @@ async function generateFrontCanvas() {
       const flagH = (flagW * 3) / 4; // 4:3 Aspect Ratio
       const flagX = canvas.width - (FRONT_LAYOUT.PADDING_RIGHT + FRONT_LAYOUT.FLAG_W) * scale;
       const flagY = FRONT_LAYOUT.PADDING_TOP * scale;
+      
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(flagX, flagY, flagW, flagH, FRONT_LAYOUT.FLAG_CORNER_RADIUS * scale);
+      ctx.clip();
       ctx.drawImage(flagImg, flagX, flagY, flagW, flagH);
+      ctx.restore();
     }
   }
 
@@ -560,29 +568,8 @@ const expiryDate = computed(() => {
 });
 
 const getFlagPath = (identityLabel?: string) => {
-  const identity = (identityLabel || getTagLabel(formData.identity))?.toLowerCase() || "";
-  if (!identity || identity === "—") return null;
-
-  // Normalized mappings for the specified identities
-  if (identity.includes("trans")) return "/images/flags/QUEERKIT_FLAGS_TRANS.svg";
-  if (identity.includes("bisexual") || identity === "bi") return "/images/flags/QUEERKIT_FLAGS_BISEXUAL.svg";
-  if (identity.includes("pansexual") || identity === "pan") return "/images/flags/QUEERKIT_FLAGS_PANSEXUAL.svg";
-  if (identity.includes("lesbian")) return "/images/flags/QUEERKIT_FLAGS_LESBIAN.svg";
-  if (identity.includes("asexual") || identity === "ace") return "/images/flags/QUEERKIT_FLAGS_ASEXUAL.svg";
-  if (identity.includes("aromantic") || identity === "aro") return "/images/flags/QUEERKIT_FLAGS_AROMANTIC.svg";
-  if (identity.includes("genderfluid")) return "/images/flags/QUEERKIT_FLAGS_GENDER_FLUID.svg";
-  if (identity.includes("agender")) return "/images/flags/QUEERKIT_FLAGS_AGENDER.svg";
-  if (identity.includes("gay")) return "/images/flags/QUEERKIT_FLAGS_GAY.svg";
-  if (identity.includes("intersex")) return "/images/flags/QUEERKIT_FLAGS_INTERSEX.svg";
-  if (identity.includes("demisexual")) return "/images/flags/QUEERKIT_FLAGS_DEMISEXUAL.svg";
-  if (identity.includes("abrosexual")) return "/images/flags/QUEERKIT_FLAGS_ABROSEX.svg";
-
-  // Slugified fallback for remaining items (Cisgender, Bigender, Heterosexual, etc.)
-  const slug = identity
-    .replace(/\s+/g, "_")
-    .replace(/[^a-z0-9_]/g, "")
-    .toUpperCase();
-  return `/images/flags/QUEERKIT_FLAGS_${slug || "UNKNOWN"}.svg`;
+  const identity = identityLabel || getTagLabel(formData.identity);
+  return getFlagPathByIdentity(identity);
 };
 
 const backCardBackground = computed(() => {
@@ -594,15 +581,12 @@ const backCardBackground = computed(() => {
   <UContainer class="py-12">
     <!-- Header Section -->
     <div class="mb-12 text-center">
-      <h1 class="mb-4 text-4xl font-bold md:text-5xl">Official LGBT+ Certification</h1>
+      <h1 class="mb-4 text-4xl font-bold md:text-5xl">{{ t('pages.certification.sections.hero.title') }}</h1>
       <p class="mx-auto max-w-2xl text-lg text-dimmed">
-        Welcome to the <em>totally official, absolutely legitimate, 100% legally binding</em> LGBT+
-        Certification Process™! Fill out the form below to receive your personalized certification
-        card. No tests required—just vibes and authenticity! 🏳️‍⚧️🏳️‍🌈✨
+        {{ t('pages.certification.sections.hero.description', { legitimate: '<em>totally official, absolutely legitimate, 100% legally binding</em>' }) }}
       </p>
       <p class="mt-4 text-sm italic text-dimmed">
-        (Disclaimer: This is for fun and community celebration. Your identity is valid regardless of
-        any "certification"!)
+        {{ t('pages.certification.sections.hero.disclaimer') }}
       </p>
     </div>
 
@@ -612,37 +596,37 @@ const backCardBackground = computed(() => {
       <div>
         <UCard>
           <template #header>
-            <h2 class="text-2xl font-bold">Certification Application</h2>
+            <h2 class="text-2xl font-bold">{{ t('pages.certification.sections.apply.title') }}</h2>
             <p class="text-sm text-dimmed">
-              Tell us about yourself (or your fabulously queer alter ego)
+              {{ t('pages.certification.sections.apply.description') }}
             </p>
           </template>
 
           <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
             <!-- Left Side: Basic Identity -->
             <div class="flex flex-col gap-6">
-              <h3 class="text-lg font-semibold text-primary-400">Personal Info</h3>
+              <h3 class="text-lg font-semibold text-primary-400">{{ t('pages.certification.sections.apply.fields.personal.title') }}</h3>
 
               <!-- Name -->
-              <UFormField label="Full Name" name="name" required>
-                <UInput v-model="formData.name" placeholder="Enter your name" size="lg" />
+              <UFormField :label="t('pages.certification.sections.apply.fields.name.label')" name="name" required>
+                <UInput v-model="formData.name" :placeholder="t('pages.certification.sections.apply.fields.name.placeholder')" size="lg" />
               </UFormField>
 
               <!-- Photo Upload -->
-              <UFormField label="Your Photo" name="image">
+              <UFormField :label="t('pages.certification.sections.apply.fields.photo.label')" name="image">
                 <UInput type="file" accept="image/*" size="lg" @change="onFileChange" />
-                <template #help> Square photos work best for the ID card! </template>
+                <template #help> {{ t('pages.certification.sections.apply.fields.photo.description') }} </template>
               </UFormField>
 
               <!-- Pronouns -->
-              <UFormField label="Pronouns" name="pronouns" required>
+              <UFormField :label="t('pages.certification.sections.apply.fields.pronouns.label')" name="pronouns" required>
                 <USelectMenu
                   v-model="formData.pronouns"
                   :items="pronounOptions"
                   by="value"
                   label-key="label"
                   create-item
-                  placeholder="Select or type your pronouns"
+                  :placeholder="t('pages.certification.sections.apply.fields.pronouns.placeholder')"
                   searchable
                   size="lg"
                   @create="
@@ -656,22 +640,22 @@ const backCardBackground = computed(() => {
 
             <!-- Right Side: LGBT+ Identity -->
             <div class="flex flex-col gap-6">
-              <h3 class="text-lg font-semibold text-primary-400">Certification Details</h3>
+              <h3 class="text-lg font-semibold text-primary-400">{{ t('pages.certification.sections.apply.fields.details.title') }}</h3>
 
               <!-- Combined Identity Select -->
-              <UFormField label="Identity" name="identity" required>
+              <UFormField :label="t('pages.certification.sections.apply.fields.identity.label')" name="identity" required>
                 <USelectMenu
                   v-model="formData.identity"
                   :items="identityOptions"
                   by="value"
                   label-key="label"
                   create-item
-                  placeholder="Queer"
+                  :placeholder="t('pages.certification.sections.apply.fields.identity.placeholder')"
                   searchable
                   size="lg"
                   @create="onIdentityCreate"
                 />
-                <template #help> Choose the identity you want to feature on your card! </template>
+                <template #help> {{ t('pages.certification.sections.apply.fields.identity.description') }} </template>
               </UFormField>
             </div>
           </div>
@@ -681,10 +665,9 @@ const backCardBackground = computed(() => {
       <!-- ID Card Preview Section -->
       <div class="flex flex-col gap-4">
         <div class="sticky top-24">
-          <h2 class="mb-4 text-2xl font-bold">Your Certification Card</h2>
+          <h2 class="mb-4 text-2xl font-bold">{{ t('pages.certification.sections.preview.title') }}</h2>
           <p class="mb-6 text-sm text-dimmed">
-            This is a live preview of your certification card. Fill out the form to see it update in
-            real-time!
+            {{ t('pages.certification.sections.preview.description') }}
           </p>
 
           <!-- Front Card Preview -->
@@ -697,10 +680,9 @@ const backCardBackground = computed(() => {
             }"
           >
               <div class="h-full relative overflow-hidden">
-                <!-- Flag Overlay (Top Right) -->
                 <div
                   v-if="getFlagPath()"
-                  class="absolute z-30"
+                  class="absolute z-30 rounded-sm overflow-hidden"
                   :style="{
                     top: `${FRONT_LAYOUT.PADDING_TOP * previewScale}px`,
                     right: `${FRONT_LAYOUT.PADDING_RIGHT * previewScale}px`,

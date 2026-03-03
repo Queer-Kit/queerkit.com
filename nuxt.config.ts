@@ -22,6 +22,9 @@ export default defineNuxtConfig({
   ],
 
   modules: [
+    "@nuxt/content",
+    "nuxt-llms",
+    "nuxt-studio",
     "@pinia/nuxt",
     "@pinia/colada-nuxt",
     ...(!isTauri ? ["@nuxtjs/sitemap", "@nuxtjs/robots", "nuxt-og-image"] : []),
@@ -61,6 +64,12 @@ export default defineNuxtConfig({
     },
     a11y: {
       enabled: false,
+    },
+    content: {
+      database: {
+        type: "d1",
+        bindingName: "DB",
+      },
     },
   },
 
@@ -189,51 +198,16 @@ export default defineNuxtConfig({
     defaultLocale: "en",
     langDir: "locales",
     locales: [
-      //{
-      //  code: "ar",
-      //  name: "العربية",
-      //  file: "ar.json"
-      //},
       {
         code: "en",
         name: "English",
         file: "en.json",
       },
-      //{
-      //  code: "es",
-      //  name: "Español",
-      //  file: "es.json"
-      //},
-      //{
-      //  code: "fr",
-      //  name: "Français",
-      //  file: "fr.json"
-      //},
-      //{
-      //  code: "ja",
-      //  name: "日本語",
-      //  file: "ja.json"
-      //},
-      //{
-      //  code: "ko",
-      //  name: "한국어",
-      //  file: "ko.json"
-      //},
       {
         code: "pt",
         name: "Português",
         file: "pt.json",
       },
-      //{
-      //  code: "ro",
-      //  name: "Română",
-      //  file: "ro.json"
-      //},
-      //{
-      //  code: "zh_cn",
-      //  name: "简体中文",
-      //  file: "zh_cn.json"
-      //}
     ],
   },
 
@@ -275,9 +249,72 @@ export default defineNuxtConfig({
         normalizeIconName: false,
       },
       {
+        prefix: "logos",
+        dir: "./app/assets/icons/first-party/logos",
+        normalizeIconName: false,
+      },
+      {
+        prefix: "flags",
+        dir: "./app/assets/icons/first-party/flags",
+        normalizeIconName: false,
+      },
+      {
         prefix: "third-party",
         dir: "./app/assets/icons/third-party",
         normalizeIconName: false,
+      },
+      {
+        prefix: "flag",
+        dir: "./public/images/flags",
+        normalizeIconName: false,
+      },
+    ],
+  },
+
+  content: {
+    build: {
+      markdown: {
+        toc: {
+          depth: 3,
+        },
+      },
+    },
+  },
+
+  studio: {
+    i18n: {
+      defaultLocale: "en",
+    },
+    route: "/studio",
+    repository: {
+      provider: "github",
+      owner: "Queer",
+      repo: "queerkit.com",
+    },
+  },
+
+  llms: {
+    domain: "https://marcelocfilho.com",
+    title: "Marcelo Caldart Filho",
+    description: "My personal portfolio website.",
+    sections: [
+      {
+        title: "Projects",
+        description: "Projects I have worked on.",
+        contentCollection: "en_projects",
+        contentFilters: [
+          { field: "extension", operator: "=", value: "md" },
+          { field: "draft", operator: "<>", value: "true" },
+        ],
+      },
+      {
+        title: "Blog",
+        description: "My personal articles and opinion pieces.",
+        contentCollection: "en_blog",
+        contentFilters: [
+          { field: "extension", operator: "=", value: "md" },
+          { field: "draft", operator: "<>", value: "true" },
+        ],
       },
     ],
   },

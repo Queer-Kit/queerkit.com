@@ -2,24 +2,28 @@ export default defineAppConfig({
   title: "Queer Kit",
   description: "Your guide to all things queer.",
   cdn: "https://cdn.queerkit.com",
-  logomark: "first-party:QUEERKIT_LOGOMARK_COLOR",
-  logotype: "first-party:QUEERKIT_COMBOMARK_HORIZONTAL_COLOR",
   rimelightComponents: {
     logos: {
-      mark: {
-        light: "first-party:QUEERKIT_LOGOMARK_COLOR",
-        dark: "first-party:QUEERKIT_LOGOMARK_COLOR",
+      logomark: {
+        black: "logos:QUEERKIT_LOGOMARK_BLACK",
+        white: "logos:QUEERKIT_LOGOMARK_WHITE",
+        color: "logos:QUEERKIT_LOGOMARK_COLOR",
       },
-      type: {
-        light: "first-party:QUEERKIT_COMBOMARK_HORIZONTAL_COLOR",
-        dark: "first-party:QUEERKIT_COMBOMARK_HORIZONTAL_COLOR",
+      combomark_horizontal: {
+        black: "logos:QUEERKIT_COMBOMARK_HORIZONTAL_BLACK",
+        white: "logos:QUEERKIT_COMBOMARK_HORIZONTAL_WHITE",
+        color: "logos:QUEERKIT_COMBOMARK_HORIZONTAL_COLOR",
       },
-      classic: {
-        light: "i-first-party:logo-classic-black",
-        dark: "i-first-party:logo-classic-white",
+      combomark_vertical: {
+        black: "logos:QUEERKIT_COMBOMARK_VERTICAL_BLACK",
+        white: "logos:QUEERKIT_COMBOMARK_VERTICAL_WHITE",
+        color: "logos:QUEERKIT_COMBOMARK_VERTICAL_COLOR",
       },
-      symbol: "i-lucide:sparkles",
-      monochrome: "i-first-party:QUEERKIT_LOGOMARK_COLOR",
+      logotype: {
+        black: "logos:QUEERKIT_LOGOTYPE_BLACK",
+        white: "logos:QUEERKIT_LOGOTYPE_WHITE",
+        color: "logos:QUEERKIT_LOGOTYPE_COLOR",
+      },
     },
     auth: {
       adminEmailDomain: "@queerkit.com",
@@ -75,7 +79,7 @@ export default defineAppConfig({
   },
   ui: {
     colors: {
-      primary: "amber",
+      primary: "primary",
       secondary: "secondary",
       info: "info",
       success: "success",

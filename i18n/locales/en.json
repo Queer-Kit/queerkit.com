@@ -1,17 +1,60 @@
 {
+  "common": {
+    "types": {
+      "BlogPost": "Blog Post",
+      "Resource": "Resource",
+      "Document": "Document"
+    },
+    "navigation": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "placeholders": {
+      "name": "Jane Doe",
+      "email": "email{'@'}domain.com"
+    }
+  },
   "error": {
     "retry": "Try Again",
-    "clear": "Go Back Home"
+    "clear": "Go Back Home",
+    "notFound": {
+      "title": "Page Not Found",
+      "description": "The page you are looking for doesn't exist or has been moved."
+    }
   },
   "app": {
     "tagline": "Your guide to all things queer.",
-    "newsletter": {
-      "title": "Subscribe to our newsletter",
-      "description": "Get the latest news and updates from us. Unsubscribe at any time.",
-      "placeholder": "email{'@'}domain.com",
-      "submit": "Subscribe",
-      "success": "Thank you for subscribing! Check your inbox for a confirmation email.",
-      "error": "Failed to subscribe. Please try again later."
+    "header": {
+      "navigation": {
+        "about": "About",
+        "certification": "Certification",
+        "wiki": "Wiki",
+        "community": "Community",
+        "blog": "Blog",
+        "store": "Store"
+      },
+      "actions": {
+        "signUp": "Sign Up",
+        "signIn": "Sign In"
+      },
+      "user": {
+        "status": {
+          "placeholder": "Set a custom status..."
+        },
+        "dashboard": "Dashboard",
+        "profile": "Profile",
+        "support": "Support",
+        "settings": "Settings",
+        "signOut": "Sign Out"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "empty": "No new notifications",
+        "signOut": {
+          "success": "Sign Out Successful",
+          "error": "Sign Out Failed"
+        }
+      }
     },
     "footer": {
       "links": {
@@ -34,30 +77,206 @@
         }
       }
     },
-    "header": {
-      "actions": {
-        "signUp": "Sign Up",
-        "signIn": "Sign In"
-      },
-      "user": {
-        "status": {
-          "placeholder": "Set a custom status..."
-        },
-        "dashboard": "Dashboard",
-        "profile": "Profile",
-        "support": "Support",
-        "settings": "Settings",
-        "signOut": "Sign Out"
-      }
+    "newsletter": {
+      "title": "Subscribe to our newsletter",
+      "description": "Get the latest news and updates from us. Unsubscribe at any time.",
+      "placeholder": "email{'@'}domain.com",
+      "submit": "Subscribe",
+      "success": "Thank you for subscribing! Check your inbox for a confirmation email.",
+      "error": "Failed to subscribe. Please try again later."
     }
   },
   "pages": {
+    "home": {
+      "meta": {
+        "title": "Home",
+        "description": "Your guide to all things queer."
+      },
+      "sections": {
+        "hero": {
+          "badge": "Empowering the Collective",
+          "title": "All Things Queer",
+          "description": "We are QueerKit. A community-driven guide building the most comprehensive resource for LGBTQ+ knowledge and connection.",
+          "actions": {
+            "wiki": "Open Wiki",
+            "about": "About QueerKit"
+          },
+          "scroll": "Scroll"
+        },
+        "resources": {
+          "title": "Essential Resources",
+          "cta": "Explore Everything",
+          "items": {
+            "wiki": {
+              "title": "The Wiki",
+              "description": "Our community encyclopedia covering everything from terminology to queer history.",
+              "tags": {
+                "knowledge": "Knowledge",
+                "wiki": "Wiki"
+              }
+            },
+            "community": {
+              "title": "Community Guide",
+              "description": "Finding safe spaces, local organizations, and ways to connect with global queer family.",
+              "tags": {
+                "community": "Community",
+                "support": "Support"
+              }
+            },
+            "identity": {
+              "title": "Identity Labs",
+              "description": "Deep dives into gender, sexuality, and the nuances of self-expression and discovery.",
+              "tags": {
+                "identity": "Identity",
+                "education": "Education"
+              }
+            }
+          }
+        },
+        "vision": {
+          "title": "Building a world of inclusive knowledge",
+          "description": "QueerKit is a community-focused, independent initiative. We don't just aggregate data; we curate a safe, accurate, and living knowledge base that respects the diversity of queer experience.",
+          "stats": {
+            "articles": "Wiki Articles",
+            "contributors": "Active Contributors"
+          }
+        },
+        "news": {
+          "title": "Community Broadcasts",
+          "description": "Stay updated with the latest news and additions to QueerKit.",
+          "items": {
+            "history": {
+              "title": "Now Live: History Deep Dive",
+              "description": "Our new section on early 20th-century queer activism is now available."
+            },
+            "mod": {
+              "title": "Community Moderator Program",
+              "description": "We're looking for passionate people to help keep our spaces safe."
+            },
+            "term": {
+              "title": "Terminology Update",
+              "description": "Refreshing our glossary with more modern and inclusive definitions."
+            }
+          }
+        },
+        "join": {
+          "title": "Join the Community",
+          "placeholder": "Enter your email",
+          "button": "Subscribe",
+          "privacy": "We respect your privacy. Important community updates only."
+        }
+      }
+    },
+    "about": {
+      "meta": {
+        "title": "About"
+      },
+      "sections": {
+        "hero": {
+          "title": "Our Story",
+          "description": "We are a collective of researchers, creators, and advocates building the next generation of queer knowledge."
+        },
+        "mission": {
+          "title": "Our Mission",
+          "description": "To provide accurate, inclusive, and empowering resources for the LGBTQ+ community.",
+          "p2": "Founded by a collective of advocates and community builders, QueerKit is dedicated to preserving history and empowering the future of the LGBTQ+ community. We believe in the power of shared knowledge to bring people together."
+        },
+        "values": {
+          "title": "Our Values",
+          "items": {
+            "community": {
+              "title": "Community First",
+              "description": "Everything we do starts and ends with the community experience. We listen, learn, and build for our collective."
+            },
+            "innovation": {
+              "title": "Innovation",
+              "description": "We explore new ways to organize and present information to create accessible and memorable resources."
+            },
+            "collaboration": {
+              "title": "Collaboration",
+              "description": "Great resources are built by great teams. We foster an environment of trust, respect, and open communication."
+            }
+          }
+        },
+        "team": {
+          "title": "The Team",
+          "collective": {
+            "title": "The Collective",
+            "subtitle": "Volunteers and Contributors"
+          }
+        },
+        "join": {
+          "title": "Join Our Journey",
+          "description": "Be part of something extraordinary.",
+          "actions": {
+            "help": "How to Help"
+          }
+        }
+      }
+    },
+    "careers": {
+      "meta": {
+        "title": "Careers"
+      },
+      "sections": {
+        "hero": {
+          "title": "Volunteer at QueerKit",
+          "description": "Join us in creating the future of queer knowledge."
+        },
+        "culture": {
+          "title": "Life at QueerKit",
+          "description": "We foster a culture of inclusion, collaboration, and continuous learning.",
+          "p2": "We believe that the best work happens when people feel safe, supported, and inspired. At QueerKit, we empower our team to take ownership, experiment, and grow."
+        },
+        "benefits": {
+          "title": "Benefits",
+          "items": {
+            "health": {
+              "title": "Well-being Resources",
+              "description": "Access to community-vetted mental and physical health guides."
+            },
+            "time": {
+              "title": "Flexible Contribution",
+              "description": "Contribute as much or as little as you want, on your own schedule."
+            },
+            "development": {
+              "title": "Skill Development",
+              "description": "Learn about research, moderation, and community management."
+            },
+            "gear": {
+              "title": "Community Tools",
+              "description": "Access to our internal tools and platforms to help you build."
+            }
+          }
+        },
+        "offices": {
+          "title": "Our Community",
+          "items": {
+            "remote": {
+              "title": "Remote-First",
+              "description": "We're a distributed team with flexible working hours. Work from wherever you feel inspired."
+            },
+            "spaces": {
+              "title": "Queer Spaces",
+              "description": "Our community thrives in safe spaces online and offline. Join our Discord or local meetups to connect with the team."
+            }
+          }
+        },
+        "positions": {
+          "title": "Open Positions",
+          "empty": "No open positions at the moment. Check back later!",
+          "apply": "Apply Now"
+        }
+      }
+    },
     "blog": {
       "meta": {
         "title": "Blog",
         "description": "Read our latest news, posts, and project updates.",
         "RSS": "Rimelight Entertainment Blog RSS Feed"
       },
+      "copyLink": "Copy link",
+      "linkCopied": "Link copied!",
       "actions": {
         "rss": "RSS Feed",
         "create_post": {
@@ -122,12 +341,57 @@
         },
         "load_more": "Load More",
         "end_of_list": "You've reached the end of the posts."
+      },
+      "types": {
+        "post": "Blog Post",
+        "personal-story": "Personal Story",
+        "development-log": "Development Log"
       }
     },
     "certification": {
       "meta": {
         "title": "Certification",
         "description": "Learn more about our certification program and how to get started."
+      },
+      "sections": {
+        "hero": {
+          "title": "Official LGBT+ Certification",
+          "description": "Welcome to the {legitimate} LGBT+ Certification Process™! Fill out the form below to receive your personalized certification card. No tests required—just vibes and authenticity! 🏳️‍⚧️🏳️‍🌈✨",
+          "disclaimer": "(Disclaimer: This is for fun and community celebration. Your identity is valid regardless of any \"certification\"!)"
+        },
+        "apply": {
+          "title": "Certification Application",
+          "description": "Tell us about yourself (or your fabulously queer alter ego)",
+          "fields": {
+            "personal": {
+              "title": "Personal Info"
+            },
+            "name": {
+              "label": "Full Name",
+              "placeholder": "Enter your name"
+            },
+            "photo": {
+              "label": "Your Photo",
+              "description": "Square photos work best for the ID card!"
+            },
+            "pronouns": {
+              "label": "Pronouns",
+              "placeholder": "Select or type your pronouns"
+            },
+            "details": {
+              "title": "Certification Details"
+            },
+            "identity": {
+              "label": "Identity",
+              "placeholder": "Queer",
+              "description": "Choose the identity you want to feature on your card!"
+            }
+          }
+        },
+        "preview": {
+          "title": "Your Certification Card",
+          "description": "This is a live preview of your certification card. Fill out the form to see it update in real-time!"
+        }
       },
       "card": {
         "title": "{identity} Certification",
@@ -142,6 +406,108 @@
           "heHim": "he/him",
           "sheHer": "she/her",
           "theyThem": "they/them"
+        }
+      }
+    },
+    "wiki": {
+      "meta": {
+        "title": "Wiki"
+      },
+      "error": {
+        "notFound": "The requested wiki page could not be located.",
+        "back": "Back to Wiki"
+      }
+    },
+    "dashboard": {
+      "meta": {
+        "title": "Dashboard"
+      },
+      "home": {
+        "title": "Home",
+        "welcome": "Welcome back, {name}",
+        "description": "Here's an overview of your personal dashboard."
+      }
+    },
+    "auth": {
+      "common": {
+        "terms": {
+          "agreement": "By signing in, you agree to our",
+          "link": "Terms of Service",
+          "required": "You must agree to the terms of service."
+        }
+      },
+      "signIn": {
+        "title": "Sign In",
+        "button": "Sign In",
+        "email": {
+          "label": "Email",
+          "placeholder": "email{'@'}domain.com",
+          "help": "Forgot your email?"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Your password",
+          "help": "Forgot your password?"
+        },
+        "rememberMe": "Remember me",
+        "noAccount": "Don't have an account?",
+        "signUpLink": "Sign Up",
+        "success": {
+          "title": "Sign In Successful",
+          "description": "Welcome back, {name}!"
+        },
+        "error": {
+          "title": "Sign In Failed",
+          "description": "Invalid email or password. Please check your credentials and try again."
+        }
+      },
+      "signUp": {
+        "title": "Sign Up",
+        "button": "Sign Up",
+        "stepper": {
+          "identity": "Identity",
+          "security": "Security",
+          "preferences": "Preferences"
+        },
+        "fields": {
+          "username": {
+            "label": "Username",
+            "description": "Choose a unique username."
+          },
+          "email": {
+            "label": "Email",
+            "description": "This will be used for login."
+          },
+          "firstName": {
+            "label": "First Name",
+            "description": "Enter your first name."
+          },
+          "lastName": {
+            "label": "Last Name",
+            "description": "Enter your last name."
+          },
+          "password": {
+            "label": "Password",
+            "description": "Choose a strong password."
+          },
+          "passwordConfirmation": {
+            "label": "Confirm Password",
+            "description": "Repeat your password."
+          }
+        },
+        "newsletter": {
+          "label": "Subscribe to our newsletter.",
+          "description": "Unsubscribe at any time."
+        },
+        "haveAccount": "Already have an account?",
+        "signInLink": "Sign In",
+        "success": {
+          "title": "Account Created Successfully",
+          "description": "Welcome to QueerKit!"
+        },
+        "error": {
+          "title": "Sign Up Failed",
+          "description": "Please check your details and try again."
         }
       }
     }
