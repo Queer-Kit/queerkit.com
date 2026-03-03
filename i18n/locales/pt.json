@@ -418,6 +418,68 @@
         "back": "Voltar para o Wiki"
       }
     },
+    "documents": {
+      "meta": {
+        "title": "Documentos",
+        "description": "Documentos legais, políticas e diretrizes para Queer Kit."
+      },
+      "last_updated": "Última Atualização",
+      "actions": {
+        "create_document": {
+          "label": "Criar Documento",
+          "modal": {
+            "title": "Criar Documento",
+            "fields": {
+              "title": {
+                "title": "Título do Documento",
+                "placeholder": "Digite o título do documento"
+              },
+              "slug": {
+                "title": "Slug",
+                "placeholder": "slug-do-documento",
+                "help": "O nome amigável à URL do documento."
+              },
+              "actions": {
+                "cancel": "Cancelar",
+                "submit": "Criar Documento"
+              }
+            }
+          }
+        }
+      },
+      "drafts": {
+        "title": "Rascunhos",
+        "description": "Documentos que ainda não foram publicados.",
+        "error": {
+          "title": "Falha ao carregar rascunhos",
+          "description": "Verifique sua conexão e tente novamente mais tarde."
+        },
+        "empty": {
+          "title": "Nenhum rascunho ainda.",
+          "description": "Crie seu primeiro documento para começar.",
+          "actions": {
+            "create": "Criar Documento"
+          }
+        }
+      },
+      "documents": {
+        "title": "Documentos",
+        "description": "Todos os documentos publicados.",
+        "error": {
+          "title": "Falha ao carregar documentos",
+          "description": "Verifique sua conexão e tente novamente mais tarde."
+        },
+        "empty": {
+          "title": "Nenhum documento ainda",
+          "description": "Crie seu primeiro documento para começar.",
+          "actions": {
+            "create": "Criar Documento"
+          }
+        },
+        "load_more": "Carregar Mais",
+        "end_of_list": "Você chegou ao fim dos documentos."
+      }
+    },
     "dashboard": {
       "meta": {
         "title": "Dashboard"

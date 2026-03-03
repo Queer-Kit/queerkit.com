@@ -50,12 +50,22 @@ const projectSchema = commonSchema.extend({
   date: z.date(),
 });
 
+const documentSchema = commonSchema.extend({
+  type: z.enum(["privacy-policy", "cookie-policy", "terms-of-service", "code-of-conduct", "other"]).optional(),
+  lastUpdated: z.date().optional(),
+});
+
 export default defineContentConfig({
   collections: {
     en_blog: defineCollection({
       type: "page",
       source: { include: "en/blog/**", prefix: "/blog" },
       schema: blogSchema,
+    }),
+    en_documents: defineCollection({
+      type: "page",
+      source: { include: "en/documents/**", prefix: "/documents" },
+      schema: documentSchema,
     }),
     en_projects: defineCollection({
       type: "page",
@@ -72,6 +82,11 @@ export default defineContentConfig({
       type: "page",
       source: { include: "pt/blog/**", prefix: "/blog" },
       schema: blogSchema,
+    }),
+    pt_documents: defineCollection({
+      type: "page",
+      source: { include: "pt/documents/**", prefix: "/documents" },
+      schema: documentSchema,
     }),
     pt_projects: defineCollection({
       type: "page",

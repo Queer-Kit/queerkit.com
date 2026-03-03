@@ -7,7 +7,7 @@
     },
     "navigation": {
       "previous": "Previous",
-      "next": "Next"
+      "next": "Discover"
     },
     "placeholders": {
       "name": "Jane Doe",
@@ -95,11 +95,11 @@
       "sections": {
         "hero": {
           "badge": "Empowering the Collective",
-          "title": "All Things Queer",
-          "description": "We are QueerKit. A community-driven guide building the most comprehensive resource for LGBTQ+ knowledge and connection.",
+          "title": "Your Guide to All Things Queer",
+          "description": "We are Queer Kit. A community-driven guide building the most comprehensive resource for LGBTQ+ knowledge and connection.",
           "actions": {
             "wiki": "Open Wiki",
-            "about": "About QueerKit"
+            "about": "About Queer Kit"
           },
           "scroll": "Scroll"
         },
@@ -107,35 +107,35 @@
           "title": "Essential Resources",
           "cta": "Explore Everything",
           "items": {
+            "certification": {
+              "title": "Get Certified",
+              "description": "Get your official Queer Certification card.",
+              "tags": {
+                "certification": "Certification",
+                "identity": "Identity"
+              }
+            },
             "wiki": {
               "title": "The Wiki",
-              "description": "Our community encyclopedia covering everything from terminology to queer history.",
+              "description": "Our community encyclopedia covering various topics.",
               "tags": {
                 "knowledge": "Knowledge",
                 "wiki": "Wiki"
               }
             },
-            "community": {
-              "title": "Community Guide",
-              "description": "Finding safe spaces, local organizations, and ways to connect with global queer family.",
+            "merch": {
+              "title": "Shop Merch",
+              "description": "Show your pride with our collection of queer apparel.",
               "tags": {
-                "community": "Community",
-                "support": "Support"
-              }
-            },
-            "identity": {
-              "title": "Identity Labs",
-              "description": "Deep dives into gender, sexuality, and the nuances of self-expression and discovery.",
-              "tags": {
-                "identity": "Identity",
-                "education": "Education"
+                "store": "Store",
+                "merch": "Merch"
               }
             }
           }
         },
         "vision": {
           "title": "Building a world of inclusive knowledge",
-          "description": "QueerKit is a community-focused, independent initiative. We don't just aggregate data; we curate a safe, accurate, and living knowledge base that respects the diversity of queer experience.",
+          "description": "Queer Kit is a community-focused, independent initiative. We don't just aggregate data; we curate a safe, accurate, and living knowledge base that respects the diversity of queer experience.",
           "stats": {
             "articles": "Wiki Articles",
             "contributors": "Active Contributors"
@@ -143,7 +143,7 @@
         },
         "news": {
           "title": "Community Broadcasts",
-          "description": "Stay updated with the latest news and additions to QueerKit.",
+          "description": "Stay updated with the latest news and additions to Queer Kit.",
           "items": {
             "history": {
               "title": "Now Live: History Deep Dive",
@@ -179,7 +179,7 @@
         "mission": {
           "title": "Our Mission",
           "description": "To provide accurate, inclusive, and empowering resources for the LGBTQ+ community.",
-          "p2": "Founded by a collective of advocates and community builders, QueerKit is dedicated to preserving history and empowering the future of the LGBTQ+ community. We believe in the power of shared knowledge to bring people together."
+          "p2": "Founded by a collective of advocates and community builders, Queer Kit is dedicated to preserving history and empowering the future of the LGBTQ+ community. We believe in the power of shared knowledge to bring people together."
         },
         "values": {
           "title": "Our Values",
@@ -220,13 +220,13 @@
       },
       "sections": {
         "hero": {
-          "title": "Volunteer at QueerKit",
+          "title": "Volunteer at Queer Kit",
           "description": "Join us in creating the future of queer knowledge."
         },
         "culture": {
-          "title": "Life at QueerKit",
+          "title": "Life at Queer Kit",
           "description": "We foster a culture of inclusion, collaboration, and continuous learning.",
-          "p2": "We believe that the best work happens when people feel safe, supported, and inspired. At QueerKit, we empower our team to take ownership, experiment, and grow."
+          "p2": "We believe that the best work happens when people feel safe, supported, and inspired. At Queer Kit, we empower our team to take ownership, experiment, and grow."
         },
         "benefits": {
           "title": "Benefits",
@@ -355,8 +355,8 @@
       },
       "sections": {
         "hero": {
-          "title": "Official LGBT+ Certification",
-          "description": "Welcome to the {legitimate} LGBT+ Certification Process™! Fill out the form below to receive your personalized certification card. No tests required—just vibes and authenticity! 🏳️‍⚧️🏳️‍🌈✨",
+          "title": "Queer Certification",
+          "description": "Generate your own queer certification card.",
           "disclaimer": "(Disclaimer: This is for fun and community celebration. Your identity is valid regardless of any \"certification\"!)"
         },
         "apply": {
@@ -372,7 +372,7 @@
             },
             "photo": {
               "label": "Your Photo",
-              "description": "Square photos work best for the ID card!"
+              "description": "3:4 aspect ratio photos work best for the ID card"
             },
             "pronouns": {
               "label": "Pronouns",
@@ -384,12 +384,12 @@
             "identity": {
               "label": "Identity",
               "placeholder": "Queer",
-              "description": "Choose the identity you want to feature on your card!"
+              "description": "Choose the identity you want to feature on your card"
             }
           }
         },
         "preview": {
-          "title": "Your Certification Card",
+          "title": "Preview",
           "description": "This is a live preview of your certification card. Fill out the form to see it update in real-time!"
         }
       },
@@ -416,6 +416,68 @@
       "error": {
         "notFound": "The requested wiki page could not be located.",
         "back": "Back to Wiki"
+      }
+    },
+    "documents": {
+      "meta": {
+        "title": "Documents",
+        "description": "Legal documents, policies, and guidelines for Queer Kit."
+      },
+      "last_updated": "Last Updated",
+      "actions": {
+        "create_document": {
+          "label": "Create Document",
+          "modal": {
+            "title": "Create Document",
+            "fields": {
+              "title": {
+                "title": "Document Title",
+                "placeholder": "Enter document title"
+              },
+              "slug": {
+                "title": "Slug",
+                "placeholder": "document-slug",
+                "help": "The URL-friendly name of the document."
+              },
+              "actions": {
+                "cancel": "Cancel",
+                "submit": "Create Document"
+              }
+            }
+          }
+        }
+      },
+      "drafts": {
+        "title": "Drafts",
+        "description": "Documents that have not been published yet.",
+        "error": {
+          "title": "Failed to load drafts",
+          "description": "Please check your connection and try again later."
+        },
+        "empty": {
+          "title": "No drafts yet.",
+          "description": "Create your first document to get started.",
+          "actions": {
+            "create": "Create Document"
+          }
+        }
+      },
+      "documents": {
+        "title": "Documents",
+        "description": "All published documents.",
+        "error": {
+          "title": "Failed to load documents",
+          "description": "Please check your connection and try again later."
+        },
+        "empty": {
+          "title": "No documents yet",
+          "description": "Create your first document to get started.",
+          "actions": {
+            "create": "Create Document"
+          }
+        },
+        "load_more": "Load More",
+        "end_of_list": "You've reached the end of the documents."
       }
     },
     "dashboard": {
@@ -503,7 +565,7 @@
         "signInLink": "Sign In",
         "success": {
           "title": "Account Created Successfully",
-          "description": "Welcome to QueerKit!"
+          "description": "Welcome to Queer Kit!"
         },
         "error": {
           "title": "Sign Up Failed",

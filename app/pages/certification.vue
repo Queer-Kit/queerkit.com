@@ -581,102 +581,82 @@ const backCardBackground = computed(() => {
   <UContainer class="py-12">
     <!-- Header Section -->
     <div class="mb-12 text-center">
-      <h1 class="mb-4 text-4xl font-bold md:text-5xl">{{ t('pages.certification.sections.hero.title') }}</h1>
-      <p class="mx-auto max-w-2xl text-lg text-dimmed">
-        {{ t('pages.certification.sections.hero.description', { legitimate: '<em>totally official, absolutely legitimate, 100% legally binding</em>' }) }}
-      </p>
-      <p class="mt-4 text-sm italic text-dimmed">
-        {{ t('pages.certification.sections.hero.disclaimer') }}
+      <h1 class="mb-4 text-4xl font-bold md:text-5xl text-black">{{ t('pages.certification.sections.hero.title') }}</h1>
+      <p class="mx-auto max-w-2xl text-lg text-black">
+        {{ t('pages.certification.sections.hero.description') }}
       </p>
     </div>
 
-    <!-- Main Content Grid -->
-    <div class="grid gap-8 lg:grid-cols-2">
-      <!-- Form Section -->
-      <div>
-        <UCard>
-          <template #header>
-            <h2 class="text-2xl font-bold">{{ t('pages.certification.sections.apply.title') }}</h2>
-            <p class="text-sm text-dimmed">
-              {{ t('pages.certification.sections.apply.description') }}
-            </p>
-          </template>
+    <!-- Form Section -->
+    <div class="mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Left Column: Photo & Name -->
+        <div class="flex flex-col gap-6">
+          <!-- Photo Upload -->
+          <UFormField :label="t('pages.certification.sections.apply.fields.photo.label')" name="image" :ui="{ label: 'text-black', help: 'text-neutral-600' }">
+            <UInput type="file" accept="image/*" size="lg" @change="onFileChange" />
+            <template #help> {{ t('pages.certification.sections.apply.fields.photo.description') }} </template>
+          </UFormField>
 
-          <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-            <!-- Left Side: Basic Identity -->
-            <div class="flex flex-col gap-6">
-              <h3 class="text-lg font-semibold text-primary-400">{{ t('pages.certification.sections.apply.fields.personal.title') }}</h3>
+          <!-- Name -->
+          <UFormField :label="t('pages.certification.sections.apply.fields.name.label')" name="name" required :ui="{ label: 'text-black' }">
+            <UInput v-model="formData.name" :placeholder="t('pages.certification.sections.apply.fields.name.placeholder')" size="lg" />
+          </UFormField>
+        </div>
 
-              <!-- Name -->
-              <UFormField :label="t('pages.certification.sections.apply.fields.name.label')" name="name" required>
-                <UInput v-model="formData.name" :placeholder="t('pages.certification.sections.apply.fields.name.placeholder')" size="lg" />
-              </UFormField>
+        <!-- Right Column: Pronouns & Identity -->
+        <div class="flex flex-col gap-6">
+          <!-- Pronouns -->
+          <UFormField :label="t('pages.certification.sections.apply.fields.pronouns.label')" name="pronouns" required :ui="{ label: 'text-black' }">
+            <USelectMenu
+              v-model="formData.pronouns"
+              :items="pronounOptions"
+              by="value"
+              label-key="label"
+              create-item
+              :placeholder="t('pages.certification.sections.apply.fields.pronouns.placeholder')"
+              searchable
+              size="lg"
+              @create="
+                (item) => {
+                  formData.pronouns = { label: item, value: item };
+                }
+              "
+            />
+          </UFormField>
 
-              <!-- Photo Upload -->
-              <UFormField :label="t('pages.certification.sections.apply.fields.photo.label')" name="image">
-                <UInput type="file" accept="image/*" size="lg" @change="onFileChange" />
-                <template #help> {{ t('pages.certification.sections.apply.fields.photo.description') }} </template>
-              </UFormField>
-
-              <!-- Pronouns -->
-              <UFormField :label="t('pages.certification.sections.apply.fields.pronouns.label')" name="pronouns" required>
-                <USelectMenu
-                  v-model="formData.pronouns"
-                  :items="pronounOptions"
-                  by="value"
-                  label-key="label"
-                  create-item
-                  :placeholder="t('pages.certification.sections.apply.fields.pronouns.placeholder')"
-                  searchable
-                  size="lg"
-                  @create="
-                    (item) => {
-                      formData.pronouns = { label: item, value: item };
-                    }
-                  "
-                />
-              </UFormField>
-            </div>
-
-            <!-- Right Side: LGBT+ Identity -->
-            <div class="flex flex-col gap-6">
-              <h3 class="text-lg font-semibold text-primary-400">{{ t('pages.certification.sections.apply.fields.details.title') }}</h3>
-
-              <!-- Combined Identity Select -->
-              <UFormField :label="t('pages.certification.sections.apply.fields.identity.label')" name="identity" required>
-                <USelectMenu
-                  v-model="formData.identity"
-                  :items="identityOptions"
-                  by="value"
-                  label-key="label"
-                  create-item
-                  :placeholder="t('pages.certification.sections.apply.fields.identity.placeholder')"
-                  searchable
-                  size="lg"
-                  @create="onIdentityCreate"
-                />
-                <template #help> {{ t('pages.certification.sections.apply.fields.identity.description') }} </template>
-              </UFormField>
-            </div>
-          </div>
-        </UCard>
+          <!-- Combined Identity Select -->
+          <UFormField :label="t('pages.certification.sections.apply.fields.identity.label')" name="identity" required :ui="{ label: 'text-black', help: 'text-neutral-600' }">
+            <USelectMenu
+              v-model="formData.identity"
+              :items="identityOptions"
+              by="value"
+              label-key="label"
+              create-item
+              :placeholder="t('pages.certification.sections.apply.fields.identity.placeholder')"
+              searchable
+              size="lg"
+              @create="onIdentityCreate"
+            />
+            <template #help> {{ t('pages.certification.sections.apply.fields.identity.description') }} </template>
+          </UFormField>
+        </div>
       </div>
+    </div>
 
-      <!-- ID Card Preview Section -->
-      <div class="flex flex-col gap-4">
-        <div class="sticky top-24">
-          <h2 class="mb-4 text-2xl font-bold">{{ t('pages.certification.sections.preview.title') }}</h2>
-          <p class="mb-6 text-sm text-dimmed">
-            {{ t('pages.certification.sections.preview.description') }}
-          </p>
-
-          <!-- Front Card Preview -->
+    <!-- Preview Section -->
+    <div>
+      <h2 class="mb-6 text-2xl font-bold text-black">{{ t('pages.certification.sections.preview.title') }}</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Front Card Preview -->
+        <div>
+          <h3 class="mb-4 text-lg font-semibold text-black">Front</h3>
           <div
             ref="frontCardRef"
             class="relative overflow-hidden rounded-xl shadow-2xl bg-cover bg-center"
             :style="{
               backgroundImage: 'url(/images/certification_front.jpg)',
-              aspectRatio: frontImageStats.width ? `${frontImageStats.width}/${frontImageStats.height}` : '3/2',
+              aspectRatio: frontImageStats.width && frontImageStats.height ? `${frontImageStats.width}/${frontImageStats.height}` : '3/2',
             }"
           >
               <div class="h-full relative overflow-hidden">
@@ -732,50 +712,49 @@ const backCardBackground = computed(() => {
                   </p>
                 </div>
 
-                <!-- Personal Information / Middle Column (Vertical Flexbox with justify-between) -->
-                <div class="flex flex-col flex-1 h-full justify-between">
+                <!-- Personal Information / Middle Column (Vertical Flexbox) -->
+                <div class="flex flex-col flex-1 h-full">
                   <!-- Top Block -->
                   <div
                     class="flex flex-col"
                     :class="{ 'border-2 border-blue-500': FRONT_LAYOUT.RENDER_DEBUG }"
-                    :style="{ gap: `${(FRONT_LAYOUT.GAP_VERTICAL / 2) * previewScale}px` }"
                   >
                     <h2
-                      class="font-bold text-pink-500 leading-none"
+                      class="font-bold text-pink-500 leading-none m-0"
                       :style="{ fontSize: `${FRONT_LAYOUT.TITLE_SIZE * previewScale}px` }"
                     >
                       {{ $t('pages.certification.card.title', { identity: (!getTagLabel(formData.identity) || getTagLabel(formData.identity) === '—') ? $t('pages.certification.card.defaultIdentity') : getTagLabel(formData.identity) }) }}
                     </h2>
                     <p
-                      class="font-bold text-black opacity-80"
+                      class="font-bold text-black opacity-80 m-0"
                       :style="{ fontSize: `${FRONT_LAYOUT.SUBTITLE_SIZE * previewScale}px` }"
                     >
                       {{ $t('pages.certification.card.registryId') }}: {{ generationId }}
                     </p>
 
-                    <div class="mt-2">
+                    <div class="flex flex-col">
                       <p
-                        class="font-semibold uppercase tracking-wider text-pink-500"
+                        class="font-semibold uppercase tracking-wider text-pink-500 m-0"
                         :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) * previewScale}px` }"
                       >
                         {{ $t('pages.certification.card.name') }}
                       </p>
                       <p
-                        class="font-bold text-black leading-tight"
+                        class="font-bold text-black leading-tight m-0"
                         :style="{ fontSize: `${FRONT_LAYOUT.FIELD_SIZE * previewScale}px` }"
                       >
                         {{ formData.name || "—" }}
                       </p>
                     </div>
-                    <div>
+                    <div class="flex flex-col">
                       <p
-                        class="font-semibold uppercase tracking-wider text-pink-500"
+                        class="font-semibold uppercase tracking-wider text-pink-500 m-0"
                         :style="{ fontSize: `${(FRONT_LAYOUT.LABEL_SIZE - 4) * previewScale}px` }"
                       >
                         {{ $t('pages.certification.card.pronounsLabel') }}
                       </p>
                       <p
-                        class="font-bold text-black"
+                        class="font-bold text-black m-0"
                         :style="{ fontSize: `${(FRONT_LAYOUT.FIELD_SIZE - 4) * previewScale}px` }"
                       >
                         <template v-if="formData.pronouns">
@@ -847,14 +826,14 @@ const backCardBackground = computed(() => {
                 </div>
 
                 <!-- Preview Watermark -->
-                <div 
+                <div
                   class="absolute inset-0 z-50 flex items-center justify-center pointer-events-none opacity-20 select-none overflow-hidden"
                 >
-                  <span 
-                    class="text-red-600 font-bold border-8 border-red-600 px-8 py-4 rounded-3xl whitespace-nowrap"
+                  <span
+                    class="text-primary-500 font-bold border-8 border-primary-500 px-8 py-4 rounded-3xl whitespace-nowrap"
                     :style="{ fontSize: `${120 * previewScale}px` }"
                   >
-                    [PREVIEW]
+                    PREVIEW
                   </span>
                 </div>
               </div>
@@ -871,14 +850,17 @@ const backCardBackground = computed(() => {
               }"
             ></div>
           </div>
+        </div>
 
-          <!-- Back Side Preview -->
+        <!-- Back Side Preview -->
+        <div>
+          <h3 class="mb-4 text-lg font-semibold text-black">Back</h3>
           <div
-            class="relative overflow-hidden rounded-xl shadow-2xl mt-4 bg-cover bg-center"
+            class="relative overflow-hidden rounded-xl shadow-2xl bg-cover bg-center"
             :style="{
               backgroundImage: `url(${backCardBackground})`,
               backgroundColor: BACK_LAYOUT.PLACEHOLDER_BG,
-              aspectRatio: backImageStats.width ? `${backImageStats.width}/${backImageStats.height}` : '3/2',
+              aspectRatio: frontImageStats.width && frontImageStats.height ? `${frontImageStats.width}/${frontImageStats.height}` : '3/2',
             }"
           >
             <!-- Full Span Flag Overlay -->
@@ -886,7 +868,7 @@ const backCardBackground = computed(() => {
               v-if="getFlagPath()"
               :key="getFlagPath()!"
               :src="getFlagPath()!"
-              class="absolute inset-0 h-full w-full object-cover z-0"
+              class="absolute inset-0 h-full w-full object-cover z-0 rounded-xl"
               @error="(e) => (e.target as any).style.visibility = 'hidden'"
               @load="(e) => (e.target as any).style.visibility = 'visible'"
             />
@@ -917,60 +899,34 @@ const backCardBackground = computed(() => {
             </div>
 
             <!-- Preview Watermark -->
-            <div 
+            <div
+              v-if="formData.identity"
               class="absolute inset-0 z-50 flex items-center justify-center pointer-events-none opacity-20 select-none overflow-hidden"
             >
-              <span 
-                class="text-red-600 font-bold border-8 border-red-600 px-8 py-4 rounded-3xl whitespace-nowrap"
+              <span
+                class="text-primary-500 font-bold border-8 border-primary-500 px-8 py-4 rounded-3xl whitespace-nowrap"
                 :style="{ fontSize: `${120 * previewScale}px` }"
               >
-                [PREVIEW]
+                PREVIEW
               </span>
             </div>
           </div>
-
-          <!-- Download Button -->
-          <div class="mt-6">
-            <UButton
-              :disabled="!formData.name"
-              block
-              color="primary"
-              label="Download Your Card"
-              leading-icon="lucide:download"
-              size="lg"
-              @click="downloadCard"
-            />
-            <p class="mt-2 text-center text-xs text-dimmed">Fill out your name to download</p>
-          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Fun Facts Section -->
-    <div class="mt-16">
-      <UCard>
-        <template #header>
-          <h2 class="text-2xl font-bold">Did You Know? 🌈</h2>
-        </template>
-        <div class="space-y-4 text-dimmed">
-          <p>
-            • This certification is as official as a participation trophy, but infinitely more
-            fabulous!
-          </p>
-          <p>
-            • Your identity doesn't need validation from anyone—but if you want a pretty card,
-            we've got you covered.
-          </p>
-          <p>
-            • The only test required is: "Are you being your authentic self?" If yes, you pass!
-            🎉
-          </p>
-          <p>
-            • Side effects may include: increased confidence, finding your community, and an
-            inexplicable urge to own more rainbow items.
-          </p>
-        </div>
-      </UCard>
+      <!-- Download Button -->
+      <div class="mt-8">
+        <UButton
+          :disabled="!formData.name"
+          block
+          color="primary"
+          label="Download Your Card"
+          leading-icon="lucide:download"
+          size="lg"
+          @click="downloadCard"
+        />
+        <p class="mt-2 text-center text-xs text-neutral-600">Fill out your name to download</p>
+      </div>
     </div>
   </UContainer>
 </template>

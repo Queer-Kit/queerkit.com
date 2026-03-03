@@ -76,7 +76,7 @@ const faqs = [
     <UPageSection title="Still need help?" description="If you couldn't find your answer, our moderation and support team is ready to step in." align="center" :ui="{ wrapper: 'bg-neutral-900/50' }">
       <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
         <UButton to="/support/contact" size="xl" color="primary" variant="solid" icon="lucide:mail">Contact Support</UButton>
-        <UButton to="/community" size="xl" variant="outline" icon="lucide:users">Ask the Community</UButton>
+        <UButton to="/wiki" size="xl" variant="outline" icon="lucide:users">Browse Wiki</UButton>
       </div>
     </UPageSection>
   </div>

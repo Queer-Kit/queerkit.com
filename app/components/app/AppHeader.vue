@@ -16,8 +16,8 @@ const items = computed<NavigationMenuItem[]>(() =>
   markRaw([
     {
       label: t("app.header.navigation.about"),
-      to: "/company/about",
-      active: route.path.startsWith("/company"),
+      to: "/about",
+      active: route.path.startsWith("/about"),
     },
     {
       label: t("app.header.navigation.certification"),
