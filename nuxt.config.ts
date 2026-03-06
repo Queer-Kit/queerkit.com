@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     "nuxt-studio",
     "@pinia/nuxt",
     "@pinia/colada-nuxt",
-    ...(!isTauri ? ["@nuxtjs/sitemap", "@nuxtjs/robots", "nuxt-og-image"] : []),
+    ...(!isTauri ? ["@nuxtjs/sitemap", "@nuxtjs/robots", "nuxt-og-image", "nuxt-security"] : []),
   ],
 
   ignore: ["**/src-tauri/**"],
@@ -180,6 +180,47 @@ export default defineNuxtConfig({
   },
   ...(!isTauri
     ? {
+        security: {
+          ssg: {
+            meta: false,
+            exportToPresets: false,
+          },
+          headers: {
+            contentSecurityPolicy: {
+              "img-src": [
+                "'self'",
+                "data:",
+                "blob:",
+                "https://cdn.queerkit.com",
+                "https://via.placeholder.com",
+                "https://ui.nuxt.com",
+              ],
+              "script-src": ["'self'", "'unsafe-inline'", "'wasm-unsafe-eval'"],
+              "script-src-attr": ["'none'"],
+              "connect-src": [
+                "'self'",
+                "https://cdn.queerkit.com",
+                "https://api.iconify.design",
+                "https://api.unisvg.com",
+                "https://api.simplesvg.com",
+              ],
+              "font-src": ["'self'", "https://fonts.gstatic.com"],
+              "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+              "frame-ancestors": ["'self'"],
+              "form-action": ["'self'"],
+              "require-trusted-types-for": "'script'",
+            },
+            strictTransportSecurity: {
+              maxAge: 31536000,
+              includeSubdomains: true,
+              preload: true,
+            },
+            crossOriginOpenerPolicy: "same-origin",
+            referrerPolicy: "strict-origin-when-cross-origin",
+            xFrameOptions: "SAMEORIGIN",
+            xContentTypeOptions: "nosniff",
+          },
+        },
         site: {
           url: "https://queerkit.com",
           name: "QueerKit",
