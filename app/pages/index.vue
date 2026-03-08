@@ -39,7 +39,10 @@ const featuredResources = [
     description: t("pages.home.sections.resources.items.certification.description"),
     image:
       "https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=2574&auto=format&fit=crop",
-    tags: [t("pages.home.sections.resources.items.certification.tags.certification"), t("pages.home.sections.resources.items.certification.tags.identity")],
+    tags: [
+      t("pages.home.sections.resources.items.certification.tags.certification"),
+      t("pages.home.sections.resources.items.certification.tags.identity"),
+    ],
     to: "/certification",
   },
   {
@@ -47,7 +50,10 @@ const featuredResources = [
     description: t("pages.home.sections.resources.items.wiki.description"),
     image:
       "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2670&auto=format&fit=crop",
-    tags: [t("pages.home.sections.resources.items.wiki.tags.knowledge"), t("pages.home.sections.resources.items.wiki.tags.wiki")],
+    tags: [
+      t("pages.home.sections.resources.items.wiki.tags.knowledge"),
+      t("pages.home.sections.resources.items.wiki.tags.wiki"),
+    ],
     to: "/wiki",
   },
   {
@@ -55,7 +61,10 @@ const featuredResources = [
     description: t("pages.home.sections.resources.items.merch.description"),
     image:
       "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?q=80&w=2669&auto=format&fit=crop",
-    tags: [t("pages.home.sections.resources.items.merch.tags.store"), t("pages.home.sections.resources.items.merch.tags.merch")],
+    tags: [
+      t("pages.home.sections.resources.items.merch.tags.store"),
+      t("pages.home.sections.resources.items.merch.tags.merch"),
+    ],
     to: "/store",
   },
 ];
@@ -99,9 +108,7 @@ const featuredResources = [
             {{ t("pages.home.sections.hero.description") }}
           </p>
 
-          <div
-            class="flex flex-col sm:flex-row justify-center gap-6 pt-8"
-          >
+          <div class="flex flex-col sm:flex-row justify-center gap-6 pt-8">
             <UButton size="xl" color="primary" variant="solid" to="/wiki" class="font-bold px-8">
               {{ t("pages.home.sections.hero.actions.wiki") }}
             </UButton>
@@ -118,13 +125,13 @@ const featuredResources = [
         </div>
       </UContainer>
     </section>
-      <UMarquee :overlay="false" class="[--duration:40s]">
-        <div v-for="flag in QUEER_FLAGS" :key="flag.id" class="flex items-center mx-8">
-          <div class="rounded-sm overflow-hidden">
-            <UIcon :name="flag.icon" class="w-16 h-10 block rounded-sm overflow-hidden" />
-          </div>
+    <UMarquee :overlay="false" class="[--duration:40s]">
+      <div v-for="flag in QUEER_FLAGS" :key="flag.id" class="flex items-center mx-8">
+        <div class="rounded-sm overflow-hidden">
+          <UIcon :name="flag.icon" class="w-16 h-10 block rounded-sm overflow-hidden" />
         </div>
-      </UMarquee>
+      </div>
+    </UMarquee>
 
     <!-- Featured Resources -->
     <section id="resources" class="py-32 relative">
@@ -162,14 +169,10 @@ const featuredResources = [
             <!-- Content -->
             <div class="absolute inset-0 p-8 flex flex-col justify-end">
               <div>
-                <h3
-                  class="text-3xl font-bold uppercase mb-2"
-                >
+                <h3 class="text-3xl font-bold uppercase mb-2">
                   {{ resource.title }}
                 </h3>
-                <p
-                  class="text-neutral-600 line-clamp-2 mb-6"
-                >
+                <p class="text-neutral-600 line-clamp-2 mb-6">
                   {{ resource.description }}
                 </p>
                 <div
@@ -229,13 +232,13 @@ const featuredResources = [
     <section class="py-32">
       <UContainer>
         <div class="text-center max-w-3xl mx-auto mb-16">
-          <h2 class="text-3xl md:text-4xl font-bold uppercase mb-4 text-black">{{ t("pages.home.sections.news.title") }}</h2>
+          <h2 class="text-3xl md:text-4xl font-bold uppercase mb-4 text-black">
+            {{ t("pages.home.sections.news.title") }}
+          </h2>
           <p class="text-neutral-600">{{ t("pages.home.sections.news.description") }}</p>
         </div>
 
-        <div
-          class="grid grid-cols-1 md:grid-cols-3 gap-xl"
-        >
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-xl">
           <NuxtLink
             v-for="(post, index) in posts"
             :key="index"
@@ -258,7 +261,11 @@ const featuredResources = [
       <UContainer class="relative z-10 text-center">
         <h2 class="text-3xl font-bold uppercase mb-8">{{ t("pages.home.sections.join.title") }}</h2>
         <div class="max-w-md mx-auto flex gap-2">
-          <UInput :placeholder="t('pages.home.sections.join.placeholder')" class="flex-1" size="xl" />
+          <UInput
+            :placeholder="t('pages.home.sections.join.placeholder')"
+            class="flex-1"
+            size="xl"
+          />
           <UButton size="xl" color="primary" icon="lucide:send">{{
             t("pages.home.sections.join.button")
           }}</UButton>

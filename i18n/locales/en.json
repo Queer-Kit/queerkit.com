@@ -1,577 +1,324 @@
 {
   "common": {
-    "types": {
-      "BlogPost": "Blog Post",
-      "Resource": "Resource",
-      "Document": "Document"
-    },
+    "types": {},
     "navigation": {
-      "previous": "Previous",
-      "next": "Discover"
+      "next": ""
     },
-    "placeholders": {
-      "name": "Jane Doe",
-      "email": "email{'@'}domain.com"
-    }
+    "placeholders": {}
   },
   "error": {
-    "retry": "Try Again",
-    "clear": "Go Back Home",
-    "notFound": {
-      "title": "Page Not Found",
-      "description": "The page you are looking for doesn't exist or has been moved."
-    }
+    "clear": "",
+    "notFound": {}
   },
   "app": {
-    "tagline": "Your guide to all things queer.",
+    "tagline": "",
     "header": {
       "navigation": {
-        "about": "About",
-        "certification": "Certification",
-        "wiki": "Wiki",
-        "community": "Community",
-        "blog": "Blog",
-        "store": "Store"
+        "about": "",
+        "certification": "",
+        "wiki": "",
+        "blog": "",
+        "store": ""
       },
-      "actions": {
-        "signUp": "Sign Up",
-        "signIn": "Sign In"
-      },
+      "actions": {},
       "user": {
-        "status": {
-          "placeholder": "Set a custom status..."
-        },
-        "dashboard": "Dashboard",
-        "profile": "Profile",
-        "support": "Support",
-        "settings": "Settings",
-        "signOut": "Sign Out"
+        "status": {}
       },
       "notifications": {
-        "title": "Notifications",
-        "empty": "No new notifications",
-        "signOut": {
-          "success": "Sign Out Successful",
-          "error": "Sign Out Failed"
-        }
+        "signOut": {}
       }
     },
     "footer": {
       "links": {
         "resources": {
-          "label": "Resources",
+          "label": "",
           "content": {
-            "branding": "Branding",
-            "visitors": "Visitor Count"
+            "branding": "",
+            "visitors": ""
           }
         },
         "documents": {
-          "label": "Documents",
+          "label": "",
           "content": {
-            "privacyPolicy": "Privacy Policy",
-            "cookiePolicy": "Cookie Policy",
-            "termsOfService": "Terms of Service",
-            "codeOfConduct": "Code of Conduct",
-            "otherDocuments": "Other Documents"
+            "privacyPolicy": "",
+            "cookiePolicy": "",
+            "termsOfService": "",
+            "codeOfConduct": "",
+            "otherDocuments": ""
           }
         }
       }
     },
     "newsletter": {
-      "title": "Subscribe to our newsletter",
-      "description": "Get the latest news and updates from us. Unsubscribe at any time.",
-      "placeholder": "email{'@'}domain.com",
-      "submit": "Subscribe",
-      "success": "Thank you for subscribing! Check your inbox for a confirmation email.",
-      "error": "Failed to subscribe. Please try again later."
-    }
+      "title": "",
+      "description": "",
+      "submit": ""
+    },
+    "language_picker": ""
   },
   "pages": {
     "home": {
       "meta": {
-        "title": "Home",
-        "description": "Your guide to all things queer."
+        "title": "",
+        "description": ""
       },
       "sections": {
         "hero": {
-          "badge": "Empowering the Collective",
-          "title": "Your Guide to All Things Queer",
-          "description": "We are Queer Kit. A community-driven guide building the most comprehensive resource for LGBTQ+ knowledge and connection.",
+          "title": "",
+          "description": "",
           "actions": {
-            "wiki": "Open Wiki",
-            "about": "About Queer Kit"
-          },
-          "scroll": "Scroll"
+            "wiki": "",
+            "about": ""
+          }
         },
         "resources": {
-          "title": "Essential Resources",
-          "cta": "Explore Everything",
+          "title": "",
           "items": {
             "certification": {
-              "title": "Get Certified",
-              "description": "Get your official Queer Certification card.",
+              "title": "",
+              "description": "",
               "tags": {
-                "certification": "Certification",
-                "identity": "Identity"
+                "certification": "",
+                "identity": ""
               }
             },
             "wiki": {
-              "title": "The Wiki",
-              "description": "Our community encyclopedia covering various topics.",
+              "title": "",
+              "description": "",
               "tags": {
-                "knowledge": "Knowledge",
-                "wiki": "Wiki"
+                "knowledge": "",
+                "wiki": ""
               }
             },
             "merch": {
-              "title": "Shop Merch",
-              "description": "Show your pride with our collection of queer apparel.",
+              "title": "",
+              "description": "",
               "tags": {
-                "store": "Store",
-                "merch": "Merch"
+                "store": "",
+                "merch": ""
               }
             }
           }
         },
         "vision": {
-          "title": "Building a world of inclusive knowledge",
-          "description": "Queer Kit is a community-focused, independent initiative. We don't just aggregate data; we curate a safe, accurate, and living knowledge base that respects the diversity of queer experience.",
+          "title": "",
+          "description": "",
           "stats": {
-            "articles": "Wiki Articles",
-            "contributors": "Active Contributors"
+            "articles": "",
+            "contributors": ""
           }
         },
         "news": {
-          "title": "Community Broadcasts",
-          "description": "Stay updated with the latest news and additions to Queer Kit.",
+          "title": "",
+          "description": "",
           "items": {
-            "history": {
-              "title": "Now Live: History Deep Dive",
-              "description": "Our new section on early 20th-century queer activism is now available."
-            },
-            "mod": {
-              "title": "Community Moderator Program",
-              "description": "We're looking for passionate people to help keep our spaces safe."
-            },
-            "term": {
-              "title": "Terminology Update",
-              "description": "Refreshing our glossary with more modern and inclusive definitions."
-            }
+            "history": {},
+            "mod": {},
+            "term": {}
           }
         },
         "join": {
-          "title": "Join the Community",
-          "placeholder": "Enter your email",
-          "button": "Subscribe",
-          "privacy": "We respect your privacy. Important community updates only."
+          "title": "",
+          "placeholder": "",
+          "button": "",
+          "privacy": ""
         }
       }
     },
     "about": {
-      "meta": {
-        "title": "About"
-      },
+      "meta": {},
       "sections": {
-        "hero": {
-          "title": "Our Story",
-          "description": "We are a collective of researchers, creators, and advocates building the next generation of queer knowledge."
-        },
-        "mission": {
-          "title": "Our Mission",
-          "description": "To provide accurate, inclusive, and empowering resources for the LGBTQ+ community.",
-          "p2": "Founded by a collective of advocates and community builders, Queer Kit is dedicated to preserving history and empowering the future of the LGBTQ+ community. We believe in the power of shared knowledge to bring people together."
-        },
+        "hero": {},
+        "mission": {},
         "values": {
-          "title": "Our Values",
           "items": {
-            "community": {
-              "title": "Community First",
-              "description": "Everything we do starts and ends with the community experience. We listen, learn, and build for our collective."
-            },
-            "innovation": {
-              "title": "Innovation",
-              "description": "We explore new ways to organize and present information to create accessible and memorable resources."
-            },
-            "collaboration": {
-              "title": "Collaboration",
-              "description": "Great resources are built by great teams. We foster an environment of trust, respect, and open communication."
-            }
+            "community": {},
+            "innovation": {},
+            "collaboration": {}
           }
         },
         "team": {
-          "title": "The Team",
-          "collective": {
-            "title": "The Collective",
-            "subtitle": "Volunteers and Contributors"
-          }
+          "collective": {}
         },
         "join": {
-          "title": "Join Our Journey",
-          "description": "Be part of something extraordinary.",
-          "actions": {
-            "help": "How to Help"
-          }
+          "actions": {}
         }
       }
     },
     "careers": {
-      "meta": {
-        "title": "Careers"
-      },
+      "meta": {},
       "sections": {
-        "hero": {
-          "title": "Volunteer at Queer Kit",
-          "description": "Join us in creating the future of queer knowledge."
-        },
-        "culture": {
-          "title": "Life at Queer Kit",
-          "description": "We foster a culture of inclusion, collaboration, and continuous learning.",
-          "p2": "We believe that the best work happens when people feel safe, supported, and inspired. At Queer Kit, we empower our team to take ownership, experiment, and grow."
-        },
+        "hero": {},
+        "culture": {},
         "benefits": {
-          "title": "Benefits",
           "items": {
-            "health": {
-              "title": "Well-being Resources",
-              "description": "Access to community-vetted mental and physical health guides."
-            },
-            "time": {
-              "title": "Flexible Contribution",
-              "description": "Contribute as much or as little as you want, on your own schedule."
-            },
-            "development": {
-              "title": "Skill Development",
-              "description": "Learn about research, moderation, and community management."
-            },
-            "gear": {
-              "title": "Community Tools",
-              "description": "Access to our internal tools and platforms to help you build."
-            }
+            "health": {},
+            "time": {},
+            "development": {},
+            "gear": {}
           }
         },
         "offices": {
-          "title": "Our Community",
           "items": {
-            "remote": {
-              "title": "Remote-First",
-              "description": "We're a distributed team with flexible working hours. Work from wherever you feel inspired."
-            },
-            "spaces": {
-              "title": "Queer Spaces",
-              "description": "Our community thrives in safe spaces online and offline. Join our Discord or local meetups to connect with the team."
-            }
+            "remote": {},
+            "spaces": {}
           }
         },
-        "positions": {
-          "title": "Open Positions",
-          "empty": "No open positions at the moment. Check back later!",
-          "apply": "Apply Now"
-        }
+        "positions": {}
       }
     },
     "blog": {
-      "meta": {
-        "title": "Blog",
-        "description": "Read our latest news, posts, and project updates.",
-        "RSS": "Rimelight Entertainment Blog RSS Feed"
-      },
-      "copyLink": "Copy link",
-      "linkCopied": "Link copied!",
+      "meta": {},
+      "copyLink": "",
+      "linkCopied": "",
       "actions": {
-        "rss": "RSS Feed",
         "create_post": {
-          "label": "Create Post",
-          "success": {
-            "title": "Post created successfully",
-            "description": "You can now edit your post."
-          },
-          "error": {
-            "title": "Failed to create post",
-            "description": "Please check your connection and try again later."
-          },
+          "success": {},
+          "error": {},
           "modal": {
-            "title": "Create Post",
-            "description": "Create a new Blog Post.",
             "fields": {
-              "title": {
-                "title": "Post Title",
-                "placeholder": "Enter a title for your post"
-              },
-              "slug": {
-                "title": "Post Slug",
-                "placeholder": "post-slug",
-                "help": "The URL-friendly name of the post."
-              },
-              "actions": {
-                "cancel": "Cancel",
-                "submit": "Create Post"
-              }
+              "title": {},
+              "slug": {},
+              "actions": {}
             }
           }
         }
       },
       "drafts": {
-        "title": "Drafts",
-        "description": "These posts have currently not been published.",
-        "error": {
-          "title": "Failed to load drafts",
-          "description": "Please check your connection and try again later."
-        },
+        "error": {},
         "empty": {
-          "title": "No drafts yet.",
-          "description": "Create your first post to get started.",
-          "actions": {
-            "create": "Create Post"
-          }
+          "actions": {}
         }
       },
       "posts": {
-        "title": "Posts",
-        "description": "Our latest posts, including blog posts, press releases, and more.",
-        "error": {
-          "title": "Failed to load posts",
-          "description": "Please check your connection and try again later."
-        },
+        "error": {},
         "empty": {
-          "title": "No posts yet",
-          "description": "Create your first post to get started.",
-          "actions": {
-            "create": "Create Post"
-          }
-        },
-        "load_more": "Load More",
-        "end_of_list": "You've reached the end of the posts."
+          "actions": {}
+        }
       },
-      "types": {
-        "post": "Blog Post",
-        "personal-story": "Personal Story",
-        "development-log": "Development Log"
-      }
+      "types": {}
     },
     "certification": {
-      "meta": {
-        "title": "Certification",
-        "description": "Learn more about our certification program and how to get started."
-      },
+      "meta": {},
       "sections": {
         "hero": {
-          "title": "Queer Certification",
-          "description": "Generate your own queer certification card.",
-          "disclaimer": "(Disclaimer: This is for fun and community celebration. Your identity is valid regardless of any \"certification\"!)"
+          "title": "",
+          "description": ""
         },
         "apply": {
-          "title": "Certification Application",
-          "description": "Tell us about yourself (or your fabulously queer alter ego)",
           "fields": {
-            "personal": {
-              "title": "Personal Info"
-            },
+            "personal": {},
             "name": {
-              "label": "Full Name",
-              "placeholder": "Enter your name"
+              "label": "",
+              "placeholder": ""
             },
             "photo": {
-              "label": "Your Photo",
-              "description": "3:4 aspect ratio photos work best for the ID card"
+              "label": "",
+              "description": ""
             },
             "pronouns": {
-              "label": "Pronouns",
-              "placeholder": "Select or type your pronouns"
+              "label": "",
+              "placeholder": ""
             },
-            "details": {
-              "title": "Certification Details"
-            },
+            "details": {},
             "identity": {
-              "label": "Identity",
-              "placeholder": "Queer",
-              "description": "Choose the identity you want to feature on your card"
+              "label": "",
+              "placeholder": "",
+              "description": ""
             }
           }
         },
         "preview": {
-          "title": "Preview",
-          "description": "This is a live preview of your certification card. Fill out the form to see it update in real-time!"
+          "title": ""
         }
       },
       "card": {
-        "title": "{identity} Certification",
-        "registryId": "Registry ID",
-        "name": "Name",
-        "pronounsLabel": "Pronouns",
-        "issued": "Issued",
-        "expires": "Expires",
-        "instituteNote": "Valid in all global territory.",
-        "defaultIdentity": "Queer",
+        "title": "",
+        "registryId": "",
+        "name": "",
+        "pronounsLabel": "",
+        "issued": "",
+        "expires": "",
+        "instituteNote": "",
+        "defaultIdentity": "",
         "pronouns": {
-          "heHim": "he/him",
-          "sheHer": "she/her",
-          "theyThem": "they/them"
+          "heHim": "",
+          "sheHer": "",
+          "theyThem": ""
         }
       }
     },
     "wiki": {
-      "meta": {
-        "title": "Wiki"
-      },
+      "meta": {},
       "error": {
-        "notFound": "The requested wiki page could not be located.",
-        "back": "Back to Wiki"
+        "notFound": "",
+        "back": ""
       }
     },
     "documents": {
       "meta": {
-        "title": "Documents",
-        "description": "Legal documents, policies, and guidelines for Queer Kit."
+        "title": "",
+        "description": ""
       },
-      "last_updated": "Last Updated",
+      "last_updated": "",
       "actions": {
         "create_document": {
-          "label": "Create Document",
           "modal": {
-            "title": "Create Document",
             "fields": {
-              "title": {
-                "title": "Document Title",
-                "placeholder": "Enter document title"
-              },
-              "slug": {
-                "title": "Slug",
-                "placeholder": "document-slug",
-                "help": "The URL-friendly name of the document."
-              },
-              "actions": {
-                "cancel": "Cancel",
-                "submit": "Create Document"
-              }
+              "title": {},
+              "slug": {},
+              "actions": {}
             }
           }
         }
       },
       "drafts": {
-        "title": "Drafts",
-        "description": "Documents that have not been published yet.",
-        "error": {
-          "title": "Failed to load drafts",
-          "description": "Please check your connection and try again later."
-        },
+        "error": {},
         "empty": {
-          "title": "No drafts yet.",
-          "description": "Create your first document to get started.",
-          "actions": {
-            "create": "Create Document"
-          }
+          "actions": {}
         }
       },
       "documents": {
-        "title": "Documents",
-        "description": "All published documents.",
-        "error": {
-          "title": "Failed to load documents",
-          "description": "Please check your connection and try again later."
-        },
+        "error": {},
         "empty": {
-          "title": "No documents yet",
-          "description": "Create your first document to get started.",
-          "actions": {
-            "create": "Create Document"
-          }
-        },
-        "load_more": "Load More",
-        "end_of_list": "You've reached the end of the documents."
+          "title": "",
+          "description": "",
+          "actions": {}
+        }
       }
     },
     "dashboard": {
-      "meta": {
-        "title": "Dashboard"
-      },
-      "home": {
-        "title": "Home",
-        "welcome": "Welcome back, {name}",
-        "description": "Here's an overview of your personal dashboard."
-      }
+      "meta": {},
+      "home": {}
     },
     "auth": {
       "common": {
-        "terms": {
-          "agreement": "By signing in, you agree to our",
-          "link": "Terms of Service",
-          "required": "You must agree to the terms of service."
-        }
+        "terms": {}
       },
       "signIn": {
-        "title": "Sign In",
-        "button": "Sign In",
-        "email": {
-          "label": "Email",
-          "placeholder": "email{'@'}domain.com",
-          "help": "Forgot your email?"
-        },
-        "password": {
-          "label": "Password",
-          "placeholder": "Your password",
-          "help": "Forgot your password?"
-        },
-        "rememberMe": "Remember me",
-        "noAccount": "Don't have an account?",
-        "signUpLink": "Sign Up",
-        "success": {
-          "title": "Sign In Successful",
-          "description": "Welcome back, {name}!"
-        },
-        "error": {
-          "title": "Sign In Failed",
-          "description": "Invalid email or password. Please check your credentials and try again."
-        }
+        "email": {},
+        "password": {},
+        "success": {},
+        "error": {}
       },
       "signUp": {
-        "title": "Sign Up",
-        "button": "Sign Up",
-        "stepper": {
-          "identity": "Identity",
-          "security": "Security",
-          "preferences": "Preferences"
-        },
+        "stepper": {},
         "fields": {
-          "username": {
-            "label": "Username",
-            "description": "Choose a unique username."
-          },
-          "email": {
-            "label": "Email",
-            "description": "This will be used for login."
-          },
-          "firstName": {
-            "label": "First Name",
-            "description": "Enter your first name."
-          },
-          "lastName": {
-            "label": "Last Name",
-            "description": "Enter your last name."
-          },
-          "password": {
-            "label": "Password",
-            "description": "Choose a strong password."
-          },
-          "passwordConfirmation": {
-            "label": "Confirm Password",
-            "description": "Repeat your password."
-          }
+          "username": {},
+          "email": {},
+          "firstName": {},
+          "lastName": {},
+          "password": {},
+          "passwordConfirmation": {}
         },
-        "newsletter": {
-          "label": "Subscribe to our newsletter.",
-          "description": "Unsubscribe at any time."
-        },
-        "haveAccount": "Already have an account?",
-        "signInLink": "Sign In",
-        "success": {
-          "title": "Account Created Successfully",
-          "description": "Welcome to Queer Kit!"
-        },
-        "error": {
-          "title": "Sign Up Failed",
-          "description": "Please check your details and try again."
-        }
+        "newsletter": {},
+        "success": {},
+        "error": {}
       }
     }
-  }
+  },
+  "auth_sign-in": "",
+  "auth_sign-up": "",
+  "page_branding_description": "",
+  "page_branding_title": ""
 }

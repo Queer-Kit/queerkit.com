@@ -1,4 +1,6 @@
 import { defineCollection, defineContentConfig, z } from "@nuxt/content";
+import { asSeoCollection } from "@nuxtjs/seo/content";
+
 
 const createButtonSchema = () =>
   z.object({
@@ -51,56 +53,76 @@ const projectSchema = commonSchema.extend({
 });
 
 const documentSchema = commonSchema.extend({
-  type: z.enum(["privacy-policy", "cookie-policy", "terms-of-service", "code-of-conduct", "other"]).optional(),
+  type: z
+    .enum(["privacy-policy", "cookie-policy", "terms-of-service", "code-of-conduct", "other"])
+    .optional(),
   lastUpdated: z.date().optional(),
 });
 
 export default defineContentConfig({
   collections: {
-    en_blog: defineCollection({
-      type: "page",
-      source: { include: "en/blog/**", prefix: "/blog" },
-      schema: blogSchema,
-    }),
-    en_documents: defineCollection({
-      type: "page",
-      source: { include: "en/documents/**", prefix: "/documents" },
-      schema: documentSchema,
-    }),
-    en_projects: defineCollection({
-      type: "page",
-      source: { include: "en/projects/**", prefix: "/projects" },
-      schema: projectSchema,
-    }),
-    en_pages: defineCollection({
-      type: "page",
-      source: { include: "en/*.yml", prefix: "/" },
-      schema: commonSchema,
-    }),
+    en_blog: defineCollection(
+      asSeoCollection({
+        type: "page",
+        source: { include: "en/blog/**", prefix: "/blog" },
+        schema: blogSchema,
+      })
+    ),
+    en_documents: defineCollection(
+      asSeoCollection({
+        type: "page",
+        source: { include: "en/documents/**", prefix: "/documents" },
+        schema: documentSchema,
+      })
+    ),
+    en_projects: defineCollection(
+      asSeoCollection({
+        type: "page",
+        source: { include: "en/projects/**", prefix: "/projects" },
+        schema: projectSchema,
+      })
+    ),
+    en_pages: defineCollection(
+      asSeoCollection({
+        type: "page",
+        source: { include: "en/*.yml", prefix: "/" },
+        schema: commonSchema,
+      })
+    ),
 
-    pt_blog: defineCollection({
-      type: "page",
-      source: { include: "pt/blog/**", prefix: "/blog" },
-      schema: blogSchema,
-    }),
-    pt_documents: defineCollection({
-      type: "page",
-      source: { include: "pt/documents/**", prefix: "/documents" },
-      schema: documentSchema,
-    }),
-    pt_projects: defineCollection({
-      type: "page",
-      source: { include: "pt/projects/**", prefix: "/projects" },
-      schema: projectSchema,
-    }),
-    pt_pages: defineCollection({
-      type: "page",
-      source: { include: "pt/*.yml", prefix: "/" },
-      schema: commonSchema,
-    }),
-    all: defineCollection({
-      type: "page",
-      source: { include: "**" },
-    }),
+    pt_blog: defineCollection(
+      asSeoCollection({
+        type: "page",
+        source: { include: "pt/blog/**", prefix: "/blog" },
+        schema: blogSchema,
+      })
+    ),
+    pt_documents: defineCollection(
+      asSeoCollection({
+        type: "page",
+        source: { include: "pt/documents/**", prefix: "/documents" },
+        schema: documentSchema,
+      })
+    ),
+    pt_projects: defineCollection(
+      asSeoCollection({
+        type: "page",
+        source: { include: "pt/projects/**", prefix: "/projects" },
+        schema: projectSchema,
+      })
+    ),
+    pt_pages: defineCollection(
+      asSeoCollection({
+        type: "page",
+        source: { include: "pt/*.yml", prefix: "/" },
+        schema: commonSchema,
+      })
+    ),
+    all: defineCollection(
+      asSeoCollection({
+        type: "page",
+        source: { include: "**" },
+      })
+    ),
   },
 });

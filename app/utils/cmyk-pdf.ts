@@ -7,9 +7,7 @@
 
 // --- RGB to CMYK conversion ---
 
-function rgbaToCmykBytes(
-  imageData: ImageData,
-): Uint8Array {
+function rgbaToCmykBytes(imageData: ImageData): Uint8Array {
   const { data, width, height } = imageData;
   const pixelCount = width * height;
   const cmyk = new Uint8Array(pixelCount * 4);
@@ -127,9 +125,7 @@ function constructCmykPdf(
 
   // Object 2: Pages
   markObject(2);
-  writeStr(
-    `2 0 obj\n<< /Type /Pages /Kids [${pageRefs}] /Count ${pageCount} >>\nendobj\n`,
-  );
+  writeStr(`2 0 obj\n<< /Type /Pages /Kids [${pageRefs}] /Count ${pageCount} >>\nendobj\n`);
 
   // Each page
   for (let i = 0; i < pageCount; i++) {
@@ -155,9 +151,7 @@ function constructCmykPdf(
 
     // Content stream object
     markObject(contentObjNum);
-    writeStr(
-      `${contentObjNum} 0 obj\n<< /Length ${drawCmdBytes.length} >>\nstream\n`,
-    );
+    writeStr(`${contentObjNum} 0 obj\n<< /Length ${drawCmdBytes.length} >>\nstream\n`);
     writeBytes(drawCmdBytes);
     writeStr("\nendstream\nendobj\n");
 

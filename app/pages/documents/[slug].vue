@@ -22,12 +22,14 @@ if (!page.value) {
   });
 }
 
-useSeoMeta({
-  title: page.value.title,
-  ogTitle: page.value.title,
-  description: page.value.description,
-  ogDescription: page.value.description,
-});
+if (page.value?.ogImage) {
+  defineOgImage(page.value.ogImage);
+} else if (page.value?.image) {
+  defineOgImage({ url: page.value.image });
+}
+
+useHead(page.value?.head || {});
+useSeoMeta(page.value?.seo || {});
 </script>
 
 <template>
@@ -35,7 +37,8 @@ useSeoMeta({
     <UContainer>
       <UPageBody class="text-black prose prose-black">
         <div v-if="page.lastUpdated" class="text-sm text-neutral-500 mb-4">
-          {{ t("pages.documents.last_updated") }}: {{ new Date(page.lastUpdated).toLocaleDateString() }}
+          {{ t("pages.documents.last_updated") }}:
+          {{ new Date(page.lastUpdated).toLocaleDateString() }}
         </div>
         <ContentRenderer v-if="page.body" :value="page" class="prose prose-black max-w-none" />
         <div v-else>

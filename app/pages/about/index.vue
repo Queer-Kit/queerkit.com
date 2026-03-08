@@ -6,9 +6,9 @@ useHead({
   meta: [
     {
       name: "description",
-      content: "Learn more about the mission, vision, and team behind QueerKit."
-    }
-  ]
+      content: "Learn more about the mission, vision, and team behind QueerKit.",
+    },
+  ],
 });
 
 const teamMembers = [
@@ -18,9 +18,7 @@ const teamMembers = [
     roleSecondary: "Designer",
     description: "Passionate about creating inclusive spaces and building community.",
     image: "https://cdn.queerkit.com/Images/Team/bruna_corso_00.webp",
-    links: [
-      { icon: "mdi:instagram", to: "https://instagram.com/brunacorso", target: "_blank" }
-    ]
+    links: [{ icon: "mdi:instagram", to: "https://instagram.com/brunacorso", target: "_blank" }],
   },
   {
     name: "Daniel Marchi",
@@ -31,8 +29,8 @@ const teamMembers = [
     links: [
       { icon: "mdi:instagram", to: "https://instagram.com/danielmarchi", target: "_blank" },
       { icon: "mdi:github", to: "https://github.com/danielmarchi", target: "_blank" },
-      { icon: "lucide:globe", to: "https://danielmarchi.com", target: "_blank" }
-    ]
+      { icon: "lucide:globe", to: "https://danielmarchi.com", target: "_blank" },
+    ],
   },
   {
     name: "Gustavo Cardoso",
@@ -41,9 +39,9 @@ const teamMembers = [
     description: "Committed to amplifying queer voices and stories.",
     image: "https://cdn.queerkit.com/Images/Team/gustavo_cardoso_00.webp",
     links: [
-      { icon: "mdi:instagram", to: "https://instagram.com/gustavocardoso", target: "_blank" }
-    ]
-  }
+      { icon: "mdi:instagram", to: "https://instagram.com/gustavocardoso", target: "_blank" },
+    ],
+  },
 ];
 </script>
 
@@ -72,13 +70,19 @@ const teamMembers = [
         <div class="flex items-center">
           <div>
             <p class="mb-6">
-              Queer Kit started as a simple idea: what if there was a centralized, welcoming space where anyone could learn about queer identities, discover resources, and find their community?
+              Queer Kit started as a simple idea: what if there was a centralized, welcoming space
+              where anyone could learn about queer identities, discover resources, and find their
+              community?
             </p>
             <p class="mb-6">
-              Over time, we've grown into a comprehensive platform featuring a deeply detailed wiki, community forums, and a store to support our operations—all designed with love, clarity, and bold aesthetics.
+              Over time, we've grown into a comprehensive platform featuring a deeply detailed wiki,
+              community forums, and a store to support our operations—all designed with love,
+              clarity, and bold aesthetics.
             </p>
             <p>
-              Our journey is just beginning. We are continually partnering with creators, educators, and activists to expand our content and ensure every narrative within the vast LGBTQ+ spectrum is represented and celebrated.
+              Our journey is just beginning. We are continually partnering with creators, educators,
+              and activists to expand our content and ensure every narrative within the vast LGBTQ+
+              spectrum is represented and celebrated.
             </p>
           </div>
         </div>
@@ -141,8 +145,12 @@ const teamMembers = [
       }"
     >
       <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
-        <UButton to="/wiki" size="xl" color="primary" variant="solid" icon="lucide:book-open">Explore Wiki</UButton>
-        <UButton to="/support" size="xl" variant="outline" icon="lucide:life-buoy">Get Support</UButton>
+        <UButton to="/wiki" size="xl" color="primary" variant="solid" icon="lucide:book-open"
+          >Explore Wiki</UButton
+        >
+        <UButton to="/support" size="xl" variant="outline" icon="lucide:life-buoy"
+          >Get Support</UButton
+        >
       </div>
     </UPageSection>
   </div>

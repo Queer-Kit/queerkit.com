@@ -33,12 +33,14 @@ if (!posts.value) {
   });
 }
 
-useSeoMeta({
-  title: page.value?.seo?.title || page.value?.title,
-  ogTitle: page.value?.seo?.title || page.value?.title,
-  description: page.value?.seo?.description || page.value?.description,
-  ogDescription: page.value?.seo?.description || page.value?.description,
-});
+if (page.value?.ogImage) {
+  defineOgImage(page.value.ogImage);
+} else if (page.value?.image) {
+  defineOgImage({ url: page.value.image });
+}
+
+useHead(page.value?.head || {});
+useSeoMeta(page.value?.seo || {});
 </script>
 
 <template>
@@ -63,8 +65,7 @@ useSeoMeta({
           v-bind="post"
           :ui="{
             root: 'md:grid md:grid-cols-2 group overflow-visible transition-all duration-300',
-            image:
-              'group-hover/blog-post:scale-105 rounded-xl shadow-lg',
+            image: 'group-hover/blog-post:scale-105 rounded-xl shadow-lg',
             title: 'text-black font-bold group-hover:text-neutral-700 transition-colors',
             description: 'text-neutral-600 line-clamp-3',
             date: 'text-neutral-400 font-medium',

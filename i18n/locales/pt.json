@@ -1,577 +1,330 @@
 {
   "common": {
-    "types": {
-      "BlogPost": "Post de Blog",
-      "Resource": "Recurso",
-      "Document": "Documento"
-    },
+    "types": {},
     "navigation": {
-      "previous": "Anterior",
-      "next": "Próximo"
+      "next": ""
     },
-    "placeholders": {
-      "name": "João Silva",
-      "email": "endereco{'@'}dominio.com"
-    }
+    "placeholders": {}
   },
   "error": {
-    "retry": "Tentar Novamente",
-    "clear": "Voltar ao Início",
-    "notFound": {
-      "title": "Página Não Encontrada",
-      "description": "A página que você está procurando não existe ou foi movida."
-    }
+    "clear": "",
+    "notFound": {}
   },
   "app": {
-    "tagline": "O seu guia para todas as coisas queer.",
+    "tagline": "",
     "header": {
       "navigation": {
-        "about": "Sobre",
-        "certification": "Certificação",
-        "wiki": "Wiki",
-        "community": "Comunidade",
-        "blog": "Blog",
-        "store": "Loja"
+        "about": "",
+        "certification": "",
+        "wiki": "",
+        "blog": "",
+        "store": ""
       },
-      "actions": {
-        "signUp": "Cadastrar-se",
-        "signIn": "Entrar"
-      },
+      "actions": {},
       "user": {
-        "status": {
-          "placeholder": "Definir um status personalizado..."
-        },
-        "dashboard": "Dashboard",
-        "profile": "Perfil",
-        "support": "Suporte",
-        "settings": "Configurações",
-        "signOut": "Sair"
+        "status": {}
       },
       "notifications": {
-        "title": "Notificações",
-        "empty": "Nenhuma notificação nova",
-        "signOut": {
-          "success": "Sessão encerrada com sucesso",
-          "error": "Falha ao encerrar sessão"
-        }
+        "signOut": {}
       }
     },
     "footer": {
       "links": {
         "resources": {
-          "label": "Recursos",
+          "label": "",
           "content": {
-            "branding": "Marca",
-            "visitors": "Contagem de Visitantes"
+            "branding": "",
+            "visitors": ""
           }
         },
         "documents": {
-          "label": "Documentos",
+          "label": "",
           "content": {
-            "privacyPolicy": "Política de Privacidade",
-            "cookiePolicy": "Política de Cookies",
-            "termsOfService": "Termos de Serviço",
-            "codeOfConduct": "Código de Conduta",
-            "otherDocuments": "Outros Documentos"
+            "privacyPolicy": "",
+            "cookiePolicy": "",
+            "termsOfService": "",
+            "codeOfConduct": "",
+            "otherDocuments": ""
           }
         }
       }
     },
     "newsletter": {
-      "title": "Inscreva-se na nossa Newsletter",
-      "description": "Fique atualizado sobre novos posts e novidades. Cancele a inscrição a qualquer momento.",
-      "placeholder": "email{'@'}dominio.com",
-      "submit": "Inscrever",
-      "success": "Obrigado por se inscrever! Verifique sua caixa de entrada para um e-mail de confirmação.",
-      "error": "Falha ao se inscrever. Por favor, tente novamente mais tarde."
-    }
+      "title": "",
+      "description": "",
+      "submit": ""
+    },
+    "language_picker": ""
   },
   "pages": {
     "home": {
       "meta": {
-        "title": "Início",
-        "description": "O seu guia para todas as coisas queer."
+        "title": "",
+        "description": ""
       },
       "sections": {
         "hero": {
-          "badge": "Empoderando o Coletivo",
-          "title": "Todas as Coisas Queer",
-          "description": "Somos o QueerKit. Um guia impulsionado pela comunidade construindo o recurso mais abrangente para conhecimento e conexão LGBTQ+.",
+          "title": "",
+          "description": "",
           "actions": {
-            "wiki": "Abrir o Wiki",
-            "about": "Sobre o QueerKit"
-          },
-          "scroll": "Rolar"
+            "wiki": "",
+            "about": ""
+          }
         },
         "resources": {
-          "title": "Recursos Essenciais",
-          "cta": "Explorar Tudo",
+          "title": "",
           "items": {
             "wiki": {
-              "title": "O Wiki",
-              "description": "Nossa enciclopédia comunitária cobrindo tudo, desde terminologia até história queer.",
+              "title": "",
+              "description": "",
               "tags": {
-                "knowledge": "Conhecimento",
-                "wiki": "Wiki"
+                "knowledge": "",
+                "wiki": ""
               }
             },
             "community": {
-              "title": "Guia da Comunidade",
-              "description": "Encontrando espaços seguros, organizações locais e formas de se conectar com a família queer global.",
-              "tags": {
-                "community": "Comunidade",
-                "support": "Suporte"
-              }
+              "tags": {}
             },
             "identity": {
-              "title": "Laboratórios de Identidade",
-              "description": "Mergulhos profundos em gênero, sexualidade e as nuances da autoexpressão e descoberta.",
+              "tags": {}
+            },
+            "certification": {
+              "title": "",
+              "description": "",
               "tags": {
-                "identity": "Identidade",
-                "education": "Educação"
+                "certification": "",
+                "identity": ""
+              }
+            },
+            "merch": {
+              "title": "",
+              "description": "",
+              "tags": {
+                "store": "",
+                "merch": ""
               }
             }
           }
         },
         "vision": {
-          "title": "Construindo um mundo de conhecimento inclusivo",
-          "description": "O QueerKit é uma iniciativa independente focada na comunidade. Não apenas agregamos dados; curamos uma base de conhecimento segura, precisa e viva que respeita a diversidade da experiência queer.",
+          "title": "",
+          "description": "",
           "stats": {
-            "articles": "Artigos no Wiki",
-            "contributors": "Contribuidores Ativos"
+            "articles": "",
+            "contributors": ""
           }
         },
         "news": {
-          "title": "Transmissões da Comunidade",
-          "description": "Fique atualizado com as últimas notícias e adições ao QueerKit.",
+          "title": "",
+          "description": "",
           "items": {
-            "history": {
-              "title": "Já no Ar: Mergulho na História",
-              "description": "Nossa nova seção sobre o ativismo queer do início do século XX já está disponível."
-            },
-            "mod": {
-              "title": "Programa de Moderadores da Comunidade",
-              "description": "Estamos procurando pessoas apaixonadas para ajudar a manter nossos espaços seguros."
-            },
-            "term": {
-              "title": "Atualização de Terminologia",
-              "description": "Atualizando nosso glossário com definições mais modernas e inclusivas."
-            }
+            "history": {},
+            "mod": {},
+            "term": {}
           }
         },
         "join": {
-          "title": "Junte-se à Comunidade",
-          "placeholder": "Digite seu e-mail",
-          "button": "Inscrever-se",
-          "privacy": "Respeitamos sua privacidade. Apenas atualizações importantes da comunidade."
+          "title": "",
+          "placeholder": "",
+          "button": "",
+          "privacy": ""
         }
       }
     },
     "about": {
-      "meta": {
-        "title": "Sobre"
-      },
+      "meta": {},
       "sections": {
-        "hero": {
-          "title": "Nossa História",
-          "description": "Somos um coletivo de pesquisadores, criadores e defensores construindo a próxima geração de conhecimento queer."
-        },
-        "mission": {
-          "title": "Nossa Missão",
-          "description": "Fornecer recursos precisos, inclusivos e empoderadores para a comunidade LGBTQ+.",
-          "p2": "Fundado por um coletivo de defensores e construtores de comunidade, o QueerKit é dedicado a preservar a história e empoderar o futuro da comunidade LGBTQ+. Acreditamos no poder do conhecimento compartilhado para unir as pessoas."
-        },
+        "hero": {},
+        "mission": {},
         "values": {
-          "title": "Nossos Valores",
           "items": {
-            "community": {
-              "title": "Comunidade em Primeiro Lugar",
-              "description": "Tudo o que fazemos começa e termina com a experiência da comunidade. Ouvimos, aprendemos e construímos para o nosso coletivo."
-            },
-            "innovation": {
-              "title": "Inovação",
-              "description": "Exploramos novas formas de organizar e apresentar informações para criar recursos acessíveis e memoráveis."
-            },
-            "collaboration": {
-              "title": "Colaboração",
-              "description": "Grandes recursos são construídos por grandes equipes. Fomentamos um ambiente de confiança, respeito e comunicação aberta."
-            }
+            "community": {},
+            "innovation": {},
+            "collaboration": {}
           }
         },
         "team": {
-          "title": "A Equipe",
-          "collective": {
-            "title": "O Coletivo",
-            "subtitle": "Voluntários e Contribuidores"
-          }
+          "collective": {}
         },
         "join": {
-          "title": "Junte-se à Nossa Jornada",
-          "description": "Faça parte de algo extraordinário.",
-          "actions": {
-            "help": "Como Ajudar"
-          }
+          "actions": {}
         }
       }
     },
     "careers": {
-      "meta": {
-        "title": "Carreiras"
-      },
+      "meta": {},
       "sections": {
-        "hero": {
-          "title": "Seja voluntário no QueerKit",
-          "description": "Junte-se a nós na criação do futuro do conhecimento queer."
-        },
-        "culture": {
-          "title": "Vida no QueerKit",
-          "description": "Fomentamos uma cultura de inclusão, colaboração e aprendizado contínuo.",
-          "p2": "Acreditamos que o melhor trabalho acontece quando as pessoas se sentem seguras, apoiadas e inspiradas. No QueerKit, capacitamos nossa equipe para assumir responsabilidade, experimentar e crescer."
-        },
+        "hero": {},
+        "culture": {},
         "benefits": {
-          "title": "Benefícios",
           "items": {
-            "health": {
-              "title": "Recursos de Bem-estar",
-              "description": "Acesso a guias de saúde mental e física verificados pela comunidade."
-            },
-            "time": {
-              "title": "Contribuição Flexível",
-              "description": "Contribua o quanto quiser, no seu próprio horário."
-            },
-            "development": {
-              "title": "Desenvolvimento de Habilidades",
-              "description": "Aprenda sobre pesquisa, moderação e gestão de comunidade."
-            },
-            "gear": {
-              "title": "Ferramentas da Comunidade",
-              "description": "Acesso às nossas ferramentas e plataformas internas para ajudar você a construir."
-            }
+            "health": {},
+            "time": {},
+            "development": {},
+            "gear": {}
           }
         },
         "offices": {
-          "title": "Nossa Comunidade",
           "items": {
-            "remote": {
-              "title": "Remoto Primeiro",
-              "description": "Somos uma equipe distribuída com horários de trabalho flexíveis. Trabalhe de onde quer que você se sinta inspirado(a)."
-            },
-            "spaces": {
-              "title": "Espaços Queer",
-              "description": "Nossa comunidade prospera em espaços seguros online e offline. Junte-se ao nosso Discord ou encontros locais para se conectar com a equipe."
-            }
+            "remote": {},
+            "spaces": {}
           }
         },
-        "positions": {
-          "title": "Vagas Abertas",
-          "empty": "Sem vagas abertas no momento. Volte mais tarde!",
-          "apply": "Candidatar-se Agora"
-        }
+        "positions": {}
       }
     },
     "blog": {
-      "meta": {
-        "title": "Blog",
-        "description": "Leia nossos posts mais recentes e atualizações de projeto.",
-        "RSS": "Rimelight Entertainment Blog RSS Feed"
-      },
-      "copyLink": "Copiar link",
-      "linkCopied": "Link copiado!",
+      "meta": {},
+      "copyLink": "",
+      "linkCopied": "",
       "actions": {
-        "rss": "RSS Feed",
         "create_post": {
-          "label": "Criar Post",
-          "success": {
-            "title": "Post criado com sucesso",
-            "description": "Agora você pode editar seu post."
-          },
-          "error": {
-            "title": "Falha ao criar post",
-            "description": "Por favor, verifique sua conexão e tente novamente mais tarde."
-          },
+          "success": {},
+          "error": {},
           "modal": {
-            "title": "Criar Post",
-            "description": "Criar um novo Post de Blog.",
             "fields": {
-              "title": {
-                "title": "Título do Post",
-                "placeholder": "Digite um título para seu post"
-              },
-              "slug": {
-                "title": "Slug do Post",
-                "placeholder": "slug-do-post",
-                "help": "O nome amigável para URL do post."
-              },
-              "actions": {
-                "cancel": "Cancelar",
-                "submit": "Criar Post"
-              }
+              "title": {},
+              "slug": {},
+              "actions": {}
             }
           }
         }
       },
       "drafts": {
-        "title": "Rascunhos",
-        "description": "Estes posts ainda não foram publicados.",
-        "error": {
-          "title": "Falha ao carregar rascunhos",
-          "description": "Por favor, verifique sua conexão e tente novamente mais tarde."
-        },
+        "error": {},
         "empty": {
-          "title": "Nenhum rascunho ainda.",
-          "description": "Crie seu primeiro post para começar.",
-          "actions": {
-            "create": "Criar Post"
-          }
+          "actions": {}
         }
       },
       "posts": {
-        "title": "Posts",
-        "description": "Nossos posts mais recentes, incluindo posts de blog, press releases e mais.",
-        "error": {
-          "title": "Falha ao carregar posts",
-          "description": "Por favor, verifique sua conexão e tente novamente mais tarde."
-        },
+        "error": {},
         "empty": {
-          "title": "Nenhum post ainda",
-          "description": "Crie seu primeiro post para começar.",
-          "actions": {
-            "create": "Criar Post"
-          }
-        },
-        "load_more": "Carregar Mais",
-        "end_of_list": "Você chegou ao fim dos posts."
+          "actions": {}
+        }
       },
-      "types": {
-        "post": "Post de Blog",
-        "personal-story": "História Pessoal",
-        "development-log": "Log de Desenvolvimento"
-      }
+      "types": {}
     },
     "certification": {
-      "meta": {
-        "title": "Certificação",
-        "description": "Saiba mais sobre nosso programa de certificação e como começar."
-      },
+      "meta": {},
       "sections": {
         "hero": {
-          "title": "Certificação LGBT+ Oficial",
-          "description": "Bem-vindo(a) ao Processo de Certificação LGBT+™ {legitimate}! Preencha o formulário abaixo para receber sua carta de certificação personalizada. Sem testes—apenas boas energias e autenticidade! 🏳️‍⚧️🏳️‍🌈✨",
-          "disclaimer": "(Aviso: Isso é para diversão e celebração da comunidade. Sua identidade é válida independentemente de qualquer \"certificação\"!)"
+          "title": "",
+          "description": ""
         },
         "apply": {
-          "title": "Inscrição para Certificação",
-          "description": "Conte-nos sobre você (ou seu alter ego maravilhosamente queer)",
           "fields": {
-            "personal": {
-              "title": "Informações Pessoais"
-            },
+            "personal": {},
             "name": {
-              "label": "Nome Completo",
-              "placeholder": "Digite seu nome"
+              "label": "",
+              "placeholder": ""
             },
             "photo": {
-              "label": "Sua Foto",
-              "description": "Fotos quadradas funcionam melhor para o cartão de ID!"
+              "label": "",
+              "description": ""
             },
             "pronouns": {
-              "label": "Pronomes",
-              "placeholder": "Selecione ou digite seus pronomes"
+              "label": "",
+              "placeholder": ""
             },
-            "details": {
-              "title": "Detalhes da Certificação"
-            },
+            "details": {},
             "identity": {
-              "label": "Identidade",
-              "placeholder": "Queer",
-              "description": "Escolha a identidade que deseja destacar no seu cartão!"
+              "label": "",
+              "placeholder": "",
+              "description": ""
             }
           }
         },
         "preview": {
-          "title": "Seu Cartão de Certificação",
-          "description": "Esta é uma prévia em tempo real do seu cartão de certificação. Preencha o formulário para vê-lo atualizar!"
+          "title": ""
         }
       },
       "card": {
-        "title": "Certificação {identity}",
-        "registryId": "ID de Registro",
-        "name": "Nome",
-        "pronounsLabel": "Pronomes",
-        "issued": "Emitido",
-        "expires": "Expira",
-        "instituteNote": "Válida em todo o território global.",
-        "defaultIdentity": "Queer",
+        "title": "",
+        "registryId": "",
+        "name": "",
+        "pronounsLabel": "",
+        "issued": "",
+        "expires": "",
+        "instituteNote": "",
+        "defaultIdentity": "",
         "pronouns": {
-          "heHim": "ele/dele",
-          "sheHer": "ela/dela",
-          "theyThem": "elo/delo"
+          "heHim": "",
+          "sheHer": "",
+          "theyThem": ""
         }
       }
     },
     "wiki": {
-      "meta": {
-        "title": "Wiki"
-      },
+      "meta": {},
       "error": {
-        "notFound": "A página do wiki solicitada não pôde ser encontrada.",
-        "back": "Voltar para o Wiki"
+        "notFound": "",
+        "back": ""
       }
     },
     "documents": {
       "meta": {
-        "title": "Documentos",
-        "description": "Documentos legais, políticas e diretrizes para Queer Kit."
+        "title": "",
+        "description": ""
       },
-      "last_updated": "Última Atualização",
+      "last_updated": "",
       "actions": {
         "create_document": {
-          "label": "Criar Documento",
           "modal": {
-            "title": "Criar Documento",
             "fields": {
-              "title": {
-                "title": "Título do Documento",
-                "placeholder": "Digite o título do documento"
-              },
-              "slug": {
-                "title": "Slug",
-                "placeholder": "slug-do-documento",
-                "help": "O nome amigável à URL do documento."
-              },
-              "actions": {
-                "cancel": "Cancelar",
-                "submit": "Criar Documento"
-              }
+              "title": {},
+              "slug": {},
+              "actions": {}
             }
           }
         }
       },
       "drafts": {
-        "title": "Rascunhos",
-        "description": "Documentos que ainda não foram publicados.",
-        "error": {
-          "title": "Falha ao carregar rascunhos",
-          "description": "Verifique sua conexão e tente novamente mais tarde."
-        },
+        "error": {},
         "empty": {
-          "title": "Nenhum rascunho ainda.",
-          "description": "Crie seu primeiro documento para começar.",
-          "actions": {
-            "create": "Criar Documento"
-          }
+          "actions": {}
         }
       },
       "documents": {
-        "title": "Documentos",
-        "description": "Todos os documentos publicados.",
-        "error": {
-          "title": "Falha ao carregar documentos",
-          "description": "Verifique sua conexão e tente novamente mais tarde."
-        },
+        "error": {},
         "empty": {
-          "title": "Nenhum documento ainda",
-          "description": "Crie seu primeiro documento para começar.",
-          "actions": {
-            "create": "Criar Documento"
-          }
-        },
-        "load_more": "Carregar Mais",
-        "end_of_list": "Você chegou ao fim dos documentos."
+          "title": "",
+          "description": "",
+          "actions": {}
+        }
       }
     },
     "dashboard": {
-      "meta": {
-        "title": "Dashboard"
-      },
-      "home": {
-        "title": "Início",
-        "welcome": "Bem-vindo(a) de volta, {name}",
-        "description": "Aqui está uma visão geral do seu dashboard pessoal."
-      }
+      "meta": {},
+      "home": {}
     },
     "auth": {
       "common": {
-        "terms": {
-          "agreement": "Ao entrar, você concorda com nossos",
-          "link": "Termos de Serviço",
-          "required": "Você deve concordar com os termos de serviço."
-        }
+        "terms": {}
       },
       "signIn": {
-        "title": "Entrar",
-        "button": "Entrar",
-        "email": {
-          "label": "E-mail",
-          "placeholder": "email{'@'}dominio.com",
-          "help": "Esqueceu seu e-mail?"
-        },
-        "password": {
-          "label": "Senha",
-          "placeholder": "Sua senha",
-          "help": "Esqueceu sua senha?"
-        },
-        "rememberMe": "Lembrar de mim",
-        "noAccount": "Não tem uma conta?",
-        "signUpLink": "Cadastre-se",
-        "success": {
-          "title": "Login Bem-sucedido",
-          "description": "Bem-vindo(a) de volta, {name}!"
-        },
-        "error": {
-          "title": "Falha no Login",
-          "description": "E-mail ou senha inválidos. Por favor, verifique seus dados e tente novamente."
-        }
+        "email": {},
+        "password": {},
+        "success": {},
+        "error": {}
       },
       "signUp": {
-        "title": "Cadastrar-se",
-        "button": "Cadastrar-se",
-        "stepper": {
-          "identity": "Identidade",
-          "security": "Segurança",
-          "preferences": "Preferências"
-        },
+        "stepper": {},
         "fields": {
-          "username": {
-            "label": "Nome de usuário",
-            "description": "Escolha um nome de usuário único."
-          },
-          "email": {
-            "label": "E-mail",
-            "description": "Isso será usado para login."
-          },
-          "firstName": {
-            "label": "Nome",
-            "description": "Digite seu primeiro nome."
-          },
-          "lastName": {
-            "label": "Sobrenome",
-            "description": "Digite seu sobrenome."
-          },
-          "password": {
-            "label": "Senha",
-            "description": "Escolha uma senha forte."
-          },
-          "passwordConfirmation": {
-            "label": "Confirmar Senha",
-            "description": "Repita sua senha."
-          }
+          "username": {},
+          "email": {},
+          "firstName": {},
+          "lastName": {},
+          "password": {},
+          "passwordConfirmation": {}
         },
-        "newsletter": {
-          "label": "Assine nossa Newsletter.",
-          "description": "Cancele a inscrição a qualquer momento."
-        },
-        "haveAccount": "Já tem uma conta?",
-        "signInLink": "Entrar",
-        "success": {
-          "title": "Conta Criada com Sucesso",
-          "description": "Bem-vindo(a) ao QueerKit!"
-        },
-        "error": {
-          "title": "Falha no Cadastro",
-          "description": "Por favor, verifique seus dados e tente novamente."
-        }
+        "newsletter": {},
+        "success": {},
+        "error": {}
       }
     }
-  }
+  },
+  "auth_sign-in": "",
+  "auth_sign-up": "",
+  "page_branding_description": "",
+  "page_branding_title": ""
 }

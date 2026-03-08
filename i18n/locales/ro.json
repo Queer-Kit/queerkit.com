@@ -1,3 +1,188 @@
 {
-  "placeholder": "Placeholder"
+  "app": {
+    "footer": {
+      "links": {
+        "resources": {
+          "label": "",
+          "content": {
+            "branding": "",
+            "visitors": ""
+          }
+        },
+        "documents": {
+          "label": "",
+          "content": {
+            "privacyPolicy": "",
+            "cookiePolicy": "",
+            "termsOfService": "",
+            "codeOfConduct": "",
+            "otherDocuments": ""
+          }
+        }
+      }
+    },
+    "newsletter": {
+      "title": "",
+      "description": "",
+      "submit": ""
+    },
+    "tagline": "",
+    "header": {
+      "navigation": {
+        "about": "",
+        "certification": "",
+        "wiki": "",
+        "blog": "",
+        "store": ""
+      }
+    },
+    "language_picker": ""
+  },
+  "error": {
+    "clear": ""
+  },
+  "auth_sign-in": "",
+  "auth_sign-up": "",
+  "page_branding_description": "",
+  "page_branding_title": "",
+  "pages": {
+    "blog": {
+      "copyLink": "",
+      "linkCopied": ""
+    },
+    "certification": {
+      "card": {
+        "instituteNote": "",
+        "defaultIdentity": "",
+        "title": "",
+        "registryId": "",
+        "name": "",
+        "pronounsLabel": "",
+        "issued": "",
+        "expires": "",
+        "pronouns": {
+          "heHim": "",
+          "sheHer": "",
+          "theyThem": ""
+        }
+      },
+      "sections": {
+        "hero": {
+          "title": "",
+          "description": ""
+        },
+        "apply": {
+          "fields": {
+            "photo": {
+              "label": "",
+              "description": ""
+            },
+            "name": {
+              "label": "",
+              "placeholder": ""
+            },
+            "pronouns": {
+              "label": "",
+              "placeholder": ""
+            },
+            "identity": {
+              "label": "",
+              "placeholder": "",
+              "description": ""
+            }
+          }
+        },
+        "preview": {
+          "title": ""
+        }
+      }
+    },
+    "documents": {
+      "last_updated": "",
+      "meta": {
+        "title": "",
+        "description": ""
+      },
+      "documents": {
+        "empty": {
+          "title": "",
+          "description": ""
+        }
+      }
+    },
+    "home": {
+      "meta": {
+        "title": "",
+        "description": ""
+      },
+      "sections": {
+        "resources": {
+          "items": {
+            "certification": {
+              "title": "",
+              "description": "",
+              "tags": {
+                "certification": "",
+                "identity": ""
+              }
+            },
+            "wiki": {
+              "title": "",
+              "description": "",
+              "tags": {
+                "knowledge": "",
+                "wiki": ""
+              }
+            },
+            "merch": {
+              "title": "",
+              "description": "",
+              "tags": {
+                "store": "",
+                "merch": ""
+              }
+            }
+          },
+          "title": ""
+        },
+        "hero": {
+          "title": "",
+          "description": "",
+          "actions": {
+            "wiki": "",
+            "about": ""
+          }
+        },
+        "vision": {
+          "title": "",
+          "description": "",
+          "stats": {
+            "articles": "",
+            "contributors": ""
+          }
+        },
+        "news": {
+          "title": "",
+          "description": ""
+        },
+        "join": {
+          "title": "",
+          "placeholder": "",
+          "button": "",
+          "privacy": ""
+        }
+      }
+    },
+    "wiki": {
+      "error": {
+        "back": "",
+        "notFound": ""
+      }
+    }
+  },
+  "common": {
+    "navigation": {
+      "next": ""
+    }
+  }
 }

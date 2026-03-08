@@ -21,99 +21,48 @@ export default defineNuxtConfig({
     ],
   ],
 
-  modules: [
-    "@nuxt/content",
-    "nuxt-llms",
-    "nuxt-studio",
-    "@pinia/nuxt",
-    "@pinia/colada-nuxt",
-    ...(!isTauri ? ["@nuxtjs/sitemap", "@nuxtjs/robots", "nuxt-og-image", "nuxt-security"] : []),
-  ],
+  modules: [],
 
   ignore: ["**/src-tauri/**"],
 
   $development: {
-    devtools: { enabled: true },
-    // Change to true in case the issue gets resolved: https://github.com/fi3ework/vite-plugin-checker/issues/557
-    typescript: { typeCheck: false },
-    a11y: {
-      enabled: true,
-      defaultHighlight: false,
-      logIssues: false,
-    },
     site: { indexable: false },
   },
 
-  $test: {
-    devtools: { enabled: true },
+  $production: {
+    nitro: {
+      scheduledTasks: {
+        // Daily at midnight
+        "0 0 * * *": ["cleanup-notes-trash", "cleanup-todos-archived"],
+      },
+      routeRules: {
+        "/documents/**": { isr: 3600 },
+        "/blog/**": { isr: 3600 },
+        "/dashboard/**": {
+          ssr: false,
+          appLayout: "dashboard",
+        },
+        "/store/**": {
+          appLayout: "store",
+        },
+      },
+    },
+    site: {
+      url: "https://queerkit.com",
+      // Switch to true on release
+      indexable: false,
+    },
   },
 
-  $production: {
-    devtools: { enabled: false },
-    typescript: { typeCheck: false },
-    nitro: {
-      compressPublicAssets: true,
-      minify: true,
-    },
-    // Switch to true on release
-    site: { url: "https://rimelight.com", indexable: false },
-    robots: {
-      blockAiBots: true,
-      blockNonSeoBots: true,
-      disallow: ["/dashboard"],
-    },
-    a11y: {
-      enabled: false,
-    },
-    content: {
-      database: {
-        type: "d1",
-        bindingName: "DB",
+  vite: {
+    envPrefix: ["TAURI_"],
+    server: {
+      watch: {
+        ignored: ["**/src-tauri/**"],
       },
     },
   },
 
-  ssr: !isTauri,
-  router: {
-    options: {
-      hashMode: isTauri,
-    },
-  },
-  runtimeConfig: {
-    public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || "https://queerkit.com",
-      isTauri,
-    },
-  },
-  app: {
-    baseURL: isTauri ? "" : "/",
-    head: {
-      title: "QueerKit",
-      titleTemplate: "%s | queerkit.com",
-      meta: [
-        {
-          name: "description",
-          content: "Your guide to all things queer.",
-        },
-        {
-          name: "author",
-          content: "Queer Kit",
-        },
-        {
-          name: "creator",
-          content: "Queer Kit",
-        },
-      ],
-      link: [
-        {
-          rel: "icon",
-          type: "image/svg+xml",
-          href: "/favicon.svg",
-        },
-      ],
-    },
-    viewTransition: true,
-  },
   alias: {
     "#types": fileURLToPath(new URL("./app/types", import.meta.url)),
     "#validators": fileURLToPath(new URL("./shared/validators", import.meta.url)),
@@ -129,115 +78,46 @@ export default defineNuxtConfig({
         }
       : {}),
   },
-  vite: {
-    clearScreen: false,
-    envPrefix: ["VITE_", "TAURI_"],
-    server: {
-      strictPort: true,
-      hmr: {
-        protocol: "ws",
-        host: "127.0.0.1",
-        port: 3000,
-      },
-      watch: {
-        ignored: ["**/src-tauri/**"],
+
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || "https://queerkit.com",
+      isTauri,
+    },
+  },
+
+  app: {
+    baseURL: isTauri ? "" : "/",
+    head: {
+      title: "Queer Kit",
+      titleTemplate: "%s | Queer Kit",
+      meta: [
+        {
+          name: "description",
+          content: "Your guide to all things queer.",
+        },
+        {
+          name: "author",
+          content: "Queer Kit",
+        },
+        {
+          name: "creator",
+          content: "Queer Kit",
+        },
+      ],
+    },
+  },
+
+  security: {
+    headers: {
+      contentSecurityPolicy: {
+        "img-src": ["https://cdn.queerkit.com"],
+        "connect-src": ["https://cdn.queerkit.com"],
       },
     },
   },
-  nitro: {
-    preset: isTauri ? "node" : "cloudflare_module",
-    ...(!isTauri
-      ? {
-          cloudflare: {
-            deployConfig: true,
-            nodeCompat: true,
-          },
-        }
-      : {}),
-    experimental: {
-      websocket: true,
-      tasks: true,
-    },
-    scheduledTasks: {
-      // Run every 5 minutes
-      // '*/5 * * * *': ['cache:cleanup'],
-
-      // Daily at midnight
-      "0 0 * * *": ["cleanup-notes-trash", "cleanup-todos-archived"],
-
-      // Weekly on Sunday at 2 AM
-      // '0 2 * * 0': ['db:optimize']
-    },
-    prerender: {
-      //crawlLinks: true
-    },
-    routeRules: {
-      //"/": { prerender: true },
-      "/documents/**": { isr: 3600 },
-      "/blog/**": { isr: 3600 },
-      "/internal/**": { ssr: false },
-    },
-  },
-  ...(!isTauri
-    ? {
-        security: {
-          ssg: {
-            meta: false,
-            exportToPresets: false,
-          },
-          headers: {
-            contentSecurityPolicy: {
-              "img-src": [
-                "'self'",
-                "data:",
-                "blob:",
-                "https://cdn.queerkit.com",
-                "https://via.placeholder.com",
-                "https://ui.nuxt.com",
-              ],
-              "script-src": ["'self'", "'unsafe-inline'", "'wasm-unsafe-eval'"],
-              "script-src-attr": ["'none'"],
-              "connect-src": [
-                "'self'",
-                "https://cdn.queerkit.com",
-                "https://api.iconify.design",
-                "https://api.unisvg.com",
-                "https://api.simplesvg.com",
-              ],
-              "font-src": ["'self'", "https://fonts.gstatic.com"],
-              "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-              "frame-ancestors": ["'self'"],
-              "form-action": ["'self'"],
-              "require-trusted-types-for": "'script'",
-            },
-            strictTransportSecurity: {
-              maxAge: 31536000,
-              includeSubdomains: true,
-              preload: true,
-            },
-            crossOriginOpenerPolicy: "same-origin",
-            referrerPolicy: "strict-origin-when-cross-origin",
-            xFrameOptions: "SAMEORIGIN",
-            xContentTypeOptions: "nosniff",
-          },
-        },
-        site: {
-          url: "https://queerkit.com",
-          name: "QueerKit",
-          indexable: false,
-        },
-        robots: {
-          blockAiBots: false,
-          blockNonSeoBots: false,
-          disallow: ["/internal"],
-        },
-      }
-    : {}),
 
   i18n: {
-    strategy: "prefix_except_default",
-    defaultLocale: "en",
-    langDir: "locales",
     locales: [
       {
         code: "en",
@@ -268,40 +148,15 @@ export default defineNuxtConfig({
     },
   ],
 
-  pages: {
-    pattern: ["**/*.vue", "!**/components/**"],
-  },
-
-  image: {
-    format: ["webp"],
-    provider: "cloudflare",
-    cloudflare: {
-      baseURL: "https://cdn.queerkit.com",
-    },
+  fonts: {
+    families: [],
   },
 
   icon: {
-    class: "icon",
-    size: "24px",
     customCollections: [
-      {
-        prefix: "first-party",
-        dir: "./app/assets/icons/first-party",
-        normalizeIconName: false,
-      },
-      {
-        prefix: "logos",
-        dir: "./app/assets/icons/first-party/logos",
-        normalizeIconName: false,
-      },
       {
         prefix: "flags",
         dir: "./app/assets/icons/first-party/flags",
-        normalizeIconName: false,
-      },
-      {
-        prefix: "third-party",
-        dir: "./app/assets/icons/third-party",
         normalizeIconName: false,
       },
       {
@@ -312,51 +167,22 @@ export default defineNuxtConfig({
     ],
   },
 
-  content: {
-    build: {
-      markdown: {
-        toc: {
-          depth: 3,
-        },
-      },
+  image: {
+    cloudflare: {
+      baseURL: "https://cdn.queerkit.com",
     },
   },
 
   studio: {
-    i18n: {
-      defaultLocale: "en",
-    },
-    route: "/studio",
     repository: {
-      provider: "github",
-      owner: "Queer",
+      owner: "Queer-Kit",
       repo: "queerkit.com",
     },
   },
 
   llms: {
-    domain: "https://marcelocfilho.com",
-    title: "Marcelo Caldart Filho",
-    description: "My personal portfolio website.",
-    sections: [
-      {
-        title: "Projects",
-        description: "Projects I have worked on.",
-        contentCollection: "en_projects",
-        contentFilters: [
-          { field: "extension", operator: "=", value: "md" },
-          { field: "draft", operator: "<>", value: "true" },
-        ],
-      },
-      {
-        title: "Blog",
-        description: "My personal articles and opinion pieces.",
-        contentCollection: "en_blog",
-        contentFilters: [
-          { field: "extension", operator: "=", value: "md" },
-          { field: "draft", operator: "<>", value: "true" },
-        ],
-      },
-    ],
+    domain: "https://queerkit.com",
+    title: "Queer Kit",
+    description: "Your guide to all things queer.",
   },
 });

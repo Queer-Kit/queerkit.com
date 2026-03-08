@@ -22,7 +22,7 @@ export const BLOG_POST_DEFINITION = definePageDefinition({
       },
     },
   },
-})
+});
 
 declare global {
   interface RimelightRegisterPageTypes {
@@ -34,4 +34,4 @@ declare global {
 export const PAGE_MAP = {
   Document: DOCUMENT_DEFINITION,
   BlogPost: BLOG_POST_DEFINITION,
-}
+};

@@ -53,29 +53,14 @@ const breadcrumb = computed(() =>
   ),
 );
 
-if (page.value.image) {
+if (page.value?.ogImage) {
+  defineOgImage(page.value.ogImage);
+} else if (page.value?.image) {
   defineOgImage({ url: page.value.image });
-} else {
-  defineOgImageComponent(
-    "Blog",
-    {
-      headline: breadcrumb.value.map((item) => item.label).join(" > "),
-    },
-    {
-      fonts: ["Geist:400", "Geist:600"],
-    },
-  );
 }
 
-const title = page.value?.seo?.title || page.value?.title;
-const description = page.value?.seo?.description || page.value?.description;
-
-useSeoMeta({
-  title,
-  description,
-  ogDescription: description,
-  ogTitle: title,
-});
+useHead(page.value?.head || {});
+useSeoMeta(page.value?.seo || {});
 
 const articleLink = computed(() => `${window?.location}`);
 
@@ -85,6 +70,20 @@ const formatDate = (dateString: string) => {
     month: "short",
     day: "numeric",
   });
+};
+
+const toast = useToast();
+const copyToClipboard = async (text: string, successMessage: string) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast.add({
+      title: successMessage,
+      color: "success",
+      icon: "lucide:check-circle",
+    });
+  } catch (err) {
+    console.error("Failed to copy clipboard", err);
+  }
 };
 </script>
 

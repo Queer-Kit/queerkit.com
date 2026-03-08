@@ -45,7 +45,6 @@ const { bottomOffsets } = useHeaderStack();
 
     <template #right>
       <div class="flex flex-row items-center gap-md">
-
         <UNavigationMenu
           :items="rightLinks"
           variant="link"
@@ -78,7 +77,6 @@ const { bottomOffsets } = useHeaderStack();
 
     <template #collapsed-right>
       <div class="flex items-center px-4 justify-end gap-sm">
-
         <ClientOnly>
           <USlideover
             v-model:open="isSlideoverOpen"

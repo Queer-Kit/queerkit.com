@@ -43,14 +43,17 @@ useSeoMeta({
             class="group p-6 border border-neutral-200 hover:border-primary-500 transition-colors"
           >
             <div class="flex flex-col gap-2">
-              <h3 class="text-lg font-bold text-black group-hover:text-primary-500 transition-colors">
+              <h3
+                class="text-lg font-bold text-black group-hover:text-primary-500 transition-colors"
+              >
                 {{ doc.title }}
               </h3>
               <p class="text-sm text-neutral-500">
                 {{ doc.description }}
               </p>
               <div v-if="doc.lastUpdated" class="text-xs text-neutral-400">
-                {{ t("pages.documents.last_updated") }}: {{ new Date(doc.lastUpdated).toLocaleDateString() }}
+                {{ t("pages.documents.last_updated") }}:
+                {{ new Date(doc.lastUpdated).toLocaleDateString() }}
               </div>
             </div>
           </NuxtLink>
@@ -64,7 +67,7 @@ useSeoMeta({
           :description="t('pages.documents.documents.empty.description')"
           :ui="{
             title: 'text-black',
-            description: 'text-neutral-500'
+            description: 'text-neutral-500',
           }"
         />
       </UPageBody>

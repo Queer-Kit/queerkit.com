@@ -79,7 +79,7 @@ const items = computed<NavigationMenuItem[]>(() =>
             @update:model-value="setLocale($event as 'en' | 'pt')"
             :items="[
               { code: 'en', name: 'English' },
-              { code: 'pt', name: 'Português' }
+              { code: 'pt', name: 'Português' },
             ]"
             value-key="code"
             label-key="name"
@@ -94,7 +94,7 @@ const items = computed<NavigationMenuItem[]>(() =>
             :aria-label="t('app.language_picker')"
           >
             <template #leading="{ modelValue }">
-              <span class="text-xs font-medium">{{ modelValue === 'pt' ? 'PT' : 'EN' }}</span>
+              <span class="text-xs font-medium">{{ modelValue === "pt" ? "PT" : "EN" }}</span>
             </template>
             <template #item-leading="{ item }">
               <span class="text-xs font-medium">{{ item.code.toUpperCase() }}</span>
@@ -133,19 +133,19 @@ const items = computed<NavigationMenuItem[]>(() =>
               @click="slideoverState.left = true"
             />
             <template #header>
-               <RCLogo class="h-6 w-auto" mode="color" variant="combomark_horizontal" />
-               <UButton
-                 color="neutral"
-                 icon="lucide:x"
-                 variant="ghost"
-                 @click="slideoverState.left = false"
-               />
-             </template>
-             <template #body>
-               <div class="flex size-full flex-col items-start gap-md">
-                 <UNavigationMenu :items="items" orientation="vertical" variant="link" />
-               </div>
-             </template>
+              <RCLogo class="h-6 w-auto" mode="color" variant="combomark_horizontal" />
+              <UButton
+                color="neutral"
+                icon="lucide:x"
+                variant="ghost"
+                @click="slideoverState.left = false"
+              />
+            </template>
+            <template #body>
+              <div class="flex size-full flex-col items-start gap-md">
+                <UNavigationMenu :items="items" orientation="vertical" variant="link" />
+              </div>
+            </template>
           </USlideover>
         </ClientOnly>
       </div>
@@ -163,7 +163,7 @@ const items = computed<NavigationMenuItem[]>(() =>
             @update:model-value="setLocale($event as 'en' | 'pt')"
             :items="[
               { code: 'en', name: 'English' },
-              { code: 'pt', name: 'Português' }
+              { code: 'pt', name: 'Português' },
             ]"
             value-key="code"
             label-key="name"
@@ -178,7 +178,7 @@ const items = computed<NavigationMenuItem[]>(() =>
             :aria-label="t('app.language_picker')"
           >
             <template #leading="{ modelValue }">
-              <span class="text-xs font-medium">{{ modelValue === 'pt' ? 'PT' : 'EN' }}</span>
+              <span class="text-xs font-medium">{{ modelValue === "pt" ? "PT" : "EN" }}</span>
             </template>
             <template #item-leading="{ item }">
               <span class="text-xs font-medium">{{ item.code.toUpperCase() }}</span>
