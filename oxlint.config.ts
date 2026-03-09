@@ -1,14 +1,17 @@
-import { fileURLToPath } from 'node:url'
-import { dirname, resolve } from 'node:path'
+import { dirname, resolve } from "node:path"
+import { fileURLToPath } from "node:url"
+
 import { defineConfig } from "oxlint"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
-  jsPlugins: [
-    resolve(__dirname, "./.oxlint/rimelight.js")
-  ],
+  jsPlugins: [resolve(__dirname, "./.oxlint/rimelight.js")],
   ignorePatterns: [
+    ".agent/",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
     ".drizzle/",
     "src-tauri/",
     "backups/"
