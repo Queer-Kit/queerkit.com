@@ -153,6 +153,7 @@ useSeoMeta({
 <template>
   <UApp :locale="currentLocale" :tooltip="{ delayDuration: 0 }">
     <NuxtRouteAnnouncer />
+    <NuxtAnnouncer />
     <NuxtLoadingIndicator color="#ec4899" />
     <NuxtLayout>
       <NuxtPage />
