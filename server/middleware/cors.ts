@@ -1,9 +1,7 @@
 export default defineEventHandler((event) => {
-  // Define allowed origins (Add your production URL and Tauri defaults)
+  // Define allowed origins (Add your production URL)
   const allowedOrigins = [
     "https://rimelight.com",
-    "tauri://localhost",
-    "http://localhost:1420", // Default Tauri dev port
   ];
 
   const origin = getRequestHeader(event, "origin");

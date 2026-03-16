@@ -2,8 +2,6 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const isTauri = process.env.NUXT_APP_TARGET === "tauri";
-
 const currentDir = fileURLToPath(new URL(".", import.meta.url));
 const localLayerPath = resolve(currentDir, "../rimelight-components");
 const isLocalLayer = existsSync(localLayerPath);
@@ -18,7 +16,7 @@ export default defineNuxtConfig({
 
   modules: [],
 
-  ignore: ["**/src-tauri/**"],
+
 
   $development: {
     site: { indexable: false },
@@ -49,14 +47,7 @@ export default defineNuxtConfig({
     },
   },
 
-  vite: {
-    envPrefix: ["TAURI_"],
-    server: {
-      watch: {
-        ignored: ["**/src-tauri/**"],
-      },
-    },
-  },
+
 
   alias: {
     "#types": fileURLToPath(new URL("./app/types", import.meta.url)),
@@ -77,12 +68,11 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || "https://queerkit.com",
-      isTauri,
     },
   },
 
   app: {
-    baseURL: isTauri ? "" : "/",
+    baseURL: "/",
     head: {
       title: "Queer Kit",
       titleTemplate: "%s | Queer Kit",
