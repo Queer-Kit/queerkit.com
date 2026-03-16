@@ -1,3 +1,4 @@
+import { isCI } from "std-env";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,11 +17,11 @@ export default defineNuxtConfig({
 
   modules: [],
 
-
-
   $development: {
     site: { indexable: false },
   },
+
+  $test: {},
 
   $production: {
     nitro: {
@@ -29,6 +30,8 @@ export default defineNuxtConfig({
         "0 0 * * *": ["cleanup-notes-trash", "cleanup-todos-archived"],
       },
       routeRules: {
+        "/": { prerender: true },
+        "/api/**": { isr: 60 },
         "/documents/**": { isr: true },
         "/blog/**": { isr: true },
         "/dashboard/**": {
@@ -46,8 +49,6 @@ export default defineNuxtConfig({
       indexable: false,
     },
   },
-
-
 
   alias: {
     "#types": fileURLToPath(new URL("./app/types", import.meta.url)),
@@ -69,6 +70,48 @@ export default defineNuxtConfig({
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || "https://queerkit.com",
     },
+  },
+
+  pwa: {
+    manifest: {
+      name: "Queer Kit",
+      short_name: "Queer Kit",
+      description: "Your guide to all things queer.",
+      theme_color: "#0a0a0a",
+      background_color: "#0a0a0a",
+      icons: [
+        {
+          src: "pwa-64x64.png",
+          sizes: "64x64",
+          type: "image/png"
+        },
+        {
+          src: "pwa-192x192.png",
+          sizes: "192x192",
+          type: "image/png"
+        },
+        {
+          src: "pwa-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any"
+        },
+        {
+          src: "maskable-icon-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "maskable"
+        }
+      ]
+    }
+  },
+
+  htmlValidator: {
+    enabled: !isCI,
+    options: {
+      rules: { "meta-refresh": "off" }
+    },
+    failOnError: true
   },
 
   app: {
