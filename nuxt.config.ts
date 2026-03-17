@@ -5,7 +5,6 @@ import { fileURLToPath } from "node:url";
 import { existsSync } from "node:fs";
 import { isCI } from "std-env";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
 const currentDir = fileURLToPath(new URL(".", import.meta.url));
 const localLayerPath = resolve(currentDir, "../rimelight-components");
 const isLocalLayer = existsSync(localLayerPath);
@@ -85,40 +84,6 @@ export default defineNuxtConfig({
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || "https://queerkit.com",
     },
-  },
-
-  pwa: {
-    manifest: {
-      name: "Queer Kit",
-      short_name: "Queer Kit",
-      description: "Your guide to all things queer.",
-      theme_color: "#0a0a0a",
-      background_color: "#0a0a0a",
-      icons: [
-        {
-          src: "pwa-64x64.png",
-          sizes: "64x64",
-          type: "image/png"
-        },
-        {
-          src: "pwa-192x192.png",
-          sizes: "192x192",
-          type: "image/png"
-        },
-        {
-          src: "pwa-512x512.png",
-          sizes: "512x512",
-          type: "image/png",
-          purpose: "any"
-        },
-        {
-          src: "maskable-icon-512x512.png",
-          sizes: "512x512",
-          type: "image/png",
-          purpose: "maskable"
-        }
-      ]
-    }
   },
 
   htmlValidator: {
