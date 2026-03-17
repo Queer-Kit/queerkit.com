@@ -1,11 +1,9 @@
 import { defu } from "defu"
-import { rimelightViteConfig } from "./rimelight.vite"
+import { rimelightViteConfig } from "./.rimelight/rimelight.vite"
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { existsSync } from "node:fs";
 import { isCI } from "std-env";
-import { defineVitestProject } from "@nuxt/test-utils/config";
-import { playwright } from "vite-plus/test/browser-playwright";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const currentDir = fileURLToPath(new URL(".", import.meta.url));
@@ -56,38 +54,15 @@ export default defineNuxtConfig({
   },
 
   vite: defu({
-    clearScreen: false,
     server: {},
     build: {},
     preview: {},
-    test: {
-      projects: [
-        {
-          resolve: {
-            alias: {
-              "~": resolve(__dirname, "app"),
-              "#shared": resolve(__dirname, "shared"),
-              "#server": resolve(__dirname, "server")
-            }
-          }
-        },
-        await defineVitestProject({
-          test: {
-            environmentOptions: {
-              nuxt: {
-                rootDir: fileURLToPath(new URL(".", import.meta.url))
-              }
-            }
-          }
-        })
-      ]
-    },
-    lint: {
-      jsPlugins: [resolve(__dirname, "./.oxlint/rimelight.js")]
-    },
+    test: {},
+    lint: {},
+    fmt: {},
     run: {},
     pack: {},
-    staged: {}
+    staged: {},
   }, rimelightViteConfig),
 
   alias: {
