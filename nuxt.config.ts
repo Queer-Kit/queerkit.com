@@ -1,8 +1,13 @@
-import { isCI } from "std-env";
-import { existsSync } from "node:fs";
-import { resolve } from "node:path";
+import { defu } from "defu"
+import { rimelightViteConfig } from "./rimelight.vite"
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { existsSync } from "node:fs";
+import { isCI } from "std-env";
+import { defineVitestProject } from "@nuxt/test-utils/config";
+import { playwright } from "vite-plus/test/browser-playwright";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const currentDir = fileURLToPath(new URL(".", import.meta.url));
 const localLayerPath = resolve(currentDir, "../rimelight-components");
 const isLocalLayer = existsSync(localLayerPath);
@@ -49,6 +54,41 @@ export default defineNuxtConfig({
       indexable: false,
     },
   },
+
+  vite: defu({
+    clearScreen: false,
+    server: {},
+    build: {},
+    preview: {},
+    test: {
+      projects: [
+        {
+          resolve: {
+            alias: {
+              "~": resolve(__dirname, "app"),
+              "#shared": resolve(__dirname, "shared"),
+              "#server": resolve(__dirname, "server")
+            }
+          }
+        },
+        await defineVitestProject({
+          test: {
+            environmentOptions: {
+              nuxt: {
+                rootDir: fileURLToPath(new URL(".", import.meta.url))
+              }
+            }
+          }
+        })
+      ]
+    },
+    lint: {
+      jsPlugins: [resolve(__dirname, "./.oxlint/rimelight.js")]
+    },
+    run: {},
+    pack: {},
+    staged: {}
+  }, rimelightViteConfig),
 
   alias: {
     "#types": fileURLToPath(new URL("./app/types", import.meta.url)),
