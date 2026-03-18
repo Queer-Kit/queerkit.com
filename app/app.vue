@@ -148,6 +148,21 @@ useSeoMeta({
   twitterImage: `${appConfig.cdn}/images/logos/logomark-white.webp`,
   twitterCard: "summary_large_image"
 })
+
+/*
+if (import.meta.env.PROD) {
+  useScriptCloudflareWebAnalytics({
+    token: "8309799b4ff448d1b447a451b5d62c1c",
+    scriptInput: {
+      crossorigin: "anonymous"
+    },
+    scriptOptions: {
+      trigger: "onNuxtReady",
+      skipValidation: true
+    }
+  })
+}
+*/
 </script>
 
 <template>
