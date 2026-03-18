@@ -1,26 +1,26 @@
 <script lang="ts" setup>
-import mainCss from "~/assets/css/main.css?raw";
+import mainCss from "~/assets/css/main.css?raw"
 
-const appConfig = useAppConfig();
-const { t } = useI18n();
+const appConfig = useAppConfig()
+const { t } = useI18n()
 
 useHead({
-  title: "Branding",
-});
+  title: "Branding"
+})
 
 useSeoMeta({
   title: "Branding",
   ogTitle: "Branding",
   description: `Branding guidelines and assets for ${appConfig.title}.`,
-  ogDescription: `Branding guidelines and assets for ${appConfig.title}.`,
-});
+  ogDescription: `Branding guidelines and assets for ${appConfig.title}.`
+})
 
 const logomarkMonochromeWhite = computed(() => ({
   jpg: `${appConfig.cdn}/Images/Branding/Logo/Logomark/Monochrome%20White/JPEG/queerkit.com%20-%20Logomark%20-%20Monochrome%20White.jpg`,
   png: `${appConfig.cdn}/Images/Branding/Logo/Logomark/Monochrome%20White/PNG/queerkit.com%20-%20Logomark%20-%20Monochrome%20White.png`,
   svg: `${appConfig.cdn}/Images/Branding/Logo/Logomark/Monochrome%20White/SVG/queerkit.com%20-%20Logomark%20-%20Monochrome%20White.svg`,
-  webp: `${appConfig.cdn}/Images/Branding/Logo/Logomark/Monochrome%20White/WEBP/queerkit.com%20-%20Logomark%20-%20Monochrome%20White.webp`,
-}));
+  webp: `${appConfig.cdn}/Images/Branding/Logo/Logomark/Monochrome%20White/WEBP/queerkit.com%20-%20Logomark%20-%20Monochrome%20White.webp`
+}))
 
 // Add more computed as needed or simplify the template
 </script>

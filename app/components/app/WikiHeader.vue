@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-const route = useRoute();
-const { t, locale, setLocale } = useI18n();
+const route = useRoute()
+const { t, locale, setLocale } = useI18n()
 
 const links = computed(() => [
   { label: "Wiki Home", to: "/wiki" },
   { label: "Getting Started", to: "/wiki/getting-started" },
-  { label: "Contribution Guide", to: "/wiki/contribution-guide" },
-]);
+  { label: "Contribution Guide", to: "/wiki/contribution-guide" }
+])
 
-const rightLinks = computed(() => [{ label: "Support", to: "/support" }]);
+const rightLinks = computed(() => [{ label: "Support", to: "/support" }])
 
-const isSlideoverOpen = ref(false);
+const isSlideoverOpen = ref(false)
 
-const layerId = inject<string>("header_layer_id", "wiki-header");
-const { bottomOffsets } = useHeaderStack();
+const layerId = inject<string>("header_layer_id", "wiki-header")
+const { bottomOffsets } = useHeaderStack()
 </script>
 
 <template>
@@ -36,7 +36,7 @@ const { bottomOffsets } = useHeaderStack();
           :ui="{
             viewportWrapper:
               'top-[var(--header-bottom-boundary)] flex fixed w-screen mt-[var(--ui-header-height)] z-[100]',
-            link: 'text-sm font-medium text-gray-400 hover:text-white transition-colors py-0 h-10',
+            link: 'text-sm font-medium text-gray-400 hover:text-white transition-colors py-0 h-10'
           }"
           :style="{ '--header-bottom-boundary': `${(bottomOffsets[layerId] || 0) - 64}px` }"
         />
@@ -49,7 +49,7 @@ const { bottomOffsets } = useHeaderStack();
           :items="rightLinks"
           variant="link"
           :ui="{
-            link: 'text-sm font-medium text-gray-400 hover:text-white transition-colors py-0 h-10',
+            link: 'text-sm font-medium text-gray-400 hover:text-white transition-colors py-0 h-10'
           }"
         />
       </div>
@@ -83,7 +83,7 @@ const { bottomOffsets } = useHeaderStack();
             title="QueerKit Wiki"
             :ui="{
               header: 'flex items-center justify-between',
-              content: 'w-full max-w-[280px] rounded-none',
+              content: 'w-full max-w-[280px] rounded-none'
             }"
           >
             <template #header>
@@ -106,7 +106,7 @@ const { bottomOffsets } = useHeaderStack();
                   variant="link"
                   class="w-full"
                   :ui="{
-                    link: 'text-base font-medium text-gray-400 hover:text-white transition-colors px-4 py-3',
+                    link: 'text-base font-medium text-gray-400 hover:text-white transition-colors px-4 py-3'
                   }"
                   @click="isSlideoverOpen = false"
                 />

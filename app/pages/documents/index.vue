@@ -1,26 +1,26 @@
 <script lang="ts" setup>
-const { t, locale } = useI18n();
-const localePath = useLocalePath();
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
 
 const { data: documents } = await useAsyncData(
   `documents-${locale.value}`,
   async () => {
-    const collection = `${locale.value}_documents` as any;
-    return queryCollection(collection).all();
+    const collection = `${locale.value}_documents` as any
+    return queryCollection(collection).all()
   },
-  { watch: [locale] },
-);
+  { watch: [locale] }
+)
 
 useHead({
-  title: t("pages.documents.meta.title"),
-});
+  title: t("pages.documents.meta.title")
+})
 
 useSeoMeta({
   title: t("pages.documents.meta.title"),
   ogTitle: t("pages.documents.meta.title"),
   description: t("pages.documents.meta.description"),
-  ogDescription: t("pages.documents.meta.description"),
-});
+  ogDescription: t("pages.documents.meta.description")
+})
 </script>
 
 <template>
@@ -31,7 +31,7 @@ useSeoMeta({
         :description="t('pages.documents.meta.description')"
         :ui="{
           title: 'text-black',
-          description: 'text-neutral-500',
+          description: 'text-neutral-500'
         }"
       />
       <UPageBody>
@@ -67,7 +67,7 @@ useSeoMeta({
           :description="t('pages.documents.documents.empty.description')"
           :ui="{
             title: 'text-black',
-            description: 'text-neutral-500',
+            description: 'text-neutral-500'
           }"
         />
       </UPageBody>

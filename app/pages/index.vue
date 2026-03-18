@@ -1,36 +1,36 @@
 <script setup lang="ts">
-import { QUEER_FLAGS } from "~/utils/flags";
+import { QUEER_FLAGS } from "~/utils/flags"
 
-const { t, locale } = useI18n();
-const localePath = useLocalePath();
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
 
 useHead({
-  title: "Queer Kit | Your Guide to All Things Queer",
-});
+  title: "Queer Kit | Your Guide to All Things Queer"
+})
 
 useSeoMeta({
   title: t("pages.home.meta.title"),
   ogTitle: t("pages.home.meta.title"),
   description: t("pages.home.meta.description"),
-  ogDescription: t("pages.home.meta.description"),
-});
+  ogDescription: t("pages.home.meta.description")
+})
 
 const { data: posts } = await useAsyncData(
   `home-posts-${locale.value}`,
   async () => {
-    const collection = `${locale.value}_blog` as any;
-    return queryCollection(collection).order("date", "DESC").limit(3).all();
+    const collection = `${locale.value}_blog` as any
+    return queryCollection(collection).order("date", "DESC").limit(3).all()
   },
-  { watch: [locale] },
-);
+  { watch: [locale] }
+)
 
 function formatDate(date: string | Date) {
-  const d = new Date(date);
+  const d = new Date(date)
   return d.toLocaleDateString("en-US", {
     month: "short",
     day: "2-digit",
-    year: "numeric",
-  });
+    year: "numeric"
+  })
 }
 
 const featuredResources = [
@@ -41,9 +41,9 @@ const featuredResources = [
       "https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=2574&auto=format&fit=crop",
     tags: [
       t("pages.home.sections.resources.items.certification.tags.certification"),
-      t("pages.home.sections.resources.items.certification.tags.identity"),
+      t("pages.home.sections.resources.items.certification.tags.identity")
     ],
-    to: "/certification",
+    to: "/certification"
   },
   {
     title: t("pages.home.sections.resources.items.wiki.title"),
@@ -52,9 +52,9 @@ const featuredResources = [
       "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2670&auto=format&fit=crop",
     tags: [
       t("pages.home.sections.resources.items.wiki.tags.knowledge"),
-      t("pages.home.sections.resources.items.wiki.tags.wiki"),
+      t("pages.home.sections.resources.items.wiki.tags.wiki")
     ],
-    to: "/wiki",
+    to: "/wiki"
   },
   {
     title: t("pages.home.sections.resources.items.merch.title"),
@@ -63,11 +63,11 @@ const featuredResources = [
       "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?q=80&w=2669&auto=format&fit=crop",
     tags: [
       t("pages.home.sections.resources.items.merch.tags.store"),
-      t("pages.home.sections.resources.items.merch.tags.merch"),
+      t("pages.home.sections.resources.items.merch.tags.merch")
     ],
-    to: "/store",
-  },
-];
+    to: "/store"
+  }
+]
 </script>
 
 <template>

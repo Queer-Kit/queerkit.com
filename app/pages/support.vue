@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { t } = useI18n();
+const { t } = useI18n()
 
 useHead({
   title: "Support & Help Center | QueerKit",
@@ -7,36 +7,36 @@ useHead({
     {
       name: "description",
       content:
-        "Get help with moderation, platform features, account settings, or report any issues regarding QueerKit.",
-    },
-  ],
-});
+        "Get help with moderation, platform features, account settings, or report any issues regarding QueerKit."
+    }
+  ]
+})
 
 const faqs = [
   {
     icon: "lucide:shield-alert",
     title: "Reporting Harassment",
     description:
-      "Learn how our moderation tools work and what steps to take if you or someone else is targeted within the community.",
+      "Learn how our moderation tools work and what steps to take if you or someone else is targeted within the community."
   },
   {
     icon: "lucide:book",
     title: "Wiki Contributions",
     description:
-      "Find out how to suggest edits to existing wiki articles or submit your own research for approval.",
+      "Find out how to suggest edits to existing wiki articles or submit your own research for approval."
   },
   {
     icon: "lucide:user-cog",
     title: "Account & Privacy",
     description:
-      "Manage your visibility, data privacy, display names, and identity tags on the platform.",
+      "Manage your visibility, data privacy, display names, and identity tags on the platform."
   },
   {
     icon: "lucide:badge-check",
     title: "Certification Help",
-    description: "Need help generating your card or printing it? Check our troubleshooting guide.",
-  },
-];
+    description: "Need help generating your card or printing it? Check our troubleshooting guide."
+  }
+]
 </script>
 
 <template>

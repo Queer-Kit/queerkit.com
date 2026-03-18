@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import * as uiLocales from "@nuxt/ui/locale";
-import type { FooterColumn } from "@nuxt/ui";
+import * as uiLocales from "@nuxt/ui/locale"
+import type { FooterColumn } from "@nuxt/ui"
 
-const appConfig = useAppConfig();
-const { t, locale, setLocale, locales: i18nLocales } = useI18n();
+const appConfig = useAppConfig()
+const { t, locale, setLocale, locales: i18nLocales } = useI18n()
 
 const availableLocales = computed(() => {
-  return i18nLocales.value.map((l) => (uiLocales as any)[l.code]).filter(Boolean);
-});
+  return i18nLocales.value.map((l) => (uiLocales as any)[l.code]).filter(Boolean)
+})
 
 const columns = computed<FooterColumn[]>(() => [
   {
@@ -15,43 +15,43 @@ const columns = computed<FooterColumn[]>(() => [
     children: [
       {
         label: t("app.footer.links.resources.content.branding"),
-        to: "/branding",
+        to: "/branding"
       },
       {
         label: t("app.footer.links.resources.content.visitors"),
-        to: "/visitors",
-      },
-    ],
+        to: "/visitors"
+      }
+    ]
   },
   {
     label: t("app.footer.links.documents.label"),
     children: [
       {
         label: t("app.footer.links.documents.content.privacyPolicy"),
-        to: "/documents/privacy-policy",
+        to: "/documents/privacy-policy"
       },
       {
         label: t("app.footer.links.documents.content.cookiePolicy"),
-        to: "/documents/cookie-policy",
+        to: "/documents/cookie-policy"
       },
       {
         label: t("app.footer.links.documents.content.termsOfService"),
-        to: "/documents/terms-of-service",
+        to: "/documents/terms-of-service"
       },
       {
         label: t("app.footer.links.documents.content.codeOfConduct"),
-        to: "/documents/code-of-conduct",
+        to: "/documents/code-of-conduct"
       },
       {
         label: t("app.footer.links.documents.content.otherDocuments"),
-        to: "/documents",
-      },
-    ],
-  },
-]);
+        to: "/documents"
+      }
+    ]
+  }
+])
 onMounted(() => {
-  console.log("AppFooter mounted on client");
-});
+  console.log("AppFooter mounted on client")
+})
 </script>
 
 <template>
@@ -64,7 +64,7 @@ onMounted(() => {
         :rc="{
           label: 'text-white',
           description: 'text-neutral-500',
-          button: 'text-white bg-primary-500 hover:bg-primary-600',
+          button: 'text-white bg-primary-500 hover:bg-primary-600'
         }"
         class="max-w-64"
       />

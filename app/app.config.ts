@@ -7,23 +7,23 @@ export default defineAppConfig({
       logomark: {
         black: "logos:QUEERKIT_LOGOMARK_BLACK",
         white: "logos:QUEERKIT_LOGOMARK_WHITE",
-        color: "logos:QUEERKIT_LOGOMARK_COLOR",
+        color: "logos:QUEERKIT_LOGOMARK_COLOR"
       },
       combomark_horizontal: {
         black: "logos:QUEERKIT_COMBOMARK_HORIZONTAL_BLACK",
         white: "logos:QUEERKIT_COMBOMARK_HORIZONTAL_WHITE",
-        color: "logos:QUEERKIT_COMBOMARK_HORIZONTAL_COLOR",
+        color: "logos:QUEERKIT_COMBOMARK_HORIZONTAL_COLOR"
       },
       combomark_vertical: {
         black: "logos:QUEERKIT_COMBOMARK_VERTICAL_BLACK",
         white: "logos:QUEERKIT_COMBOMARK_VERTICAL_WHITE",
-        color: "logos:QUEERKIT_COMBOMARK_VERTICAL_COLOR",
+        color: "logos:QUEERKIT_COMBOMARK_VERTICAL_COLOR"
       },
       logotype: {
         black: "logos:QUEERKIT_LOGOTYPE_BLACK",
         white: "logos:QUEERKIT_LOGOTYPE_WHITE",
-        color: "logos:QUEERKIT_LOGOTYPE_COLOR",
-      },
+        color: "logos:QUEERKIT_LOGOTYPE_COLOR"
+      }
     },
     auth: {
       adminEmailDomain: "@queerkit.com",
@@ -36,46 +36,46 @@ export default defineAppConfig({
         // Admin
         "admin",
         "moderator",
-        "staff",
-      ],
+        "staff"
+      ]
     },
     callouts: {
       info: {
         icon: "lucide:shield-alert",
         title: "callout_info_title",
-        tooltip: "callout_info_tooltip",
+        tooltip: "callout_info_tooltip"
       },
       success: {
         icon: "lucide:circle-alert",
         title: "callout_success_title",
-        tooltip: "callout_success_tooltip",
+        tooltip: "callout_success_tooltip"
       },
       warning: {
         icon: "lucide:triangle-alert",
         title: "callout_warning_title",
-        tooltip: "callout_warning_tooltip",
+        tooltip: "callout_warning_tooltip"
       },
       error: {
         icon: "lucide:octagon-alert",
         title: "callout_error_title",
-        tooltip: "callout_error_tooltip",
+        tooltip: "callout_error_tooltip"
       },
       commentary: {
         icon: "lucide:message-circle-warning",
         title: "callout_commentary_title",
-        tooltip: "callout_commentary_tooltip",
+        tooltip: "callout_commentary_tooltip"
       },
       ideation: {
         icon: "lucide:badge-alert",
         title: "callout_ideation_title",
-        tooltip: "callout_ideation_tooltip",
+        tooltip: "callout_ideation_tooltip"
       },
       source: {
         icon: "lucide:book-alert",
         title: "callout_source_title",
-        tooltip: "callout_source_tooltip",
-      },
-    },
+        tooltip: "callout_source_tooltip"
+      }
+    }
   },
   ui: {
     colors: {
@@ -88,142 +88,142 @@ export default defineAppConfig({
       commentary: "commentary",
       ideation: "ideation",
       source: "source",
-      neutral: "zinc",
+      neutral: "zinc"
     },
     icons: {
       close: "lucide:x",
       chevronLeft: "lucide:chevron-left",
-      chevronRight: "lucide:chevron-right",
+      chevronRight: "lucide:chevron-right"
     },
     link: {
       variants: {
         active: {
           true: "text-primary-500",
-          false: "text-muted",
-        },
-      },
+          false: "text-muted"
+        }
+      }
     },
     button: {
       slots: {
-        base: "rounded-none",
+        base: "rounded-none"
       },
       compoundVariants: [
         {
           color: "primary",
           variant: "solid",
-          class: "bg-primary-500 text-white hover:bg-primary-600 disabled:bg-primary-700",
+          class: "bg-primary-500 text-white hover:bg-primary-600 disabled:bg-primary-700"
         },
         {
           color: "primary",
           variant: "outline",
-          class: "ring-primary-500 hover:bg-primary/25",
-        },
-      ],
+          class: "ring-primary-500 hover:bg-primary/25"
+        }
+      ]
     },
     formField: {
       slots: {
         description: "text-sm",
-        help: "text-xs",
-      },
+        help: "text-xs"
+      }
     },
     input: {
       slots: {
-        base: "rounded-none",
-      },
+        base: "rounded-none"
+      }
     },
     checkbox: {
       slots: {
         base: "rounded-none",
-        description: "text-sm",
-      },
+        description: "text-sm"
+      }
     },
     card: {
       slots: {
-        root: "rounded-none",
-      },
+        root: "rounded-none"
+      }
     },
     alert: {
       slots: {
-        root: "rounded-none",
-      },
+        root: "rounded-none"
+      }
     },
     toast: {
       slots: {
-        root: "rounded-none",
-      },
+        root: "rounded-none"
+      }
     },
     tooltip: {
       slots: {
-        content: "rounded-none",
-      },
+        content: "rounded-none"
+      }
     },
     dropdownMenu: {
       slots: {
-        content: "rounded-none ring-0",
-      },
+        content: "rounded-none ring-0"
+      }
     },
     selectMenu: {
       slots: {
-        content: "min-w-fit",
-      },
+        content: "min-w-fit"
+      }
     },
     popover: {
       slots: {
-        content: "rounded-none ring-0",
-      },
+        content: "rounded-none ring-0"
+      }
     },
     modal: {
       variants: {
         fullscreen: {
           false: {
-            content: "rounded-none ring-0 bg-muted divide-none",
-          },
-        },
-      },
+            content: "rounded-none ring-0 bg-muted divide-none"
+          }
+        }
+      }
     },
     banner: {
       slots: {
         icon: "text-default",
         title: "text-default",
-        close: "text-default",
-      },
+        close: "text-default"
+      }
     },
     page: {
       slots: {
-        root: "lg:gap-8",
-      },
+        root: "lg:gap-8"
+      }
     },
     pageAside: {
       slots: {
-        root: "lg:px-4 lg:pe-0 lg:ps-0 lg:ms-0",
-      },
+        root: "lg:px-4 lg:pe-0 lg:ps-0 lg:ms-0"
+      }
     },
     pageHeader: {
       slots: {
-        links: "justify-end",
-      },
+        links: "justify-end"
+      }
     },
     pageCTA: {
       slots: {
-        root: "rounded-none",
-      },
+        root: "rounded-none"
+      }
     },
     navigationMenu: {
       slots: {
         separator: "my-2",
-        viewport: "ring-0",
+        viewport: "ring-0"
       },
       variants: {
         active: {
           true: {
             childLink: "before:bg-elevated text-highlighted",
-            childLinkIcon: "text-highlighted",
+            childLinkIcon: "text-highlighted"
           },
           false: {
             link: "text-default",
-            linkLeadingIcon: "text-dimmed",
-          },
-        },
+            linkLeadingIcon: "text-dimmed"
+          }
+        }
       },
       compoundVariants: [
         {
@@ -232,8 +232,8 @@ export default defineAppConfig({
           variant: "pill",
           class: {
             link: ["hover:text-toned", "transition-colors"],
-            linkLeadingIcon: ["group-hover:text-toned", "transition-colors"],
-          },
+            linkLeadingIcon: ["group-hover:text-toned", "transition-colors"]
+          }
         },
         {
           disabled: false,
@@ -241,57 +241,57 @@ export default defineAppConfig({
           variant: "link",
           class: {
             link: ["hover:text-toned", "transition-colors"],
-            linkLeadingIcon: ["group-hover:text-toned", "transition-colors"],
-          },
+            linkLeadingIcon: ["group-hover:text-toned", "transition-colors"]
+          }
         },
         {
           orientation: "vertical",
           collapsed: false,
           class: {
-            childList: "border-muted",
-          },
-        },
-      ],
+            childList: "border-muted"
+          }
+        }
+      ]
     },
     footerColumns: {
       slots: {
-        label: "text-white",
+        label: "text-white"
       },
       variants: {
         active: {
           true: { link: "text-primary-300 hover:text-primary-200" },
-          false: { link: "text-white hover:text-primary-200" },
-        },
-      },
+          false: { link: "text-white hover:text-primary-200" }
+        }
+      }
     },
     dashboardGroup: {
-      base: "flex-1 flex overflow-hidden relative",
+      base: "flex-1 flex overflow-hidden relative"
     },
     dashboardPanel: {
       slots: {
-        root: "min-h-full",
-      },
+        root: "min-h-full"
+      }
     },
     dashboardNavbar: {
       slots: {
         root: "h-12",
-        title: "text-xl",
-      },
+        title: "text-xl"
+      }
     },
     dashboardSidebar: {
       slots: {
-        root: "min-h-full",
-      },
+        root: "min-h-full"
+      }
     },
     dashboardToolbar: {
       slots: {
-        root: "h-12",
-      },
+        root: "h-12"
+      }
     },
     blogPost: {
       slots: {
-        root: "rounded-none",
-      },
-    },
-  },
-});
+        root: "rounded-none"
+      }
+    }
+  }
+})

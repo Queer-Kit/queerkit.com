@@ -1,7 +1,7 @@
 <script setup lang="ts">
 useHead({
-  title: "Sign In",
-});
+  title: "Sign In"
+})
 </script>
 
 <template>

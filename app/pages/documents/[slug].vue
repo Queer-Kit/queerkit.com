@@ -1,35 +1,35 @@
 <script setup lang="ts">
-const route = useRoute();
-const { locale, t } = useI18n();
-const localePath = useLocalePath();
+const route = useRoute()
+const { locale, t } = useI18n()
+const localePath = useLocalePath()
 
-const slug = computed(() => route.params.slug as string);
+const slug = computed(() => route.params.slug as string)
 
 const { data: page } = await useAsyncData(
   `document-${slug.value}-${locale.value}`,
   async () => {
-    const collection = `${locale.value}_documents` as any;
-    return queryCollection(collection).path(`/documents/${slug.value}`).first();
+    const collection = `${locale.value}_documents` as any
+    return queryCollection(collection).path(`/documents/${slug.value}`).first()
   },
-  { watch: [locale] },
-);
+  { watch: [locale] }
+)
 
 if (!page.value) {
   throw createError({
     statusCode: 404,
     statusMessage: "Document not found",
-    fatal: true,
-  });
+    fatal: true
+  })
 }
 
 if (page.value?.ogImage) {
-  defineOgImage(page.value.ogImage);
+  defineOgImage(page.value.ogImage)
 } else if (page.value?.image) {
-  defineOgImage({ url: page.value.image });
+  defineOgImage({ url: page.value.image })
 }
 
-useHead(page.value?.head || {});
-useSeoMeta(page.value?.seo || {});
+useHead(page.value?.head || {})
+useSeoMeta(page.value?.seo || {})
 </script>
 
 <template>

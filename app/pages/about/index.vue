@@ -1,15 +1,15 @@
 <script setup lang="ts">
-const { t } = useI18n();
+const { t } = useI18n()
 
 useHead({
   title: "About Our Mission | QueerKit",
   meta: [
     {
       name: "description",
-      content: "Learn more about the mission, vision, and team behind QueerKit.",
-    },
-  ],
-});
+      content: "Learn more about the mission, vision, and team behind QueerKit."
+    }
+  ]
+})
 
 const teamMembers = [
   {
@@ -18,7 +18,7 @@ const teamMembers = [
     roleSecondary: "Designer",
     description: "Passionate about creating inclusive spaces and building community.",
     image: "https://cdn.queerkit.com/Images/Team/bruna_corso_00.webp",
-    links: [{ icon: "mdi:instagram", to: "https://instagram.com/brunacorso", target: "_blank" }],
+    links: [{ icon: "mdi:instagram", to: "https://instagram.com/brunacorso", target: "_blank" }]
   },
   {
     name: "Daniel Marchi",
@@ -29,8 +29,8 @@ const teamMembers = [
     links: [
       { icon: "mdi:instagram", to: "https://instagram.com/danielmarchi", target: "_blank" },
       { icon: "mdi:github", to: "https://github.com/danielmarchi", target: "_blank" },
-      { icon: "lucide:globe", to: "https://danielmarchi.com", target: "_blank" },
-    ],
+      { icon: "lucide:globe", to: "https://danielmarchi.com", target: "_blank" }
+    ]
   },
   {
     name: "Gustavo Cardoso",
@@ -38,11 +38,9 @@ const teamMembers = [
     roleSecondary: "Designer",
     description: "Committed to amplifying queer voices and stories.",
     image: "https://cdn.queerkit.com/Images/Team/gustavo_cardoso_00.webp",
-    links: [
-      { icon: "mdi:instagram", to: "https://instagram.com/gustavocardoso", target: "_blank" },
-    ],
-  },
-];
+    links: [{ icon: "mdi:instagram", to: "https://instagram.com/gustavocardoso", target: "_blank" }]
+  }
+]
 </script>
 
 <template>
@@ -54,7 +52,7 @@ const teamMembers = [
       icon="lucide:info"
       :ui="{
         title: 'text-black',
-        description: 'text-neutral-600',
+        description: 'text-neutral-600'
       }"
     />
 
@@ -63,7 +61,7 @@ const teamMembers = [
       align="left"
       :ui="{
         title: 'text-black',
-        description: 'text-neutral-600',
+        description: 'text-neutral-600'
       }"
     >
       <div class="grid lg:grid-cols-2 gap-12 items-stretch text-lg text-black leading-relaxed">
@@ -102,7 +100,7 @@ const teamMembers = [
       align="center"
       :ui="{
         title: 'text-black',
-        description: 'text-neutral-600',
+        description: 'text-neutral-600'
       }"
     >
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
@@ -118,7 +116,7 @@ const teamMembers = [
           :rc="{
             card: 'bg-neutral-100 border-0 shadow-none',
             name: 'text-black text-left',
-            description: 'text-neutral-400 text-left',
+            description: 'text-neutral-400 text-left'
           }"
         >
           <template #badge>
@@ -141,7 +139,7 @@ const teamMembers = [
       align="center"
       :ui="{
         title: 'text-black',
-        description: 'text-neutral-600',
+        description: 'text-neutral-600'
       }"
     >
       <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">

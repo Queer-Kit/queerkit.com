@@ -1,20 +1,20 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "wiki",
-});
+  layout: "wiki"
+})
 
-const route = useRoute();
-const { user } = useAuth();
-const { t } = useI18n();
+const route = useRoute()
+const { user } = useAuth()
+const { t } = useI18n()
 
 const slug = computed(() => {
-  const s = route.params.slug;
-  if (Array.isArray(s)) return s.join("/");
-  return s;
-});
+  const s = route.params.slug
+  if (Array.isArray(s)) return s.join("/")
+  return s
+})
 
-const lookupSlug = computed(() => `wiki/${slug.value}`);
-const canEdit = computed(() => user.value?.role === "owner" || user.value?.role === "admin");
+const lookupSlug = computed(() => `wiki/${slug.value}`)
+const canEdit = computed(() => user.value?.role === "owner" || user.value?.role === "admin")
 </script>
 
 <template>
@@ -26,7 +26,7 @@ const canEdit = computed(() => user.value?.role === "owner" || user.value?.role 
     :error-redirect-params="{
       redirect: '/wiki',
       label: t('pages.wiki.error.back'),
-      message: t('pages.wiki.error.notFound'),
+      message: t('pages.wiki.error.notFound')
     }"
   />
 </template>

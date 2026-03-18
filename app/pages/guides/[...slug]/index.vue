@@ -1,19 +1,19 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "guides",
-});
+  layout: "guides"
+})
 
-const route = useRoute();
-const { user } = useAuth();
+const route = useRoute()
+const { user } = useAuth()
 
 const slug = computed(() => {
-  const s = route.params.slug;
-  if (Array.isArray(s)) return s.join("/");
-  return s;
-});
+  const s = route.params.slug
+  if (Array.isArray(s)) return s.join("/")
+  return s
+})
 
-const lookupSlug = computed(() => `guides/${slug.value}`);
-const canEdit = computed(() => user.value?.role === "owner" || user.value?.role === "admin");
+const lookupSlug = computed(() => `guides/${slug.value}`)
+const canEdit = computed(() => user.value?.role === "owner" || user.value?.role === "admin")
 </script>
 
 <template>
@@ -25,7 +25,7 @@ const canEdit = computed(() => user.value?.role === "owner" || user.value?.role 
     :error-redirect-params="{
       redirect: '/guides',
       label: 'Back to Guides',
-      message: 'The requested guide could not be located.',
+      message: 'The requested guide could not be located.'
     }"
   />
 </template>

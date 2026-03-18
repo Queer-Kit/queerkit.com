@@ -1,47 +1,47 @@
 <script lang="ts" setup>
-import type { NavigationMenuItem } from "@nuxt/ui";
+import type { NavigationMenuItem } from "@nuxt/ui"
 
-const route = useRoute();
-const { t, locale, setLocale } = useI18n();
+const route = useRoute()
+const { t, locale, setLocale } = useI18n()
 
-const layerId = inject<string>("header_layer_id", "default");
+const layerId = inject<string>("header_layer_id", "default")
 
-const { bottomOffsets } = useHeaderStack();
+const { bottomOffsets } = useHeaderStack()
 
 const slideoverState = reactive({
-  left: false,
-});
+  left: false
+})
 
 const items = computed<NavigationMenuItem[]>(() =>
   markRaw([
     {
       label: t("app.header.navigation.about"),
       to: "/about",
-      active: route.path.startsWith("/about"),
+      active: route.path.startsWith("/about")
     },
     {
       label: t("app.header.navigation.certification"),
       to: "/certification",
-      active: route.path === "/certification",
+      active: route.path === "/certification"
     },
     {
       label: t("app.header.navigation.wiki"),
       to: "/wiki",
-      active: route.path.startsWith("/wiki"),
+      active: route.path.startsWith("/wiki")
     },
 
     {
       label: t("app.header.navigation.blog"),
       to: "/blog",
-      active: route.path.startsWith("/blog"),
+      active: route.path.startsWith("/blog")
     },
     {
       label: t("app.header.navigation.store"),
       to: "/store",
-      active: route.path.startsWith("/store"),
-    },
-  ]),
-);
+      active: route.path.startsWith("/store")
+    }
+  ])
+)
 </script>
 
 <template>
@@ -65,8 +65,8 @@ const items = computed<NavigationMenuItem[]>(() =>
             'text-neutral-900 transition-colors duration-200',
             'hover:text-primary-500',
             'data-[state=open]:text-primary-500',
-            'aria-[current]:text-primary-500',
-          ],
+            'aria-[current]:text-primary-500'
+          ]
         }"
         variant="link"
       />
@@ -79,7 +79,7 @@ const items = computed<NavigationMenuItem[]>(() =>
             @update:model-value="setLocale($event as 'en' | 'pt')"
             :items="[
               { code: 'en', name: 'English' },
-              { code: 'pt', name: 'Português' },
+              { code: 'pt', name: 'Português' }
             ]"
             value-key="code"
             label-key="name"
@@ -89,7 +89,7 @@ const items = computed<NavigationMenuItem[]>(() =>
             class="rounded-md shrink-0 h-9"
             :ui="{
               value: 'hidden',
-              content: 'w-48',
+              content: 'w-48'
             }"
             :aria-label="t('app.language_picker')"
           >
@@ -122,7 +122,7 @@ const items = computed<NavigationMenuItem[]>(() =>
             :handle="false"
             :ui="{
               header: 'flex items-center justify-between',
-              content: 'w-full max-w-4/5 rounded-none',
+              content: 'w-full max-w-4/5 rounded-none'
             }"
             side="left"
           >
@@ -163,7 +163,7 @@ const items = computed<NavigationMenuItem[]>(() =>
             @update:model-value="setLocale($event as 'en' | 'pt')"
             :items="[
               { code: 'en', name: 'English' },
-              { code: 'pt', name: 'Português' },
+              { code: 'pt', name: 'Português' }
             ]"
             value-key="code"
             label-key="name"
@@ -173,7 +173,7 @@ const items = computed<NavigationMenuItem[]>(() =>
             class="rounded-md shrink-0 h-9"
             :ui="{
               value: 'hidden',
-              content: 'w-48',
+              content: 'w-48'
             }"
             :aria-label="t('app.language_picker')"
           >

@@ -1,33 +1,33 @@
 <script setup lang="ts">
-const { t } = useI18n();
+const { t } = useI18n()
 
 useHead({
   title: "Store | QueerKit",
   meta: [
     {
       name: "description",
-      content: "Support QueerKit by purchasing official merchandise, apparel, and accessories.",
-    },
-  ],
-});
+      content: "Support QueerKit by purchasing official merchandise, apparel, and accessories."
+    }
+  ]
+})
 
 const categories = [
   {
     icon: "lucide:shirt",
     title: "Apparel",
-    description: "T-shirts, hoodies, and wearable pride that support our mission directly.",
+    description: "T-shirts, hoodies, and wearable pride that support our mission directly."
   },
   {
     icon: "lucide:coffee",
     title: "Accessories",
-    description: "Mugs, pins, and tote bags to carry your identity and advocacy anywhere.",
+    description: "Mugs, pins, and tote bags to carry your identity and advocacy anywhere."
   },
   {
     icon: "lucide:pen-tool",
     title: "Stationery",
-    description: "Stickers, notebooks, and posters featuring artwork from queer creators.",
-  },
-];
+    description: "Stickers, notebooks, and posters featuring artwork from queer creators."
+  }
+]
 </script>
 
 <template>

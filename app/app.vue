@@ -1,48 +1,48 @@
 <script lang="ts" setup>
-import { ULink } from "#components";
-import * as locales from "@nuxt/ui/locale";
-import { PiniaColadaDevtools } from "@pinia/colada-devtools";
-import { useFavicon } from "@vueuse/core";
+import { ULink } from "#components"
+import * as locales from "@nuxt/ui/locale"
+import { PiniaColadaDevtools } from "@pinia/colada-devtools"
+import { useFavicon } from "@vueuse/core"
 
-const { locale } = useI18n();
+const { locale } = useI18n()
 const currentLocale = computed(() => {
-  return (locales as any)[locale.value] || locales.en;
-});
-const lang = computed(() => currentLocale.value.code);
-const dir = computed(() => currentLocale.value.dir);
+  return (locales as any)[locale.value] || locales.en
+})
+const lang = computed(() => currentLocale.value.code)
+const dir = computed(() => currentLocale.value.dir)
 
-const colorMode = useColorMode();
+const colorMode = useColorMode()
 
 const color = computed(() => {
-  return colorMode.value === "dark" ? "#020618" : "white";
-});
+  return colorMode.value === "dark" ? "#020618" : "white"
+})
 
-const icon = import.meta.client ? useFavicon() : undefined;
+const icon = import.meta.client ? useFavicon() : undefined
 
-const router = useRouter();
+const router = useRouter()
 
 function alertMode() {
-  if (icon) icon.value = "/favicon-alert.svg";
+  if (icon) icon.value = "/favicon-alert.svg"
 }
 
 function normalMode() {
-  if (icon) icon.value = "/favicon.svg";
+  if (icon) icon.value = "/favicon.svg"
 }
 
 defineShortcuts({
-  "g-h": () => router.push("/"),
-});
+  "g-h": () => router.push("/")
+})
 
-const toast = useToast();
+const toast = useToast()
 
-type CookieConsent = "accepted" | "rejected" | null;
+type CookieConsent = "accepted" | "rejected" | null
 
 const cookie = useCookie<CookieConsent>("cookie-consent", {
   default: () => null,
   maxAge: 60 * 60 * 24 * 90,
   secure: import.meta.env.PROD,
-  sameSite: "lax",
-});
+  sameSite: "lax"
+})
 
 const createCookieDescription = () => {
   return h("div", { class: "text-sm text-muted mt-1" }, [
@@ -53,10 +53,10 @@ const createCookieDescription = () => {
         {
           href: "https://en.wikipedia.org/wiki/HTTP_COOKIE",
           class: "text-primary",
-          target: "_blank",
+          target: "_blank"
         },
-        { default: () => "cookies" },
-      ),
+        { default: () => "cookies" }
+      )
     ]),
     " to enhance your browsing experience. ",
     h("br"),
@@ -66,18 +66,18 @@ const createCookieDescription = () => {
         ULink,
         {
           href: "/documents/policies/cookie-policy/",
-          class: "text-primary",
+          class: "text-primary"
         },
-        { default: () => "Cookie Policy" },
-      ),
+        { default: () => "Cookie Policy" }
+      )
     ]),
-    ".",
-  ]);
-};
+    "."
+  ])
+}
 
 onMounted(() => {
   if (cookie.value === "accepted") {
-    return;
+    return
   }
 
   toast.add({
@@ -93,10 +93,10 @@ onMounted(() => {
         color: "success",
         variant: "solid",
         onClick: (e) => {
-          e?.stopPropagation();
-          cookie.value = "accepted";
-          toast.clear();
-        },
+          e?.stopPropagation()
+          cookie.value = "accepted"
+          toast.clear()
+        }
       },
       {
         icon: "lucide:x",
@@ -104,50 +104,50 @@ onMounted(() => {
         color: "error",
         variant: "solid",
         onClick: (e) => {
-          e?.stopPropagation();
-          cookie.value = "rejected";
-          toast.clear();
-        },
-      },
+          e?.stopPropagation()
+          cookie.value = "rejected"
+          toast.clear()
+        }
+      }
     ],
-    close: false,
-  });
-});
+    close: false
+  })
+})
 
 useHead({
   meta: [
     {
-      charset: "utf-8",
+      charset: "utf-8"
     },
     {
       name: "viewport",
-      content: "width=device-width, initial-scale=1",
+      content: "width=device-width, initial-scale=1"
     },
     {
       name: "theme-color",
-      content: color,
-    },
+      content: color
+    }
   ],
   link: [
     {
       rel: "icon",
-      href: "/favicon.svg",
-    },
+      href: "/favicon.svg"
+    }
   ],
   htmlAttrs: {
     lang,
-    dir,
-  },
-});
+    dir
+  }
+})
 
-const appConfig = useAppConfig();
+const appConfig = useAppConfig()
 
 useSeoMeta({
   titleTemplate: "%s - queerkit.com",
   ogImage: `${appConfig.cdn}/images/logos/logomark-white.webp`,
   twitterImage: `${appConfig.cdn}/images/logos/logomark-white.webp`,
-  twitterCard: "summary_large_image",
-});
+  twitterCard: "summary_large_image"
+})
 </script>
 
 <template>
