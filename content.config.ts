@@ -40,7 +40,7 @@ const blogSchema = object({
   ...commonSchema.entries,
   minRead: number(),
   date: date(),
-  image: property(string()).editor({ input: "media" }),
+  image: optional(property(string()).editor({ input: "media" })),
   author: createAuthorSchema()
 })
 
@@ -48,7 +48,7 @@ const projectSchema = object({
   ...commonSchema.entries,
   title: pipe(string(), minLength(1)),
   description: pipe(string(), minLength(1)),
-  image: property(string()).editor({ input: "media" }),
+  image: optional(property(string()).editor({ input: "media" })),
   tags: array(string()),
   date: date()
 })
@@ -80,28 +80,28 @@ export default defineContentConfig({
     }),
     en_pages: defineCollection({
       type: "page",
-      source: { include: "en/*.yml", prefix: "/" },
+      source: { include: "en/*.{yml,md}", prefix: "/" },
       schema: commonSchema
     }),
 
     pt_blog: defineCollection({
       type: "page",
-      source: { include: "pt/blog/**", prefix: "/blog" },
+      source: { include: "pt/blog/**", prefix: "/pt/blog" },
       schema: blogSchema
     }),
     pt_documents: defineCollection({
       type: "page",
-      source: { include: "pt/documents/**", prefix: "/documents" },
+      source: { include: "pt/documents/**", prefix: "/pt/documents" },
       schema: documentSchema
     }),
     pt_projects: defineCollection({
       type: "page",
-      source: { include: "pt/projects/**", prefix: "/projects" },
+      source: { include: "pt/projects/**", prefix: "/pt/projects" },
       schema: projectSchema
     }),
     pt_pages: defineCollection({
       type: "page",
-      source: { include: "pt/*.yml", prefix: "/" },
+      source: { include: "pt/*.{yml,md}", prefix: "/pt" },
       schema: commonSchema
     }),
     all: defineCollection({

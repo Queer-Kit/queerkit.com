@@ -1,5 +1,3 @@
-import { defu } from "defu"
-import { rimelightViteConfig } from "./.rimelight/rimelight.vite"
 import { dirname, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 import { existsSync } from "node:fs"
@@ -52,20 +50,12 @@ export default defineNuxtConfig({
     }
   },
 
-  vite: defu(
-    {
-      server: {},
-      build: {},
-      preview: {},
-      test: {},
-      lint: {},
-      fmt: {},
-      run: {},
-      pack: {},
-      staged: {}
-    },
-    rimelightViteConfig
-  ),
+  vite: {
+    clearScreen: false,
+    optimizeDeps: {
+      include: ["@vue/devtools-core", "@vue/devtools-kit"]
+    }
+  },
 
   alias: {
     "#types": fileURLToPath(new URL("./app/types", import.meta.url)),
@@ -227,7 +217,12 @@ export default defineNuxtConfig({
   },
 
   studio: {
+    i18n: {
+      defaultLocale: "en"
+    },
+    route: "/studio",
     repository: {
+      provider: "github",
       owner: "Queer-Kit",
       repo: "queerkit.com"
     }

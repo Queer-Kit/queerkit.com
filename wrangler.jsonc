@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "queerkit-dot-com",
   "compatibility_flags": ["nodejs_compat"],
-  "compatibility_date": "2026-01-01",
+  "compatibility_date": "2026-02-13",
   "routes": [
     {
       "pattern": "queerkit.com",
@@ -43,4 +43,10 @@
       "id": "1964db0bc6d04a2cb68fa3af7bfbc6ff"
     }
   ]
+  // "hyperdrive": [
+  //   {
+  //     "binding": "HYPERDRIVE",
+  //     "id": "82741a7bfa2140e09a413a2821bfa1b3"
+  //   }
+  // ]
 }
