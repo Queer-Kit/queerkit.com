@@ -191,7 +191,14 @@ export default defineNuxtConfig({
   ],
 
   fonts: {
-    families: []
+    families: [
+      {
+        name: "Noto Sans",
+        provider: "google",
+        preload: true,
+        global: true
+      }
+    ]
   },
 
   icon: {
